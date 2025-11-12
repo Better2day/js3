@@ -5,3 +5,6 @@
 *.docx
 *.pptx
 *.xlsx
+
+# 백업 파일
+*.bak
