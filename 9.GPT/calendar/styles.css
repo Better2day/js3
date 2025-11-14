@@ -1,0 +1,79 @@
+/* 기본적인 레이아웃 설정 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+header {
+  text-align: center;
+  padding: 20px 0;
+}
+
+header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+header .month-year {
+  font-size: 1.2rem;
+  color: #333;
+}
+
+/* 사진 스타일 */
+.photo {
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+}
+
+.photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 달력 스타일 */
+.calendar table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+.calendar th,
+.calendar td {
+  text-align: center;
+  padding: 15px;
+  font-size: 1.2rem;
+  width: 14.28%;
+  /* 7일에 맞게 */
+}
+
+.calendar th {
+  background-color: #ddd;
+}
+
+.calendar td {
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
+
+/* 일요일과 토요일 색상 */
+.sunday {
+  color: red;
+}
+
+.saturday {
+  color: blue;
+}
