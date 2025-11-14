@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .square {
+      width: 100px;
+      height: 100px;
+      background-color: red;
+      /* 내가 어떤 변화를 줄지 */
+      transition-property: width, height;
+      /* 그 변화를 2초에 걸쳐서 진행 */
+      transition-duration: 2s;
+    }
+
+    /* hover(호버) - 마우스가 위에 올라간 것을 뜻하는 기술 용어 */
+    .square:hover {
+      width: 250px;
+      height: 150px;
+    }
+
+    .button {
+      color: black;
+      transition-property: color;
+      transition-duration: 1s;
+      transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1)
+    }
+
+    .button:hover {
+      color: red;
+    }
+
+    .image {
+      width: 200px;
+      transition-property: transform;
+      transition-duration: 0.5s;
+    }
+
+    .image:hover {
+      transform: rotate(180deg);
+      /* transform: translateX(100px) translateY(100px); */
+    }
+  </style>
+</head>
+
+<body>
+  <div class="square"></div>
+  <hr>
+  <button class="button">Hover me (마우스 오버)</button>
+  <hr>
+  <img class="image" src="images/puppy1.jpg" alt="강아지 사진">
+
+</html>
