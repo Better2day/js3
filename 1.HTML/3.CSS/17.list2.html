@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .styled-ul {
+      list-style-type: lower-latin;
+    }
+
+    .styled-ol {
+      list-style-type: upper-roman;
+    }
+
+    .custom-ul {
+      list-style-type: none;
+    }
+
+    .custom-ul li::before {
+      content: "✓";
+      color: green;
+      font-weight: bold;
+      margin-right: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>CSS List 속성 다양한 실험</h1>
+  <h2>Unordered list (순서에 상관 없는 목록. bullet)</h2>
+  <ul class="styled-ul">
+    <li>첫 번째 항목</li>
+    <li>두 번째 항목</li>
+    <li>세 번째 항목</li>
+  </ul>
+  <h2>Ordered list (순서 있는 목록. 숫자)</h2>
+  <ol class="styled-ol">
+    <li>첫 번째 항목</li>
+    <li>두 번째 항목</li>
+    <li>세 번째 항목</li>
+  </ol>
+  <h2>Custom list (내가 정의한 부호)</h2>
+  <ul class="custom-ul">
+    <li>첫 번째 항목</li>
+    <li>두 번째 항목</li>
+    <li>세 번째 항목</li>
+  </ul>
+</body>
+
+</html>
