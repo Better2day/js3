@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .grid-container {
+      display: grid;
+      /* 3개로 나누고 너비를 모두 균등하게 한다. 1 fraction (이게 뭔가? 2나 0.5로 바꿔도 동일한데?) */
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: auto;
+      /* margin과 비슷한데, grid에서 사용하는 아이템 간의 간격 */
+      gap: 10px;
+      background-color: #f1f1f1;
+      padding: 10px;
+    }
+
+    .grid-item {
+      background-color: #4caf50;
+      color: white;
+      border: 1px solid #ccc;
+      text-align: center;
+      padding: 20px;
+      font-size: 20px;
+    }
+
+    /* 반응형을 만들 때 쓰이는 요소는 미디어 쿼리 */
+    /* ~1024px 까지 */
+    @media (max-width: 1024px) {
+      .grid-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* ~768 까지 */
+    @media (max-width: 768px) {
+      .grid-container {
+        grid-template-columns: repeat(1, 1fr);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Grid Layout 예제</h1>
+  <div class="grid-container">
+    <div class="grid-item">1</div>
+    <div class="grid-item">2</div>
+    <div class="grid-item">3</div>
+    <div class="grid-item">4</div>
+    <div class="grid-item">5</div>
+    <div class="grid-item">6</div>
+  </div>
+</body>
+
+</html>
