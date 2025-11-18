@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+      margin: 0px;
+    }
+
+    div:first-child {
+      position: absolute;
+      top: 20px;
+      left: 30px;
+      background: cyan;
+      opacity: 0.8;
+    }
+
+    div:nth-of-type(2) {
+      position: static;
+      background: cyan;
+      opacity: 0.8;
+    }
+
+    div:nth-last-of-type(1) {
+      position: relative;
+      /* top: 40px;
+      left: 60px; */
+      bottom: -40px;
+      right: -60px;
+      background: tomato;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <div>1st layer</div>
+    <div>2nd layer</div>
+    <div>3rd layer</div>
+  </main>
+
+</body>
+
+</html>
