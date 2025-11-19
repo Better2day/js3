@@ -20,20 +20,24 @@
     }
 
     button {
-      font-size: 16px;
-      margin-bottom: 16px;
+      font-size: 32px;
+      margin-bottom: 32px;
     }
 
     div#RGBCode {
-      width: 300px;
-      height: 50px;
+      width: 350px;
+      height: 100px;
       /* border: 1px solid black; */
+      border-radius: 10px;
       text-align: center;
       align-content: center;
+      font-size: 32px;
       /* display: none; */
     }
   </style>
 </head>
+
+<script src="js/change-bgcolor.js"></script>
 
 <body style="background-color: red">
   <!-- <h1>바탕화면 배경색 바꾸기</h1> -->
@@ -44,10 +48,8 @@
   <!-- Mission 3 -->
   <!-- <button onclick="cycleBGColor()">배경색 바꾸기</button> -->
   <!-- Mission 4 -->
-  <button onclick="randomBGColor()">랜덤 색상 변경</button>
+  <button onclick="randomBGColor();">랜덤 색상 변경</button>
   <div id="RGBCode"></div>
-
-  <script src="js/change-bgcolor.js"></script>
 </body>
 
 </html>
