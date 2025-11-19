@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1>Hello DOM</h1>
+  <button onclick="sayHello()" style="margin-bottom: 10px">Hello</button>
+  <div id="greeting"></div>
+  <script>
+    function sayHello() {
+      // console.log('Say Hello');
+      let greetingDiv = document.getElementById('greeting');
+      // greetingDiv.textContent = 'Say hello<BR>Say hello again';
+      greetingDiv.innerHTML = 'Say hello<BR>Say hello again';
+      // greetingDiv.outerHTML = 'Say hello<BR>Say hello again';
+      // .textContent → 내가 작성한 텍스트를 있는 그대로 표현 (태그를 파싱하지 않음)
+      // .innerHTML → 내가 작성한 텍스트(코드)를 HTML로 파싱
+      // .outerHTML → 내가 가져온 HTML 요소를 대체 (삭제하고 새로 생성). 실무에서 사용하지 않기 때문에 몰라도 된다.
+    }
+  </script>
+</body>
+
+</html>

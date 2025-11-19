@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1>구구단 콘솔</h1>
+  <!-- <input type="number" placeholder="단을 입력하시오" id="dan"> -->
+  <input id="userInput" type="number" placeholder="단을 입력하시오" style="margin-bottom: 10px">
+  <button onclick="gugudan()">구구단 출력</button>
+  <!-- <button onclick="gugudan(document.getElementById('dan').value)">구구단 출력</button> -->
+  <!-- <button onclick="gugudan(document.getElementsByTagName('input')[0].value)">구구단 출력</button> -->
+
+  <div id="result"></div>
+
+  <!-- 위는 표현 영역 (HTML 문법, 각종 표현 기법)-->
+
+  <!-- 아래는 프로그래밍 영역 (각종 연산)-->
+  <script>
+    // function gugudan(dan) {
+    function gugudan() {
+      let dan = document.getElementById('userInput');
+      let danInput = dan.value;
+      let result = document.getElementById('result');
+      result.innerHTML = '';
+      // let span = null;
+
+      for (let i = 1; i <= 9; i++) {
+        // console.log(dan + ' x ' + i + ' = ' + dan * i);
+        // console.log(danInput + ' x ' + i + ' = ' + danInput * i);
+        // document.write(danInput + ' x ' + i + ' = ' + danInput * i + '<BR>');
+        result.innerHTML += danInput + ' x ' + i + ' = ' + danInput * i + '<BR>';
+        /*
+        span = document.createElement('span');
+        span.innerHTML += danInput + ' x ' + i + ' = ' + danInput * i + '<BR>';
+        result.appendChild(span);
+        */
+      }
+    }
+  </script>
+</body>
+
+</html>

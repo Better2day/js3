@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    button {
+      font-size: 16px;
+      margin-bottom: 16px;
+    }
+
+    div#RGBCode {
+      width: 300px;
+      height: 50px;
+      /* border: 1px solid black; */
+      text-align: center;
+      align-content: center;
+      /* display: none; */
+    }
+  </style>
+</head>
+
+<body style="background-color: red">
+  <!-- <h1>바탕화면 배경색 바꾸기</h1> -->
+  <!-- Mission 1 -->
+  <!-- <button onclick="changeBGColor()">배경색 바꾸기</button> -->
+  <!-- Mission 2 -->
+  <!-- <button onclick="cycleBGColor()">배경색 바꾸기</button> -->
+  <!-- Mission 3 -->
+  <!-- <button onclick="cycleBGColor()">배경색 바꾸기</button> -->
+  <!-- Mission 4 -->
+  <button onclick="randomBGColor()">랜덤 색상 변경</button>
+  <div id="RGBCode"></div>
+
+  <script src="js/change-bgcolor.js"></script>
+</body>
+
+</html>
