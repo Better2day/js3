@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1>함수 제대로 이해하기</h1>
+  <script>
+    let a = 2;
+    let b = 3;
+
+    function add(a, b) {
+      let sum = a + b;
+      return sum;
+    }
+
+    function sub(a, b) {
+      let sum = a - b;
+      return sum;
+    }
+
+    function mul(a, b) {
+      let sum = a * b;
+      return sum;
+    }
+
+    function div(a, b) {
+      let sum = a / b;
+      return sum;
+    }
+
+    console.log(add(a, b));
+    console.log(sub(a, b));
+    console.log(mul(a, b));
+    console.log(div(a, b));
+
+    // 변수는 모든 것을 다 담을 수 있다.
+    // let a = Number, String, Boolean, null, undefined, 함수도 담을 수 있다.
+
+    let multiply = mul; // 함수를 할당
+    console.log(multiply(3, 4));
+
+    let multiplyAgain = function (x, y) { // 함수를 생성하면서 변수에 할당
+      return x * y;
+    }
+    console.log(multiplyAgain(5, 6));
+
+    let multiplayAgain2 = (x, y) => x * y; // 위의 내용을 축약해서 화살표 함수로
+    console.log(multiplayAgain2(7, 7));
+
+    let division = div;
+    console.log(division(5, 5));
+
+    let divisionAgain = function (x, y) {
+      return x / y;
+    }
+    console.log(divisionAgain(100, 10));
+
+    let divisionAgain2 = (x, y) => x / y;
+    console.log(divisionAgain2(1000, 50));
+
+  </script>
+</body>
+
+</html>

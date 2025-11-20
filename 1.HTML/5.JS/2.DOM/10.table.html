@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    table {
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+
+    td {
+      padding: 10px;
+      border: 1px solid black;
+    }
+
+    button {
+      display: block;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Table을 DOM으로 제어해보기</h1>
+  <table>
+    <tr>
+      <td>셀 1</td>
+      <td>셀 2</td>
+      <td>셀 3</td>
+    </tr>
+    <tr>
+      <td>셀 4</td>
+      <td>셀 5</td>
+      <td>셀 6</td>
+    </tr>
+    <tr>
+      <td>셀 7</td>
+      <td>셀 8</td>
+      <td>셀 9</td>
+    </tr>
+    <tr>
+      <td>셀 10</td>
+      <td>셀 11</td>
+      <td>셀 12</td>
+    </tr>
+  </table>
+
+  <button onclick="changeColor();">셀 색상 모두 변경 (파랑)</button>
+  <button onclick="changeEvenColor();">짝수 셀 색상 모두 변경 (초록)</button>
+  <button onclick="changeOddColor();">홀수 셀 색상 모두 변경 (주황)</button>
+
+  <script>
+    function changeColor() {
+      let cells = document.getElementsByTagName('td');
+      console.log(cells);
+      console.log(typeof cells);
+
+      // cells.style.backgroundColor = 'lightblue'; // collection(array)에 style 속성이 없으므로 오류
+      // cells[0].style.backgroundColor = 'lightblue';
+      // cells[1].style.backgroundColor = 'lightblue'; // 이런 식 작업을 전체 요소에 대해서 반복해야 하므로 반복문으로 처리
+      // for (let i = 0; i < cells.length; i++) {
+      //   cells[i].style.backgroundColor = 'lightblue';
+      // }
+
+      // 1. for of 문
+      // for (cell of cells) {
+      //   cell.style.backgroundColor = 'lightblue';
+      // }
+      // 2. for in 문은 배열의 인덱스 전체를 반환 후 length, item, namedItem 같은 추가 정보까지 반환
+      // for (el in cells) {
+      //   console.log(el);
+      //   if (el <= 11) {
+      //     cells[el].style.backgroundColor = 'lightblue';
+      //   }
+      // }
+      // 3. foreach
+      Array.
+        Array.from(cells).foreach((cell) => {
+          cell.style.backgroundColor = 'lightblue';
+        })
+
+    }
+    function changeEvenColor() {
+      let cells = document.getElementsByTagName('td');
+      // for (let i = 1; i < cells.length; i += 2) {
+      //   cells[i].style.backgroundColor = 'green';
+      // }
+
+      for (let i = 0; i < cells.length; i++) {
+        if (i % 2 == 0) {
+          cells[i].style.backgroundColor = 'white';
+          continue;
+        }
+        cells[i].style.backgroundColor = 'green';
+      }
+    }
+    function changeOddColor() {
+      let cells = document.getElementsByTagName('td');
+      console.log(cells);
+      console.log(typeof cells);
+
+      for (let i = 0; i < cells.length; i++) {
+        if (i % 2 == 1) {
+          cells[i].style.backgroundColor = 'white';
+          continue;
+        }
+        cells[i].style.backgroundColor = 'orange';
+      }
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1>for 문법 배우기</h1>
+
+  <script>
+    // 원래 쓰던 문법
+    // for (let i = 0; i < 5; i++) {
+    //   console.log(i);
+    // }
+
+    // 2. 기본 문법으로 배열 순회. iteration
+    let fruits = ['Apple', 'Banana', 'Cherry'];
+    // for (let i = 0; i < fruits.length; i++) {
+    //   console.log(fruits[i]);
+    // }
+
+    // 아래부터가 Modern JS style
+    // 더 사람 친화적인 언어처럼 개선된 문법
+    // 1) for of: element를 반환
+    // of 앞의 fruit나 f는 변수에 불과해서 마음대로 붙이면 됨
+    for (let fruit of fruits) {
+      console.log(fruit);
+    }
+    // for (let f of fruits) {
+    //   console.log(f);
+    // }
+
+    // 2) for in: index를 반환
+    // key가 index라서 index로 referencing (참조)
+    for (let key in fruits) {
+      console.log(fruits[key]);
+    }
+    // for in 응용 사례 (객체)
+    let person = {
+      name: 'John',
+      age: 30,
+      city: 'Seoul'
+    }
+    for (let key in person) {
+      console.log(key, person[key]);
+    }
+
+    // 더 모던한 JS style: foreach
+    let numbers = [1, 2, 3, 4, 5];
+    // 개발자가 원하는 건 목록을 순환(iterate)하는 것
+    // for (반복문) { 처리 로직(목록 참조) }
+    // 그러면 for 반복문을 작성하지 말고, 바로 처리 로직부터 구현하자
+    // numbers.forEach(각각의 요소를 처리할 함수) 형태
+
+    // 고차 함수 (High-order function): 인자를 함수로 받는 함수
+    numbers.forEach(function (number, index) {
+      console.log('Index: ' + index + ', Value: ' + number);
+    })
+    fruits.forEach((fruit, index) => {
+      console.log('Index: ' + index + ', Value: ' + fruit);
+    })
+  </script>
+</body>
+
+</html>

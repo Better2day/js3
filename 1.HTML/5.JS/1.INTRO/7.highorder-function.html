@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1>고차함수: 인자를 함수로 받는 함수</h1>
+  <script>
+    let numbers = [1, 2, 3, 4, 5];
+    // 고차함수의 대표 함수: map, filter, reduce 등
+
+    // 1. Map 함수: 입력값을, 그것을 처리할 함수와 매핑
+    // let squares = numbers.map(
+    //   function hello(num) {
+    //     return num * num;
+    //   }
+    // );
+
+    // 익명 함수 (함수 이름이 필요 없으므로 제거)
+    // let squares2 = numbers.map(
+    //   function (num) {
+    //     return num * num;
+    //   }
+    // );
+
+    // 화살표 함수 (함수 키워드가 필요 없으니, 함수 자체도 없애자)
+    // let squares3 = numbers.map(
+    //   (num) => {
+    //     return num * num;
+    //   }
+    // );
+
+    // 화살표 함수에서 블록과 리턴 키워드까지 제거
+    // 앞으로 계속 사용할 Modern JS 표현법
+    // 고차함수는 실제로 다 화살표 함수로 구현
+    let squares4 = numbers.map((num) => num * num);
+    console.log(squares4);
+
+    // 2. Filter 함수
+    let evenNumbers = numbers.filter((num) => num % 2 == 0);
+    console.log(evenNumbers);
+    // cf. 위 고차함수(filter)를 거꾸로 원래 형태로 되돌리면
+    // numbers.filter(
+    //   function getEvenNumbers(num) {
+    //     num % 2 === 0;
+    //   });
+
+    let oddNumbers = numbers.filter((num) => num % 2 == 1);
+    console.log(oddNumbers);
+
+    // reduce:
+    // let sum = numbers.map((acc, num) => acc + num);
+
+  </script>
+</body>
+
+</html>
