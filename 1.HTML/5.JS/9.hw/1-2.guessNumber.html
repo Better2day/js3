@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1>Guess the Number (1~100)</h1>
+  <input type="text" id="userInput" placeholder="Enter your guess (1~100)" style="margin-bottom: 10px">
+  <button onclick="guessNo()">Guess</button>
+  <div id="result"></div>
+  <h2>Guess History</h2>
+  <div id="history"></div>
+
+  <script>
+    let randomNo = Math.floor(Math.random() * 100 + 1);
+    let count = 0;
+
+    function guessNo() {
+      count++; // 현재 추측 회차
+      let userInput = parseInt(document.getElementById('userInput').value);
+      let resultDiv = document.getElementById('result');
+      let historyDiv = document.getElementById('history');
+
+      console.log('userInput = ' + userInput);
+      if (userInput < 1 || userInput > 100) {
+        resultDiv.innerText = '1 ~ 100 사이의 숫자만 입력해주십시오.';
+        userInput = '';
+        return -1;
+      }
+      resultDiv.innerText = '';
+
+      if (userInput < randomNo) {
+        resultDiv.innerText = 'Too low !'
+      } else if (userInput > randomNo) {
+        resultDiv.innerText = 'Too High !'
+      } else {
+        resultDiv.innerHTML = 'You correctly guessed the number !!<BR>Random number has re-generated. Guess again!'
+        randomNo = Math.floor(Math.random() * 100 + 1);
+      }
+
+      // historyDiv.innerHTML += `${(count.toString()).padStart(2, ' ')}. You guessed ${userInput}: ${resultDiv.innerHTML}<BR>`;
+      // padding 준 것 앞에 &nbsp;가 없으면 공백 다 무시되서 맨 앞에 &nbsp; 추가
+      historyDiv.innerHTML += `&nbsp;${count.toString().padStart(2, ' ')}. You guessed ${userInput}: ${resultDiv.innerHTML}<BR>`;
+    }
+  </script>
+</body>
+
+</html>
