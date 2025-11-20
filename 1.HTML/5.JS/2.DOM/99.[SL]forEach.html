@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    table {
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+
+    td {
+      padding: 10px;
+      border: 1px solid black;
+    }
+
+    button {
+      display: block;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Table을 DOM으로 제어해보기</h1>
+  <table>
+    <tr>
+      <td>셀 1</td>
+      <td>셀 2</td>
+      <td>셀 3</td>
+    </tr>
+    <tr>
+      <td>셀 4</td>
+      <td>셀 5</td>
+      <td>셀 6</td>
+    </tr>
+    <tr>
+      <td>셀 7</td>
+      <td>셀 8</td>
+      <td>셀 9</td>
+    </tr>
+    <tr>
+      <td>셀 10</td>
+      <td>셀 11</td>
+      <td>셀 12</td>
+    </tr>
+  </table>
+
+  <button onclick="changeColor();">셀 색상 모두 변경 (파랑)</button>
+
+  <script>
+    function changeColor() {
+      let cells = document.getElementsByTagName('td');
+      console.log(cells);
+      console.log(typeof cells);
+      // 1. for of 문
+      // for (let cell of cells) {
+      //   cell.style.backgroundColor = 'lightblue';
+      // }
+      // 2. for in 문은 배열의 인덱스 전체 및 length, item, namedItem 같은 추가 정보까지 반환
+      // for (let idx in cells) {
+      //   console.log(idx);
+      //   if (idx <= 11) {
+      //     cells[idx].style.backgroundColor = 'lightblue';
+      //   }
+      // }
+
+      // 3. foreach
+      // 1) 아래는 오류 발생
+      // cells.forEach(cell => {
+      //   cell.style.backgroundColor = 'lightblue';
+      // });
+      // 2) NodeLists로 배열을 생성한 다음에 해보려고 했지만, 여전히 오류 발생
+      //   Array.from(cells).foreach((cell) => {
+      //     cell.style.backgroundColor = 'lightblue';
+      //   })
+      // 3) Array 객체의 prototype을 통해서 forEach를 시도해도 오류 발생
+      // Array.prototype.forEach(cells, cell => {
+      //   cell.style.backgroundColor = 'lightblue';
+      // });
+      // 4) 아래와 같은 간접 방식으로만 통해서만 Array-like 객체도 배열처럼 forEach 메서드를 사용할 수 있었음
+      Array.prototype.forEach.call(cells, cell => {
+        cell.style.backgroundColor = 'lightblue';
+      });
+    }
+  </script>
+</body>
+
+</html>
