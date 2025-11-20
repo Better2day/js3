@@ -55,33 +55,12 @@
   <script>
     function changeColor() {
       let cells = document.getElementsByTagName('td');
-      console.log(cells);
-      console.log(typeof cells);
-
-      // cells.style.backgroundColor = 'lightblue'; // collection(array)에 style 속성이 없으므로 오류
+      // cells.style.backgroundColor = 'lightblue'; // collection(NodeList)에 style 속성이 없으므로 오류
       // cells[0].style.backgroundColor = 'lightblue';
       // cells[1].style.backgroundColor = 'lightblue'; // 이런 식 작업을 전체 요소에 대해서 반복해야 하므로 반복문으로 처리
-      // for (let i = 0; i < cells.length; i++) {
-      //   cells[i].style.backgroundColor = 'lightblue';
-      // }
-
-      // 1. for of 문
-      // for (cell of cells) {
-      //   cell.style.backgroundColor = 'lightblue';
-      // }
-      // 2. for in 문은 배열의 인덱스 전체를 반환 후 length, item, namedItem 같은 추가 정보까지 반환
-      // for (el in cells) {
-      //   console.log(el);
-      //   if (el <= 11) {
-      //     cells[el].style.backgroundColor = 'lightblue';
-      //   }
-      // }
-      // 3. foreach
-      Array.
-        Array.from(cells).foreach((cell) => {
-          cell.style.backgroundColor = 'lightblue';
-        })
-
+      for (let i = 0; i < cells.length; i++) {
+        cells[i].style.backgroundColor = 'lightblue';
+      }
     }
     function changeEvenColor() {
       let cells = document.getElementsByTagName('td');
@@ -99,8 +78,6 @@
     }
     function changeOddColor() {
       let cells = document.getElementsByTagName('td');
-      console.log(cells);
-      console.log(typeof cells);
 
       for (let i = 0; i < cells.length; i++) {
         if (i % 2 == 1) {
