@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="content" style="margin-bottom: 10px">
+    안녕!
+    <span style="display:none">화면에 렌더링되지 않은 텍스트는 innerText에 포함되지 않음</span>
+  </div>
+  <div id="content2">
+    안녕!
+    <span style="display:inline">화면에 렌더링된 텍스트는 innerText에도 포함됨</span>
+  </div>
+
+  <script>
+    let div = document.getElementById('content');
+    console.log('content.innerText: ' + div.innerText);
+    console.log('content.textContent: ' + div.textContent);
+    let div2 = document.getElementById('content2');
+    console.log('content.innerText: ' + div2.innerText);
+    console.log('content.textContent: ' + div2.textContent);
+    // innerText와 다르게 textContent는 화면 렌더링 여부와 무관하게 내부 텍스트를 전부 포함
+  </script>
+
+</body>
+
+</html>
