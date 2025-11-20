@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      /* align-content: center; */
+    }
+
+    body {
+      position: relative;
+    }
+
+    div#calculator {
+      position: absolute;
+      left: 40%;
+      top: 40%;
+    }
+
+    input#userInput {
+      width: 200px;
+      height: 40px;
+      margin-bottom: 10px;
+      text-align: right;
+    }
+
+    div#buttonGrid {
+      display: grid;
+      grid-template-rows: repeat(4, 1fr);
+      grid-template-columns: repeat(4, 1fr);
+      /* grid-area: 25% 25% 25% 25% / 25% 25% 25% 25%; */
+      /* grid-area: 1fr 1fr 1fr 1fr / 1fr 1fr 1fr 1fr; */
+      width: 200px;
+      height: 180px;
+      gap: 10px;
+    }
+
+    /* 버튼에 사용자 디자인을 넣으면 기본 hover, active 효과가 사라져서(FF만 제외) 보류 */
+    /*     
+    button {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+     */
+  </style>
+</head>
+
+<body>
+  <div id="calculator">
+    <input type="text" id="userInput" value="0" readonly>
+    <div id="buttonGrid">
+      <button id="1">+</button>
+      <button id="2">-</button>
+      <button id="3">*</button>
+      <button id="4">/</button>
+      <button id="5">7</button>
+      <button id="6">8</button>
+      <button id="7">9</button>
+      <button id="8">=</button>
+      <button id="9">4</button>
+      <button id="10">5</button>
+      <button id="11">6</button>
+      <button id="12">C</button>
+      <button id="13">1</button>
+      <button id="14">2</button>
+      <button id="15">3</button>
+      <button id="16">0</button>
+    </div>
+  </div>
+
+  <script>
+    const buttons = document.getElementsByTagName('button');
+    let userInput = document.getElementById('userInput');
+    let totalInput = '';
+    const charNumbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    const charOperators = ['+', '-', '*', '/'];
+
+    // 1. eval() version.
+    for (let button of buttons) {
+      button.addEventListener('click', () => {
+        // 숫자 버튼을 클릭하면 계산기 화면에 그대로 출력
+        // if (['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'].includes(button.innerText)) {
+        if (charNumbers.includes(button.innerText)) {
+          userInput.value = button.innerText;
+          totalInput += userInput.value;
+          console.log(`totalInput = ${totalInput}`);
+        } else if (charOperators.includes(button.innerText)) {
+          // 직전 입력값이 연산자면 이번 연산자로 대체, 아니면 문자열 더하기
+          userInput.value = button.innerText;
+          totalInput += userInput.value;
+          console.log(`totalInput = ${totalInput}`);
+        } else if (button.innerText === 'C') { // Clear
+          userInput.value = 0;
+          totalInput = '';
+          console.log(`totalInput = ${totalInput}`);
+        } else if (button.innerText === '=') { // 계산 결과를 계산기 화면에 출력
+          userInput.value = eval(totalInput);
+          console.log(`totalInput = ${totalInput}`);
+        }
+      })
+    }
+  </script>
+</body>
+
+</html>
