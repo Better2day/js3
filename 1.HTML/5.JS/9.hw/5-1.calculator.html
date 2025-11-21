@@ -93,21 +93,32 @@
         if (charNumbers.includes(button.innerText)) {
           userInput.value = button.innerText;
           totalInput += userInput.value;
-          console.log(`totalInput = ${totalInput}`);
+          console.log(`계산식 = ${totalInput}`);
         } else if (charOperators.includes(button.innerText)) {
-          // 직전 입력값이 연산자면 이번 연산자로 대체, 아니면 문자열 더하기
           userInput.value = button.innerText;
-          totalInput += userInput.value;
-          console.log(`totalInput = ${totalInput}`);
+          // Issue 1. 직전 입력값이 연산자면 이번 연산자로 대체
+          if (charOperators.includes(totalInput.slice(-1))) {
+            // 문자열은 원시값이라서 배열처럼 일부 요소값 변경 불가능 (오류 메시지는 없지만 아래 문장 효과 없음)
+            // totalInput[totalInput.length - 1] = userInput.value;
+            // ∴ 계산식 변수에 직전 연산자를 삭제한 계산식 + 이번 연산자로 구성된 새 문자열 할당
+            totalInput = totalInput.substring(0, totalInput.length - 1) + userInput.value;
+          } else { // 직전 입력값이 숫자면 계산식에 이번 연산자 추가
+            totalInput += userInput.value;
+          }
+          console.log(`계산식 = ${totalInput}`);
         } else if (button.innerText === 'C') { // Clear
           userInput.value = 0;
           totalInput = '';
-          console.log(`totalInput = ${totalInput}`);
+          console.log(`계산식 = ${totalInput}`);
         } else if (button.innerText === '=') { // 계산 결과를 계산기 화면에 출력
           userInput.value = eval(totalInput);
-          console.log(`totalInput = ${totalInput}`);
+          console.log(`계산 결과 = ${userInput.value}`);
+        } else {
+          console.log(`[비정상 접근] Client Hacked !!`);
         }
       })
+
+      // function 
     }
   </script>
 </body>
