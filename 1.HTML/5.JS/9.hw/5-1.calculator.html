@@ -96,7 +96,8 @@
           console.log(`계산식 = ${totalInput}`);
         } else if (charOperators.includes(button.innerText)) {
           userInput.value = button.innerText;
-          // Issue 1. 직전 입력값이 연산자면 이번 연산자로 대체
+          // 이슈 1. 직전 입력값이 연산자면, 계산식 끝에서 연산자가 중첩되는 문제 발생
+          // 해결 1. 직전 입력값이 연산자면 이번 연산자로 대체
           if (charOperators.includes(totalInput.slice(-1))) {
             // 문자열은 원시값이라서 배열처럼 일부 요소값 변경 불가능 (오류 메시지는 없지만 아래 문장 효과 없음)
             // totalInput[totalInput.length - 1] = userInput.value;
@@ -111,8 +112,15 @@
           totalInput = '';
           console.log(`계산식 = ${totalInput}`);
         } else if (button.innerText === '=') { // 계산 결과를 계산기 화면에 출력
+          // 이슈 3. 계산식 마지막이 연산자이면 eval 함수에서 문법 오류 발생
+          // 해결 3. 계산식 마지막이 연산자이면 삭제
+          if (charOperators.includes(totalInput.slice(-1))) {
+            totalInput = totalInput.substring(0, totalInput.length - 1)
+          }
           userInput.value = eval(totalInput);
-          // Issue 2. 계산 결과가 나왔을 때도 기존 계산식이 남아있어서, 계산 결과를 보여주면서 계산식은 초기화
+          // 이슈 2. 계산 결과가 나왔을 때도 기존 계산식이 남아있어서, 새롭게 계산하려면 번거롭게 C 버튼을 눌러야 함
+          // 해결 2. 계산 결과를 보여주면서 계산식은 초기화
+          console.log(`계산식 = ${totalInput}`);
           totalInput = '';
           console.log(`계산 결과 = ${userInput.value}`);
         } else {
