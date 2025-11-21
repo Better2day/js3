@@ -112,6 +112,8 @@
           console.log(`계산식 = ${totalInput}`);
         } else if (button.innerText === '=') { // 계산 결과를 계산기 화면에 출력
           userInput.value = eval(totalInput);
+          // Issue 2. 계산 결과가 나왔을 때도 기존 계산식이 남아있어서, 계산 결과를 보여주면서 계산식은 초기화
+          totalInput = '';
           console.log(`계산 결과 = ${userInput.value}`);
         } else {
           console.log(`[비정상 접근] Client Hacked !!`);
