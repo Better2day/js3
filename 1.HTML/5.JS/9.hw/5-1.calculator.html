@@ -57,24 +57,28 @@
 
 <body>
   <div id="calculator">
-    <input type="text" id="userInput" value="0" readonly>
+    <!-- <input type="text" id="userInput" value="0" readonly> -->
+    <div id="userInput">0</div>
     <div id="buttonGrid">
+      <!-- 키보드로 편리하게 숫자를 입력할 수 있도록 accessKey 속성 추가
+          (Edge의 경우 Alt + 키 조합으로 이용 가능.
+           연산자는 대부분 Shift 키까지 조합해야 하므로 복잡해서 제외, C 등 일부 키도 안 되서 제외  -->
       <button id="1">+</button>
       <button id="2">-</button>
       <button id="3">*</button>
       <button id="4">/</button>
-      <button id="5">7</button>
-      <button id="6">8</button>
-      <button id="7">9</button>
+      <button id="5" accessKey="7">7</button>
+      <button id="6" accessKey="8">8</button>
+      <button id="7" accessKey="9">9</button>
       <button id="8">=</button>
-      <button id="9">4</button>
-      <button id="10">5</button>
-      <button id="11">6</button>
+      <button id="9" accessKey="4">4</button>
+      <button id="10" accessKey="5">5</button>
+      <button id="11" accessKey="6">6</button>
       <button id="12">C</button>
-      <button id="13">1</button>
-      <button id="14">2</button>
-      <button id="15">3</button>
-      <button id="16">0</button>
+      <button id="13" accessKey="1">1</button>
+      <button id="14" accessKey="2">2</button>
+      <button id="15" accessKey="3">3</button>
+      <button id="16" accessKey="0">0</button>
     </div>
   </div>
 
@@ -88,30 +92,34 @@
     // 1. eval() version.
     for (let button of buttons) {
       button.addEventListener('click', () => {
-        // 숫자 버튼을 클릭하면 계산기 화면에 그대로 출력
         // if (['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'].includes(button.innerText)) {
-        if (charNumbers.includes(button.innerText)) {
+        if (charNumbers.includes(button.innerText)) { // 숫자 버튼을 클릭하면 계산기 화면에 그대로 출력
           userInput.value = button.innerText;
           totalInput += userInput.value;
           console.log(`계산식 = ${totalInput}`);
-        } else if (charOperators.includes(button.innerText)) {
-          userInput.value = button.innerText;
-          // 이슈 1. 직전 입력값이 연산자면, 계산식 끝에서 연산자가 중첩되는 문제 발생
-          // 해결 1. 직전 입력값이 연산자면 이번 연산자로 대체
-          if (charOperators.includes(totalInput.slice(-1))) {
-            // 문자열은 원시값이라서 배열처럼 일부 요소값 변경 불가능 (오류 메시지는 없지만 아래 문장 효과 없음)
-            // totalInput[totalInput.length - 1] = userInput.value;
-            // ∴ 계산식 변수에 직전 연산자를 삭제한 계산식 + 이번 연산자로 구성된 새 문자열 할당
-            totalInput = totalInput.substring(0, totalInput.length - 1) + userInput.value;
-          } else { // 직전 입력값이 숫자면 계산식에 이번 연산자 추가
-            totalInput += userInput.value;
+        } else if (charOperators.includes(button.innerText)) { // 사칙 연산 버튼
+          // 이슈 4. 계산식 처음에 * / 연산자가 오면 eval 함수에서 문법 오류 발생 (+ -는 양수 음수 처리되서 괜찮음)
+          // 해결 4. 계산식 처음에 * / 연산자가 오면 입력받지 않고 무시
+          // if (totalInput.length == 0 && ['*', '/'].includes(button.innerText)) { // 아무 것도 실행 안 함
+          if (totalInput.length != 0 || !['*', '/'].includes(button.innerText)) { // 위 조건문의 대우 조건
+            userInput.value = button.innerText;
+            // 이슈 1. 직전 입력값이 연산자면, 계산식 끝에서 연산자가 중첩되는 문제 발생
+            // 해결 1. 직전 입력값이 연산자면 이번 연산자로 대체
+            if (charOperators.includes(totalInput.slice(-1))) {
+              // 문자열은 원시값이라서 배열처럼 일부 요소값 변경 불가능 (오류 메시지는 없지만 아래 문장 효과 없음)
+              // totalInput[totalInput.length - 1] = userInput.value;
+              // ∴ 계산식 변수에 직전 연산자를 삭제한 계산식 + 이번 연산자로 구성된 새 문자열 할당
+              totalInput = totalInput.substring(0, totalInput.length - 1) + userInput.value;
+            } else { // 직전 입력값이 숫자면 계산식에 이번 연산자 추가
+              totalInput += userInput.value;
+            }
+            console.log(`계산식 = ${totalInput}`);
           }
-          console.log(`계산식 = ${totalInput}`);
-        } else if (button.innerText === 'C') { // Clear
+        } else if (button.innerText === 'C') { // Clear 버튼
           userInput.value = 0;
           totalInput = '';
           console.log(`계산식 = ${totalInput}`);
-        } else if (button.innerText === '=') { // 계산 결과를 계산기 화면에 출력
+        } else if (button.innerText === '=') { // = 버튼을 클릭하면 계산 결과를 계산기 화면에 출력
           // 이슈 3. 계산식 마지막이 연산자이면 eval 함수에서 문법 오류 발생
           // 해결 3. 계산식 마지막이 연산자이면 삭제
           if (charOperators.includes(totalInput.slice(-1))) {
