@@ -107,23 +107,20 @@
           }
           console.log(`계산식 = ${totalInput}`);
         } else if (charOperators.includes(button.innerText)) { // 사칙 연산 버튼
-          // 이슈 4. 계산식 처음에 * / 연산자가 오면 eval 함수에서 문법 오류 발생 (+ -는 양수 음수 처리되서 괜찮음)
-          // 해결 4. 계산식 처음에 * / 연산자가 오면 입력받지 않고 무시
-          // if (totalInput.length == 0 && ['*', '/'].includes(button.innerText)) { // 아무 것도 실행 안 함
-          if (totalInput.length != 0 || !['*', '/'].includes(button.innerText)) { // 위 조건문의 대우 조건
-            userInput.value = button.innerText;
-            // 이슈 1. 직전 입력값이 연산자면, 계산식 끝에서 연산자가 중첩되는 문제 발생
-            // 해결 1. 직전 입력값이 연산자면 이번 연산자로 대체
-            if (charOperators.includes(totalInput.slice(-1))) {
-              // 문자열은 원시값이라서 배열처럼 일부 요소값 변경 불가능 (오류 메시지는 없지만 아래 문장 효과 없음)
-              // totalInput[totalInput.length - 1] = userInput.value;
-              // ∴ 계산식 변수에 직전 연산자를 삭제한 계산식 + 이번 연산자로 구성된 새 문자열 할당
-              totalInput = totalInput.substring(0, totalInput.length - 1) + userInput.value;
-            } else { // 직전 입력값이 숫자면 계산식에 이번 연산자 추가
-              totalInput += userInput.value;
-            }
-            console.log(`계산식 = ${totalInput}`);
+          // 이슈 4(해결 4) 조건은 이슈 5(해결 5)에 의해 아예 소멸되서(해당 조건이 성립할 수 없게 변경됨) 제거
+          // if (totalInput.length != 0 || !['*', '/'].includes(button.innerText)) {
+          userInput.value = button.innerText;
+          // 이슈 1. 직전 입력값이 연산자면, 계산식 끝에서 연산자가 중첩되는 문제 발생
+          // 해결 1. 직전 입력값이 연산자면 이번 연산자로 대체
+          if (charOperators.includes(totalInput.slice(-1))) {
+            // 문자열은 원시값이라서 배열처럼 일부 요소값 변경 불가능 (오류 메시지는 없지만 아래 문장 효과 없음)
+            // totalInput[totalInput.length - 1] = userInput.value;
+            // ∴ 계산식 변수에 직전 연산자를 삭제한 계산식 + 이번 연산자로 구성된 새 문자열 할당
+            totalInput = totalInput.substring(0, totalInput.length - 1) + userInput.value;
+          } else { // 직전 입력값이 숫자면 계산식에 이번 연산자 추가
+            totalInput += userInput.value;
           }
+          console.log(`계산식 = ${totalInput}`);
         } else if (button.innerText === 'C') { // Clear 버튼
           userInput.value = 0;
           totalInput = '0';
