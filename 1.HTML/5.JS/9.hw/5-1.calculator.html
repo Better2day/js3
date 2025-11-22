@@ -85,7 +85,9 @@
   <script>
     const buttons = document.getElementsByTagName('button');
     let userInput = document.getElementById('userInput');
-    let totalInput = '';
+    // 이슈 5. 계산기를 처음 구동하면 화면에 0이 들어가 있는데, 계산식은 공백
+    // 해결 5. 계산식도 '0'으로 시작하도록 변경 (C, = 버튼을 눌렀을 때도 '0'으로 초기화)
+    let totalInput = '0';
     const charNumbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
     const charOperators = ['+', '-', '*', '/'];
 
@@ -94,8 +96,15 @@
       button.addEventListener('click', () => {
         // if (['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'].includes(button.innerText)) {
         if (charNumbers.includes(button.innerText)) { // 숫자 버튼을 클릭하면 계산기 화면에 그대로 출력
+          // 이슈 6. 계산식이 '0'으로 시작해서(윈도우 내장 계산기처럼 변경),
+          //         숫자 버튼을 눌렀을 때 0 뒤에 숫자를 추가하면 계산식과 계산 결과 모두 이상해진다.
+          // 해결 6. 첫 입력이 숫자이면 0을 숫자로 대체
           userInput.value = button.innerText;
-          totalInput += userInput.value;
+          if (totalInput.length == 1 && totalInput[0] == '0') {
+            totalInput = userInput.value;
+          } else {
+            totalInput += userInput.value;
+          }
           console.log(`계산식 = ${totalInput}`);
         } else if (charOperators.includes(button.innerText)) { // 사칙 연산 버튼
           // 이슈 4. 계산식 처음에 * / 연산자가 오면 eval 함수에서 문법 오류 발생 (+ -는 양수 음수 처리되서 괜찮음)
@@ -117,7 +126,7 @@
           }
         } else if (button.innerText === 'C') { // Clear 버튼
           userInput.value = 0;
-          totalInput = '';
+          totalInput = '0';
           console.log(`계산식 = ${totalInput}`);
         } else if (button.innerText === '=') { // = 버튼을 클릭하면 계산 결과를 계산기 화면에 출력
           // 이슈 3. 계산식 마지막이 연산자이면 eval 함수에서 문법 오류 발생
@@ -129,7 +138,7 @@
           // 이슈 2. 계산 결과가 나왔을 때도 기존 계산식이 남아있어서, 새롭게 계산하려면 번거롭게 C 버튼을 눌러야 함
           // 해결 2. 계산 결과를 보여주면서 계산식은 초기화
           console.log(`계산식 = ${totalInput}`);
-          totalInput = '';
+          totalInput = '0';
           console.log(`계산 결과 = ${userInput.value}`);
         } else {
           console.log(`[비정상 접근] Client Hacked !!`);
