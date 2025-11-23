@@ -6,6 +6,7 @@ const charOperators = ['+', '-', '*', '/'];
 // 계산식도 '0'으로 시작하도록 변경 (C, = 버튼을 눌렀을 때도 '0'으로 초기화)
 let totalInput = '0';
 let leftTerm = null;
+let rightTerm = null;
 let result = null;
 // JS 자료 유형에 ENUM(열거형)가 없어서, 열거형을 구현하기 위해 아래와 같이 붋변성(동결) 객체 생성
 const TokenType = Object.freeze({
@@ -45,6 +46,11 @@ function processNumber(button) {
     current.innerText = button.innerText;
     totalInput = button.innerText;
     console.log(`totalInput = ${totalInput}`);
+  } else if (result != null) { // 계산 결과가 나온 직후, 사용자가 숫자를 입력했을 때
+    current.innerText = button.innerText;
+    expression.innerText = button.innerText;
+    totalInput = button.innerText;
+    result = null;
   } else {
     // 직전 입력값이 연산자이면 current.innerText에 그 이전 숫자(연산자 왼쪽 숫자)가 남아있으므로 이번에 입력한 숫자로 대체
     if (lastTokenType === TokenType.OP) {
@@ -59,34 +65,29 @@ function processNumber(button) {
   expression.innerText = totalInput;
   lastTokenType = TokenType.NUM;
 }
-
 // 사칙 연산 버튼 처리 함수
 function processOperator(button) {
-  if (leftTerm == null) {
-    leftTerm = parseInt(totalInput);
+  // 직전 입력값이 연산자면 이번 연산자로 대체해서 연산자 중첩 방지
+  if (lastTokenType === TokenType.OP) {
+    totalInput = totalInput.substring(0, totalInput.length - 1) + button.innerText;
+    expression.innerText = totalInput;
+    lastOperator = button.innerText;
+  } else if (leftTerm == null) { // 계산식에서 처음으로 연산자를 썼을 때 처리
+    leftTerm = parseInt(current.innerText);
     lastOperator = button.innerText;
     totalInput += button.innerText;
     expression.innerText = totalInput;
-  } else {
+  } else if (leftTerm != null) { // 지난 연산자 왼쪽 항에 숫자가 있으면 계산
+    rightTerm = parseInt(current.innerText);
     calculate(button);
   }
   console.log(`leftTerm = ${leftTerm}`);
+  console.log(`rightTerm = ${rightTerm}`);
   console.log(`lastOperator = ${lastOperator}`);
   console.log(`totalInput = ${totalInput}`);
   console.log(`result = ${result}`);
-  // }
-  // 직전 입력값이 연산자면 이번 연산자로 대체해서 연산자 중첩 방지
-  // if (charOperators.includes(totalInput.slice(-1))) {
-  //   totalInput = totalInput.substring(0, totalInput.length - 1) + button.innerText;
-  // } else if (totalInput == '0') { // 계산을 마친 직후면, 연산자 버튼을 눌렀을 때 이전 결과값 + 연산자 
-  //   totalInput = current.innerText + button.innerText;
-  // } else { // 직전 입력값이 숫자면 계산식에 이번 연산자 추가
-  //   // * / 연산자가 오면 그 앞 숫자와 뒷 숫자부터 우선 계산 ?
-  //   // + - 연산자가 오면 계산식에 연산자 추가. 단, 직전 연산자가 * / 였으면 지금까지의 계산식 전부 계산
-  //   totalInput += button.innerText;
-  // }
-  expression.innerText = totalInput;
 
+  expression.innerText = totalInput;
   lastTokenType = TokenType.OP;
 }
 
@@ -95,45 +96,58 @@ function clear() {
   current.innerText = '0';
   expression.innerText = '0';
   totalInput = '0';
+  leftTerm = 0;
+  result = null;
   resetCommonVars();
 }
 
 // = 버튼을 클릭하면 계산 결과를 계산기 화면에 출력
 function processEqualBtn(button) {
-  expression.innerText = totalInput + '='; // 계산식은 보여주지만
-  calculate(button);
-  totalInput = '0'; // 새 계산을 위해서 사용자 입력값 전체 변수는 초기화
+  expression.innerText = totalInput + '='; // 계산식
+  result = calculate(button);
+  totalInput = result;
+  console.log(`totalInput = ${totalInput}`);
+  console.log(`result = ${result}`);
+
   resetCommonVars();
 }
 
 function calculate(button) {
   // 계산식 마지막이 연산자이면 삭제 후 계산
+  rightTerm = parseInt(current.innerText);
   if (lastTokenType === TokenType.OP) {
     totalInput = totalInput.substring(0, totalInput.length - 1)
   }
   switch (lastOperator) {
     case '+':
-      result = leftTerm + parseInt(current.innerText);
+      // result = leftTerm + parseInt(current.innerText);
+      leftTerm = leftTerm + rightTerm;
       break;
     case '-':
-      result = leftTerm - parseInt(current.innerText);
+      // result = leftTerm - parseInt(current.innerText);
+      leftTerm = leftTerm - rightTerm;
       break;
     case '*':
-      result = leftTerm * parseInt(current.innerText);
+      // result = leftTerm * parseInt(current.innerText);
+      leftTerm = leftTerm * rightTerm;
       break;
     case '/':
-      result = leftTerm / parseInt(current.innerText);
+      // result = leftTerm / parseInt(current.innerText);
+      leftTerm = leftTerm / rightTerm;
       break;
   }
-  leftTerm = result;
+  console.log(`leftTerm = ${leftTerm}`);
+  // leftTerm = result;
+  current.innerText = leftTerm;
+  expression.innerText = totalInput + button.innerText;
   totalInput = result + button.innerText;
   lastOperator = button.innerText;
-  expression.innerText = result + button.innerText;
-  current.innerText = result;
+  return leftTerm;
 }
 
 function resetCommonVars() {
   lastTokenType = TokenType.NUM;
   leftTerm = null;
   lastOperator = null;
+  rightTerm = null;
 }
