@@ -8,9 +8,11 @@
   <style>
     input {
       width: 100px;
+      margin-bottom: 10px;
     }
 
     #progressBar {
+      position: relative;
       width: 100%;
       background-color: #f3f3f3;
     }
@@ -19,6 +21,19 @@
       width: 0%;
       height: 30px;
       background-color: #4caf50;
+      z-index: 1;
+    }
+
+    #progressNum {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 30px;
+      text-align: center;
+      align-content: center;
+      font-size: 16px;
+      z-index: 2;
     }
   </style>
 </head>
@@ -26,47 +41,46 @@
 <body>
   <h1>Progress Bar Timer !</h1>
   <input id="seconds" type="number" placeholder="초를 입력하세요" min="2" max="10">
-  <button id="start">시작</button>
-  <button id="reset">초기화</button>
+  <button id="startBtn">시작</button>
+  <button id="resetBtn" disabled>초기화</button>
   <div id="progressBar">
     <div id="progress"></div>
+    <!-- 진행 바 위에 추가로 진행률 %도 표시 -->
+    <div id="progressNum"></div>
   </div>
 </body>
 
 <script>
   const progress = document.getElementById('progress');
+  const progressNum = document.getElementById('progressNum');
+  const startBtn = document.getElementById('startBtn');
+  const resetBtn = document.getElementById('resetBtn');
   let intervalId = null;
 
-  document.getElementById('start').addEventListener('click', () => {
+  startBtn.addEventListener('click', () => {
     const seconds = document.getElementById('seconds').value;
-    // console.log('시작 버튼 이벤트 리스너 진입');
-    console.log(`seconds = ${seconds}`);
     const increment = 100 / seconds;
     let current = 0;
-    console.log(`increment = ${increment}`);
-    console.log(`current = ${current}`);
-    document.getElementById('start').setAttribute('disabled', '');
-    document.getElementById('reset').removeAttribute('disabled', '');
-    // console.log(progress);
+    startBtn.setAttribute('disabled', '');
+    resetBtn.removeAttribute('disabled', '');
+
     intervalId = setInterval(() => {
-      console.log(progress);
       current += increment;
-      console.log(`increment = ${increment}`);
-      console.log(`current = ${current}`);
       if (current >= 100) {
         clearInterval(intervalId);
-        document.getElementById('start').removeAttribute('disabled');
-        // document.getElementById('reset').setAttribute('disabled', '');
+        startBtn.removeAttribute('disabled');
       }
       progress.style.width = current + '%';
+      progressNum.textContent = Math.round(current) + '%';
     }, 1000);
   });
-  document.getElementById('reset').addEventListener('click', () => {
-    // console.log('초기화 버튼 이벤트 리스너 진입');
+
+  resetBtn.addEventListener('click', () => {
     clearInterval(intervalId);
     progress.style.width = '0%';
-    document.getElementById('start').removeAttribute('disabled');
-    document.getElementById('reset').setAttribute('disabled', '');
+    progressNum.textContent = '';
+    startBtn.removeAttribute('disabled');
+    resetBtn.setAttribute('disabled', '');
   });
 </script>
 
