@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1>Countdown Timer</h1>
+  <input type="number" id="timeInput" placeholder="초 입력">
+  <button id="startBtn" onclick="startCountdown();" style="margin-bottom: 10px;">시작</button>
+  <div id="display"></div>
+</body>
+
+<script>
+  let timeRemaining = null;
+  const startBtn = document.getElementById('startBtn');
+  const display = document.getElementById('display');
+
+  function startCountdown() {
+    timeRemaining = document.getElementById('timeInput').value;
+    startBtn.setAttribute('disabled', '');
+
+    let intervalId = setInterval(() => {
+      display.innerText = timeRemaining + '초 남았습니다.'
+
+      if (timeRemaining <= 0) {
+        display.innerText = '카운트다운 완료!';
+        clearInterval(intervalId);
+        startBtn.removeAttribute('disabled');
+      }
+      timeRemaining--;
+    }, 1000);
+  };
+
+</script>
+
+</html>

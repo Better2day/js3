@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1>Multiple Countdown Timer</h1>
+  <input type="number" id="timeInput" placeholder="초 입력">
+  <button id="startBtn" onclick="startCountdown();" style="margin-bottom: 10px;">시작</button>
+  <button id="allClearBtn" onclick="allClear();" style="margin-bottom: 10px;">전체 초기화</button>
+  <div id="display"></div>
+</body>
+
+<script>
+  const startBtn = document.getElementById('startBtn');
+  const display = document.getElementById('display');
+  const intervalArray = [];
+
+  function startCountdown() {
+    let timeRemaining = document.getElementById('timeInput').value;
+
+    // DOM에 새로운 요소 추가: 새로운 요소 생성 → 요소에 내용 입력 → 부모 요소를 선택하고, 거기에 새 요소를 자식으로 추가
+    const timerElement = document.createElement('p');
+    timerElement.textContent = '새로운 요소(element) 입니다';
+    display.appendChild(timerElement);
+
+    let intervalId = setInterval(() => {
+      timerElement.textContent = timeRemaining + '초 남았습니다.'
+
+      if (timeRemaining <= 0) {
+        timerElement.textContent = '카운트다운 완료!';
+        clearInterval(intervalId);
+      }
+      timeRemaining--;
+    }, 1000);
+    intervalArray.push(intervalId);
+  };
+
+  function allClear() {
+    display.textContent = '';
+    // multiple setInterval 일괄 취소
+    intervalArray.forEach(intervalId => {
+      clearInterval(intervalId);
+    });
+  }
+</script>
+
+</html>
