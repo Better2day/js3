@@ -10,7 +10,7 @@
 <body>
   <h1>Guess the Number (1~100)</h1>
   <input type="text" id="userInput" placeholder="Enter your guess (1~100)" style="margin-bottom: 10px">
-  <button onclick="guessNo()">Guess</button>
+  <button id="guessBtn" onclick="guessNo()">Guess</button>
   <div id="result"></div>
   <h2>Guess History</h2>
   <div id="history"></div>
@@ -36,7 +36,7 @@
       if (userInput < randomNo) {
         resultDiv.innerText = 'Too low !'
       } else if (userInput > randomNo) {
-        resultDiv.innerText = 'Too High !'
+        resultDiv.innerText = 'Too high !'
       } else {
         resultDiv.innerHTML = 'You correctly guessed the number !!<BR>Random number has re-generated. Guess again!'
         randomNo = Math.floor(Math.random() * 100 + 1);
