@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    input {
+      width: 100px;
+    }
+
+    #progressBar {
+      width: 100%;
+      background-color: #f3f3f3;
+    }
+
+    #progress {
+      width: 0%;
+      height: 30px;
+      background-color: #4caf50;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Progress Bar Timer !</h1>
+  <input id="seconds" type="number" placeholder="초를 입력하세요" min="2" max="10">
+  <button id="start">시작</button>
+  <button id="reset">초기화</button>
+  <div id="progressBar">
+    <div id="progress"></div>
+  </div>
+</body>
+
+<script>
+  const progress = document.getElementById('progress');
+  let intervalId = null;
+
+  document.getElementById('start').addEventListener('click', () => {
+    const seconds = document.getElementById('seconds').value;
+    // console.log('시작 버튼 이벤트 리스너 진입');
+    console.log(`seconds = ${seconds}`);
+    const increment = 100 / seconds;
+    let current = 0;
+    console.log(`increment = ${increment}`);
+    console.log(`current = ${current}`);
+    document.getElementById('start').setAttribute('disabled', '');
+    document.getElementById('reset').removeAttribute('disabled', '');
+    // console.log(progress);
+    intervalId = setInterval(() => {
+      console.log(progress);
+      current += increment;
+      console.log(`increment = ${increment}`);
+      console.log(`current = ${current}`);
+      if (current >= 100) {
+        clearInterval(intervalId);
+        document.getElementById('start').removeAttribute('disabled');
+        // document.getElementById('reset').setAttribute('disabled', '');
+      }
+      progress.style.width = current + '%';
+    }, 1000);
+  });
+  document.getElementById('reset').addEventListener('click', () => {
+    // console.log('초기화 버튼 이벤트 리스너 진입');
+    clearInterval(intervalId);
+    progress.style.width = '0%';
+    document.getElementById('start').removeAttribute('disabled');
+    document.getElementById('reset').setAttribute('disabled', '');
+  });
+</script>
+
+</html>
