@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    .containerSet {
+      width: 420px;
+      height: 420px;
+      display: grid;
+      grid-template-rows: repeat(2, 1fr);
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .container {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      background-color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      /* margin-bottom: 20px; */
+    }
+
+    #zone1,
+    #zone2,
+    #zone3,
+    #zone4 {
+      border: 2px dashed #ccc;
+    }
+
+    .placeholder {
+      position: absolute;
+      color: #999;
+    }
+
+    #dragItem {
+      width: 100px;
+      height: 100px;
+      background-color: #ffcc00;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 1;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>[homework] Drag and Drop among 4 zones</h1>
+
+  <div class="containerSet">
+    <div id="zone1" class="container">
+      <span class="placeholder">Drop here !</span>
+      <div id="dragItem" draggable="true">Drag me !</div>
+    </div>
+
+    <div id="zone2" class="container">
+      <span class="placeholder">Drop here !</span>
+    </div>
+    <div id="zone3" class="container">
+      <span class="placeholder">Drop here !</span>
+    </div>
+    <div id="zone4" class="container">
+      <span class="placeholder">Drop here !</span>
+    </div>
+  </div>
+
+
+  <script>
+    // Drag and Drop event는 dragover와 drop event가 둘 다 있어야 하고,
+    // dragover 이벤트 리스너 안에서 기본 기능을 실행 방지해야 정상 작동한다.
+    // (희한하게 drop 이벤트 리스너 안에서는 기본 기능 방지 처리를 하지 않아도 문제 없다.)
+
+    // const zones = document.getElementsByClassName('container');
+    // console.log(zones);
+
+    // zones.forEach(zone => {
+    //   zone.addEvent
+    //   console.log('레이어 순회중');
+    // })
+
+    const dragItem = document.getElementById('dragItem');
+    const zone1 = document.getElementById('zone1');
+    const zone2 = document.getElementById('zone2');
+    const zone3 = document.getElementById('zone3');
+    const zone4 = document.getElementById('zone4');
+
+    // Refactoring 1.
+    [zone1, zone2, zone3, zone4].forEach(zone => {
+      console.log('여기 진입?');
+      zone.addEventListener('dragover', () => {
+        event.preventDefault();
+      });
+      zone.addEventListener('drop', () => {
+        zone.appendChild(dragItem);
+      });
+    });
+  </script>
+</body>
+
+</html>
