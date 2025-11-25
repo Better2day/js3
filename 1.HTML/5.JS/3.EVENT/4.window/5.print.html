@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1>프린트 출력 이벤트</h1>
+  <button id="printBtn">출력하세요</button>
+  <script>
+    document.getElementById('printBtn').addEventListener('click', () => {
+      window.print();
+    });
+
+    window.onbeforeprint = function () {
+      console.log('출력하기 직전에 호출되는 함수 안');
+    }
+
+    window.onafterprint = function () {
+      console.log('출력한 직후에 호출되는 함수 안');
+    }
+  </script>
+</body>
+
+</html>

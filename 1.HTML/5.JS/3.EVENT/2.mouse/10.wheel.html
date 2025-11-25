@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #myLayer {
+      width: 100%;
+      height: 200px;
+      background-color: lightgray;
+      overflow-y: scroll;
+    }
+
+    #innerLayer {
+      height: 800px;
+      background: linear-gradient(to bottom, #ffcc00 0%, #ff6600 100%);
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Mouse wheel event</h1>
+  <div id="myLayer">
+    <div id="innerLayer"></div>
+  </div>
+  <script>
+    const box = document.getElementById('myLayer');
+
+    document.addEventListener('wheel', (ev) => {
+      console.log(`마우스 휠 감지됨: ${ev.deltaY}`);
+      console.log(`상단으로부터의 거리: ${box.scrollTop}`);
+    });
+  </script>
+
+</body>
+
+</html>

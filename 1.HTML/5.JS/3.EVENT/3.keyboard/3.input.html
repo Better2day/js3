@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <input type="text" id="myInput" placeholder="여기에 입력하세요">
+  <script>
+    // document.getElementById('myInput').addEventListener('input', event => {
+    //   // target: 이벤트가 발생한 출처
+    //   console.log('입력값은 ', event.target.value);
+    // });
+
+    // change: 초점이 바꼈을 때
+    document.getElementById('myInput').addEventListener('change', event => {
+      // target: 이벤트가 발생한 출처
+      console.log('입력값은 ', event.target.value);
+    });
+  </script>
+</body>
+
+</html>

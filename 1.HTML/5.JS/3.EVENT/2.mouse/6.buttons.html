@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1 id="title">다양한 마우스 버튼 테스트</h1>
+  <script>
+    const title = document.getElementById('title')
+    title.addEventListener('mousedown', (ev) => {
+      console.log('Mouse down event');
+      // console.log('event: ', ev);
+      // console.log('어떤 버튼이 클릭된건가? ', ev.button);
+      /*       
+            if (event.button == 0) {
+              console.log('마우스 왼쪽 버튼이 클릭되었습니다.');
+            } else if (event.button == 1) {
+              console.log('마우스 가운데 버튼이 클릭되었습니다.');
+            } else if (event.button == 2) {
+              console.log('마우스 오른쪽 버튼이 클릭되었습니다.');
+            } else if (event.button == 3) {
+              console.log('마우스 뒤로가기 버튼이 클릭되었습니다.');
+            } else if (event.button == 4) {
+              console.log('마우스 앞으로가기 버튼이 클릭되었습니다.');
+            } else {
+              console.log('그 외 버튼. 더 이상의 자세한 설명은 생략한다.');
+            }
+       */
+
+      switch (event.button) {
+        case 0:
+          console.log('마우스 왼쪽 버튼이 클릭되었습니다.');
+          break;
+        case 1:
+          console.log('마우스 가운데 버튼이 클릭되었습니다.');
+          break;
+        case 2:
+          console.log('마우스 오른쪽 버튼이 클릭되었습니다.');
+          break;
+        case 3:
+          console.log('마우스 뒤로가기 버튼이 클릭되었습니다.');
+          break;
+        case 4:
+          console.log('마우스 앞으로가기 버튼이 클릭되었습니다.');
+          break;
+        default:
+          console.log('그 외 버튼. 더 이상의 자세한 설명은 생략한다.');
+      }
+    });
+
+    title.addEventListener('mouseup', () => {
+      console.log('Mouse up event');
+    })
+
+    window
+  </script>
+</body>
+
+</html>

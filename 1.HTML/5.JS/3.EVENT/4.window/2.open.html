@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1>윈도우 새 창 열기 이벤트</h1>
+  <button id="openPopup">새 창 열기</button>
+
+  <script>
+    // 직접 띄운 popup 창은 여전히 크기 조절 가능
+    document.getElementById('openPopup').addEventListener('click', () => {
+      const popup = window.open('', 'popup window', 'width=300, height=300');
+      popup.resizeTo(800, 600);
+    });
+  </script>
+</body>
+
+</html>

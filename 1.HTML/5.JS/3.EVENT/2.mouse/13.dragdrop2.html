@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #dragItem {
+      width: 100px;
+      height: 100px;
+      background-color: #ffcc00;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 1;
+    }
+
+    .placeholder {
+      position: absolute;
+      color: #999;
+    }
+
+    .container {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      background-color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      margin-bottom: 20px;
+    }
+
+    #dropZone {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      background-color: #f0f0f0;
+      border: 2px dashed #ccc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Drag and Drop 2</h1>
+
+  <div id="startZone" class="container">
+    <span id="startPlaceholder" class="placeholder">Drop here !</span>
+    <div id="dragItem" draggable="true">Drag me !</div>
+  </div>
+
+  <div id="dropZone" class="container">
+    <span id="dropPlaceholder" class="placeholder">Drop here !</span>
+  </div>
+
+  <script>
+    const startZone = document.getElementById('startZone');
+    const dropZone = document.getElementById('dropZone');
+    const dragItem = document.getElementById('dragItem');
+
+    // Drag and Drop event는 dragover와 drop event가 둘 다 있어야 하고,
+    // dragover 이벤트 리스너 안에서 기본 기능을 실행 방지해야 정상 작동한다.
+    // (희한하게 drop 이벤트 리스너 안에서는 기본 기능 방지 처리를 하지 않아도 문제 없다.)
+
+    // startZone.addEventListener('dragstart', () => {
+    //   console.log('startZone 레이어에서 dragstart event 발생!');
+    // });
+    startZone.addEventListener('dragover', (ev) => {
+      ev.preventDefault();
+    });
+    startZone.addEventListener('drop', (ev) => {
+      ev.preventDefault();
+      startZone.appendChild(dragItem);
+    });
+
+    // dropZone.addEventListener('dragstart', () => {
+    //   console.log('dropZone 레이어에서 dragstart event 발생!');
+    // });
+    dropZone.addEventListener('dragover', (ev) => {
+      ev.preventDefault();
+    });
+    dropZone.addEventListener('drop', (ev) => {
+      ev.preventDefault();
+      dropZone.appendChild(dragItem);
+    });
+  </script>
+</body>
+
+</html>

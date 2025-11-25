@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    #sizeInfo {
+      font-size: 18px;
+      line-height: 1.5;
+      background-color: #f0f0f0;
+      padding: 15px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>윈도우 리사이즈 이벤트</h1>
+  <div id="sizeInfo"></div> <!-- 결과를 출력할 공간 -->
+
+  <script>
+    function updateSizeInfo() {
+      const sizeInfo = document.getElementById('sizeInfo');
+      const innerWidth = window.innerWidth;
+      const innerHeight = window.innerHeight;
+      const outerWidth = window.outerWidth;
+      const outerHeight = window.outerHeight;
+
+      const screenWidth = screen.width; // 스크린은 어디서? 전역 변수
+      const screenHeight = screen.height;
+
+      sizeInfo.innerHTML = `
+        <strong>Viewport (window.inner)</strong><br>
+        width: ${innerWidth}px <br>
+        height: ${innerHeight}px <br>
+
+        <strong>Browser Window (window.outer)</strong><br>
+        width: ${outerWidth}px <br>
+        height: ${outerHeight}px <br>
+
+        <strong>Screen (화면해상도)</strong><br>
+        width: ${screenWidth}px <br>
+        height: ${screenHeight}px <br>
+      `;
+    }
+
+    updateSizeInfo(); // 시작하자마자 한 번 실행
+
+    window.addEventListener('resize', updateSizeInfo); // 윈도우가 바뀔 때 실행
+  </script>
+</body>
+
+</html>

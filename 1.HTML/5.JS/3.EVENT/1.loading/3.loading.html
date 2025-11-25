@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script>
+    console.log('Head 내부 Script 시작');
+    console.log('Head 끝에서 title:', document.getElementById('title'));
+
+    window.onload = function () {
+      console.log('Head 끝에 있는 window onload');
+    }
+
+    addEventListener('DOMContentLoaded', () => {
+      console.log('Head 끝에 있는 DOM Content Loaded 1');
+    });
+  </script>
+</head>
+
+<body>
+  <script>
+    console.log('Body 내부 Script 시작');
+    console.log('Body 시작부에서 title: ', document.getElementById('title'));
+    addEventListener('DOMContentLoaded', () => {
+      console.log('Body 시작에 있는 DOM Content Loaded 1');
+    });
+  </script>
+  <h1 id="title">Heading</h1>
+  <script>
+    console.log('Body 내부 Script 끝');
+    console.log('Body 끝에서 title: ', document.getElementById('title'));
+    addEventListener('DOMContentLoaded', () => {
+      console.log('Body 끝에 있는 DOM Content Loaded 1');
+    });
+  </script>
+</body>
+
+</html>

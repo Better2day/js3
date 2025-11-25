@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #content {
+      height: 2000px;
+      background: linear-gradient(to bottom, #ffcc00 0%, #ff6600 100%);
+    }
+  </style>
+</head>
+
+<body>
+  <div id="content"></div>
+  <script>
+    // Document에 이벤트를 등록할 수도 있고, 브라우저(window)에 할수도 있다.
+    // 윈도우에 이벤트를 등록하려면 브라우져의 특성을 이해해야 한다.
+    // 내 브라우저에서 정상 작동한다고, 다른 브라우저에서도 똑같이 작동할지 보장할 수 없다.
+    window.addEventListener('scroll', () => {
+      console.log('페이지 스크롤중~');
+      const scrollPosition = window.pageYOffset;
+      console.log(`현재 스크롤 위치: ${scrollPosition}`);
+
+      const scrollPosition2 = document.documentElement.scrollTop;
+      // HTML 문서에서 document.documentElement = document.getElementsByTagName('html')[0];
+      console.log(`현재 스크롤 위치2: ${scrollPosition2}`);
+
+      // 어떤 것은 브라우저마다 특성이 다르다. 예) 브라우저 1에는 A가 있고 B가 있고, 2에는 A가 없고 B가 있는 등
+      // 브라우저 별로 따로 만들기는 힘들기 때문에, 아래처럼 존재하는 것 중 하나로 처리
+      const scrollPos = window.pageYOffset || document.documentElement.scrollTop;
+      console.log(`둘 중에 최소한 한 가지는 있으므로, 출력된다`);
+    });
+  </script>
+</body>
+
+</html>

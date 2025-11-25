@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1>입력폼 제어</h1>
+  <form id="myForm" action="/submit" method="POST">
+    <textarea id="myTextArea" rows="10" cols="30"></textarea>
+    <br>
+    <button id="submitBtn" type="submit">제출</button>
+  </form>
+
+  <script>
+    document.getElementById('myTextArea').addEventListener('keydown', () => {
+      if (event.shiftKey && event.key == 'Enter') {
+        event.preventDefault();
+        console.log('실제로 보내는 기능 구현하기');
+        document.getElementById('submitBtn').click();
+        // 폼 요소의 submit() 함수를 호출해도, submit 버튼을 누른 것과 동일
+        document.getElementById('myForm').submit();
+      };
+    });
+  </script>
+
+</body>
+
+</html>

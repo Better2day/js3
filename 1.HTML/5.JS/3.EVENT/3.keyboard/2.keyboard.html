@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #displayKey {
+      font-size: 100px;
+      text-align: center;
+      margin-top: 50px;
+      color: #333;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Keyboard Event 2</h1>
+  <input type="text" id="myInput" placeholder="키 입력">
+  <div id="displayKey"></div> <!-- 눌린 키를 입력할 공간 -->
+
+  <script>
+    document.getElementById('myInput').addEventListener('keydown', (ev) => {
+      const displayElement = document.getElementById('displayKey');
+      displayElement.textContent = event.key;
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1 id="title">Hello DOM</h1>
+  <script>
+    // 페이지의 요소를 가져올건데, 이게 환경마다 상황이 다르다.
+    // 다양한 브라우저, 각 클라이언트의 성능 등에 따라서, 로딩이 언제 완료될지 모른다.
+    // 그래서 모든 이벤트를 핸들링하는 기본 원칙은 로딩이 완료된 다음에 처리하는 것이다.
+
+    // 로딩 완료를 기다릴 것인데, 완료되면 호출하라고 함수를 등록 (함수의 인자로 함수를 등록. 고차 함수 형태)
+    // 네가 준비됐을 때, 내가 준 함수를 호출해 줘: callback 함수
+
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('DOM 준비가 완료되면 실행할 코드');
+      const heading = document.getElementById('title');
+      console.log(heading);
+    });
+    const heading = document.getElementById('title');
+  </script>
+
+</body>
+
+</html>

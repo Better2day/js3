@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1>Clipboard</h1>
+  <input type="text" id="textToCopy" value="이 텍스트를 복사하시오">
+  <button id="copyBtn">복사하기</button>
+
+  <script>
+    document.getElementById('copyBtn').addEventListener('click', () => {
+      const text = document.getElementById('textToCopy').value;
+      // navigator.clipboard.wr
+      navigator.clipboard.writeText(text).then(() => {
+        // .then은 성공했을 때 콜백 등록
+        alert('텍스트가 클립보드에 복사되었습니다')
+
+      }).catch(err => {
+        // 오류가 발생했을 때
+        alert('실패!!');
+      });
+    });
+  </script>
+</body>
+
+</html>

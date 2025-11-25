@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #dragItem {
+      width: 100px;
+      height: 100px;
+      background-color: #ffcc00;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      margin-bottom: 20px;
+    }
+
+    #dropZone {
+      width: 200px;
+      height: 200px;
+      background-color: #f0f0f0;
+      border: 2px dashed #ccc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Drag and Drop</h1>
+  <div id="dragItem" draggable="true">날 드래그해 줘</div>
+  <div id="dropZone">여기에 드랍해 줘</div>
+
+  <script>
+    const dragItem = document.getElementById('dragItem');
+    const dropZone = document.getElementById('dropZone');
+
+    dragItem.addEventListener('dragstart', () => {
+      console.log('드래그 시작');
+    });
+
+    dragItem.addEventListener('dragend', () => {
+      console.log('드래그 종료');
+    });
+
+    dropZone.addEventListener('dragover', (ev) => {
+      ev.preventDefault(); // 기본 기능 취소 (윈도우로부터 각종  파일/링크 등을 복사하는 기능)
+      console.log('뭔가 나에게 오는 중');
+    });
+
+    dropZone.addEventListener('drop', (ev) => {
+      ev.preventDefault();
+      console.log('나한테 뭔가 떨어짐');
+      dropZone.appendChild(dragItem); // DOM은 트리에서 노드. 어디에 붙이면 자연스럽게 기존 부모에서 떨어져나온다.
+    });
+  </script>
+</body>
+
+</html>
