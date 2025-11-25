@@ -96,13 +96,28 @@
     const zone3 = document.getElementById('zone3');
     const zone4 = document.getElementById('zone4');
 
-    // Refactoring 1.
-    [zone1, zone2, zone3, zone4].forEach(zone => {
+    // Refactoring 1-1.
+    // [zone1, zone2, zone3, zone4].forEach(zone => {
+    //   console.log('여기 진입?');
+    //   zone.addEventListener('dragover', () => {
+    //     event.preventDefault();
+    //   });
+    //   zone.addEventListener('drop', () => {
+    //     zone.appendChild(dragItem);
+    //   });
+    // });
+
+    // Refactoring 1-2.
+    // 위 1번 방식과 거의 동일하지만, 배열 변수 생성 후 이용
+    const zones = [zone1, zone2, zone3, zone4];
+
+    zones.forEach(zone => {
       console.log('여기 진입?');
       zone.addEventListener('dragover', () => {
         event.preventDefault();
       });
-      zone.addEventListener('drop', () => {
+      zone.addEventListener('drop', (ev) => {
+        ev.preventDefault();
         zone.appendChild(dragItem);
       });
     });
