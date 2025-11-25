@@ -82,19 +82,13 @@
     // dragover 이벤트 리스너 안에서 기본 기능을 실행 방지해야 정상 작동한다.
     // (희한하게 drop 이벤트 리스너 안에서는 기본 기능 방지 처리를 하지 않아도 문제 없다.)
 
-    // const zones = document.getElementsByClassName('container');
-    // console.log(zones);
-
-    // zones.forEach(zone => {
-    //   zone.addEvent
-    //   console.log('레이어 순회중');
-    // })
-
     const dragItem = document.getElementById('dragItem');
-    const zone1 = document.getElementById('zone1');
-    const zone2 = document.getElementById('zone2');
-    const zone3 = document.getElementById('zone3');
-    const zone4 = document.getElementById('zone4');
+    // const zone1 = document.getElementById('zone1');
+    // const zone2 = document.getElementById('zone2');
+    // const zone3 = document.getElementById('zone3');
+    // const zone4 = document.getElementById('zone4');
+
+    const zones = document.getElementsByClassName('container');
 
     // Refactoring 1-1.
     // [zone1, zone2, zone3, zone4].forEach(zone => {
@@ -109,10 +103,22 @@
 
     // Refactoring 1-2.
     // 위 1번 방식과 거의 동일하지만, 배열 변수 생성 후 이용
-    const zones = [zone1, zone2, zone3, zone4];
+    // const zones = [zone1, zone2, zone3, zone4];
 
-    zones.forEach(zone => {
-      console.log('여기 진입?');
+    // zones.forEach(zone => {
+    //   console.log('여기 진입?');
+    //   zone.addEventListener('dragover', () => {
+    //     event.preventDefault();
+    //   });
+    //   zone.addEventListener('drop', (ev) => {
+    //     ev.preventDefault();
+    //     zone.appendChild(dragItem);
+    //   });
+    // });
+
+    // Refactoring 2. Drop zone containers 4개를 유사 배열 객체(HTMLCollection)로 받아온 후
+    // 배열 객체의 forEach 메서드를 활용해서 코드 최소화
+    Array.prototype.forEach.call(zones, zone => {
       zone.addEventListener('dragover', () => {
         event.preventDefault();
       });
