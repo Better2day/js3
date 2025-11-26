@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .slider img {
+      display: none;
+      width: 100px;
+      height: 100px;
+      margin: 5px;
+      cursor: pointer;
+    }
+
+    /* 활성화 이미지만 표시*/
+    .slider img.active {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Image Slider</h1>
+  <div class="slider">
+    <img src="images/puppy1.jpg" class="active" alt="강아지 이미지1">
+    <img src="images/puppy2.jpg" alt="강아지 이미지2">
+    <img src="images/puppy3.jpg" alt="강아지 이미지3">
+  </div>
+
+  <div class="filename" id="filename">puppy1.jpg</div>
+
+  <div class="buttons">
+    <button id="prevBtn">Prev</button>
+    <button id="nextBtn">Next</button>
+  </div>
+
+  <script>
+    const images = document.querySelectorAll('.slider img');
+    // console.log(images);
+    let currentIndex = 0;
+
+    function updateFilename(index) {
+      const filename = document.getElementById('filename');
+      filename.textContent = images[index].src.split('/').pop();
+    }
+
+    document.getElementById('prevBtn').addEventListener('click', () => {
+      images[currentIndex].classList.remove('active');
+      // currentIndex = (currentIndex == 0) ? 0 : currentIndex - 1; // 이전으로 갈 수 없도록 설정
+      currentIndex = (currentIndex == 0) ? images.length - 1 : currentIndex - 1; // 맨 뒤로 가도록 설정
+      images[currentIndex].classList.add('active');
+      updateFilename(currentIndex);
+    })
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      images[currentIndex].classList.remove('active');
+      // currentIndex = (currentIndex == images.length - 1) ? currentIndex : currentIndex + 1; // 이후로 갈 수 없도록 설정
+      currentIndex = (currentIndex == images.length - 1) ? 0 : currentIndex + 1; // 맨 앞로 가도록 설정
+      images[currentIndex].classList.add('active');
+      updateFilename(currentIndex);
+    })
+
+  </script>
+</body>
+
+</html>

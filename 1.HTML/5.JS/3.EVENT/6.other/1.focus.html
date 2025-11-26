@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="parent">
+    <input type="text" id="child">
+  </div>
+
+  <script>
+    // Event Bubbling
+    // focus/blur/mouseenter/mouseleave 등의 이벤트는 이벤트 버블링이 발생하지 않음
+    // focusin/focusout/mouseover/mouseout 등의 이벤트는 이벤트 버블링이 발생함
+    document.getElementById('child').addEventListener('focusin', () => {
+      console.log('Child 요소가 선택(?)되었습니다.');
+    });
+    document.getElementById('parent').addEventListener('focusin', () => {
+      console.log('Parent 요소가 선택(?)되었습니다.');
+    });
+
+  </script>
+
+</body>
+
+</html>

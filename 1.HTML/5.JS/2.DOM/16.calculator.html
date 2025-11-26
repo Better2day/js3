@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .calculator {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      /* 4개의 균등한 폭으로 */
+      grid-gap: 10px;
+      max-width: 300px;
+      text-align: center;
+    }
+
+    .calculator input {
+      grid-column: span 4;
+      padding: 10px;
+      font-size: 18px;
+    }
+
+    .calculator button {
+      padding: 10px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="calculator">
+    <input type="text" id="result">
+    <button onclick="appendSymbol(this.innerText)">+</button>
+    <button onclick="appendSymbol(this.innerText)">-</button>
+    <button onclick="appendSymbol(this.innerText)">*</button>
+    <button onclick="appendSymbol(this.innerText)">/</button>
+    <button onclick="appendNumber(this.innerText)">7</button>
+    <button onclick="appendNumber(this.innerText)">8</button>
+    <button onclick="appendNumber(this.innerText)">9</button>
+    <button onclick="calculate()">=</button>
+    <button onclick="appendNumber(this.innerText)">4</button>
+    <button onclick="appendNumber(this.innerText)">5</button>
+    <button onclick="appendNumber(this.innerText)">6</button>
+    <button onclick="clearResult()">C</button>
+    <button onclick="appendNumber(this.innerText)">1</button>
+    <button onclick="appendNumber(this.innerText)">2</button>
+    <button onclick="appendNumber(this.innerText)">3</button>
+    <button onclick="appendNumber(this.innerText)">0</button>
+  </div>
+
+  <script>
+    function appendNumber(number) {
+      const resultInput = document.getElementById('result');
+      resultInput.value += number;
+    }
+    function isSymbol(value) {
+      return ['+', '-', '*', '/'].includes(value);
+    }
+    function appendSymbol(symbol) {
+      const resultInput = document.getElementById('result');
+      // 이전에 입력한 게 심벌이면? 추가되지 않도록 처리
+      // 직전에 입력한 게 무엇인지부터 확인
+      const lastInput = resultInput.value.slice(-1);
+      if (!isSymbol(lastInput)) {
+        resultInput.value += symbol;
+      } else {
+        resultInput.value = resultInput.value.slice(0, -1) + symbol;
+      }
+    }
+
+    function clearResult() {
+      const resultInput = document.getElementById('result');
+      resultInput.value = '';
+    }
+
+    function isDivisionByZero(expression) {
+      for (let i = 0; i < expression.length; i++) {
+        if (expression[i] == '/') {
+          // 나눗셈 연산자 찾았음
+          // 연산자 뒤에 있는 게 0인지 확인
+          if (expression[i + 1] == '0') {
+            return true;
+          }
+        }
+      }
+    }
+
+    function calculate() {
+      const resultInput = document.getElementById('result');
+      // 2. 다양한 형태의 버그/오류가 있을 수 있다.
+      // 그 중 어려운 게 논리 오류, 설계 오류 → 시스템이 내 의도/생각과 다르게 작동
+      // if (0으로 나누는지 체크)
+      if (isDivisionByZero(resultInput.value)) {
+        resultInput.value = '0으로 나눌 수 없습니다.';
+        return;
+      }
+
+      // 1. 예외 처리의 가장 중요한 기본 개념
+      // try {} 구문 안에서는 원하는 작업 수행
+      // 그 구문을 처리하다가 어떤 오류든 발생하면 catch가 잡아주고 catch 블록 안에서 처리
+      try {
+        const result = eval(resultInput.value);
+        resultInput.value = result;
+      } catch (error) {
+        resultInput.value = 'Error';
+        console.log(error);
+      }
+    }
+
+  </script>
+</body>
+
+</html>

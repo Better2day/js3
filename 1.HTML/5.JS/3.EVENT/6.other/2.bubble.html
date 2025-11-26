@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #grandparent {
+      padding: 50px;
+      background-color: lightgray;
+    }
+
+    #parent {
+      padding: 50px;
+      background-color: lightblue;
+    }
+
+    #child {
+      padding: 50px;
+      background-color: lightgreen;
+
+    }
+  </style>
+</head>
+
+<body>
+  <div id="grandparent">
+    Grandparnet
+    <div id="parent">
+      Parent
+      <div id="child">
+        Child
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const grandparent = document.getElementById('grandparent');
+    const parent = document.getElementById('parent');
+    const child = document.getElementById('child');
+
+    // click event: event bubblinig 발생
+    grandparent.addEventListener('click', () => {
+      alert('Grandparent Clicked');
+    });
+    parent.addEventListener('click', () => {
+      alert('Parent Clicked');
+    });
+    child.addEventListener('click', (ev) => {
+      alert('Child Clicked');
+      // event bubbling 차단 (나에서 끝내고, 더 이상 전파하지 않는다.)
+      // 여기서만 차단하면, parent를 클릭했을 때 발생하는 이벤트 버블링은 여전히 남아있다.
+      ev.stopPropagation();
+    });
+  </script>
+</body>
+
+</html>
