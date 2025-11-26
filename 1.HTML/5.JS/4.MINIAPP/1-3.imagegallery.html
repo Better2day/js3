@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .gallery img {
+      width: 100px;
+      height: 100px;
+      margin: 5px;
+      cursor: pointer;
+    }
+
+    #large-image {
+      display: none;
+      margin: 20px auto;
+      width: 50%;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Image Gallery</h1>
+  <div class="gallery">
+    <img src="images/puppy1.jpg" class="origin">
+    <img src="images/puppy2.jpg" class="origin">
+    <img src="images/puppy3.jpg" class="origin">
+  </div>
+  <button id="prevBtn">Prev</button>
+  <button id="nextBtn">Next</button>
+  <!-- 이미지를 클릭? mouseover 하면 크기 확대 -->
+  <!-- 클릭한 이미지를 large-image에 보이도록 -->
+  <img id="large-image" src="" alt="큰 이미지">
+
+  <script>
+    const target = document.getElementById('large-image');
+    const origins = document.getElementsByClassName('origin');
+    let currentIdx = 0;
+
+    for (let origin of origins) {
+      origin.addEventListener('click', () => {
+        target.src = origin.src;
+        target.style = 'display: block';
+      });
+    }
+    const prevBtn = document.getElementById('prevBtn');
+    const nextvBtn = document.getElementById('nextvBtn');
+    prevBtn.addEventListener('click', () => {
+      // nextBtn 처리하듯이 그냥 -1로 처리하면 2 1 0 -1 식으로 minus 숫자가 나와서 배열 인덱스로 사용했을 때 오류 발생
+      // 전체 길이로 나눈 나머지를 사용할 것이므로, -한 값에 전체 길이를 한 번 더해서 무조건 양수로 만들어준 다음에 나머지 처리하면 됨
+      // currentIdx = (currentIdx - 1) % origins.length;
+      currentIdx = (currentIdx - 1 + origins.length) % origins.length;
+      console.log(currentIdx);
+      target.src = origins[currentIdx].src;
+      target.style = 'display: block';
+    })
+    nextBtn.addEventListener('click', () => {
+      currentIdx = (currentIdx + 1) % origins.length;
+      console.log(currentIdx);
+      target.src = origins[currentIdx].src;
+      target.style = 'display: block';
+    })
+
+  </script>
+</body>
+
+</html>

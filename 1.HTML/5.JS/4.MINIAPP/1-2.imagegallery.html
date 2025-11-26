@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .gallery img {
+      width: 100px;
+      height: 100px;
+      margin: 5px;
+      cursor: pointer;
+    }
+
+    #large-image {
+      display: none;
+      margin: 20px auto;
+      width: 50%;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Image Gallery</h1>
+  <div class="gallery">
+    <img src="images/puppy1.jpg" class="origin">
+    <img src="images/puppy2.jpg" class="origin">
+    <img src="images/puppy3.jpg" class="origin">
+  </div>
+  <button id="prevBtn">Prev</button>
+  <button id="nextBtn">Next</button>
+  <div id="fileInfo"></div>
+  <!-- 이미지를 클릭? mouseover 하면 크기 확대 -->
+  <!-- 클릭한 이미지를 large-image에 보이도록 -->
+  <img id="large-image" src="" alt="큰 이미지">
+
+  <script>
+    const target = document.getElementById('large-image');
+    const origins = document.getElementsByClassName('origin');
+    const fileInfo = document.getElementById('fileInfo');
+    let currentIdx = 0;
+
+    for (let origin of origins) {
+      origin.addEventListener('click', () => {
+        target.src = origin.src;
+        target.style = 'display: block';
+      });
+    }
+    const prevBtn = document.getElementById('prevBtn');
+    const nextvBtn = document.getElementById('nextvBtn');
+    prevBtn.addEventListener('click', () => {
+      if (currentIdx > 0) {
+        currentIdx--;
+      }
+      console.log(currentIdx);
+      target.src = origins[currentIdx].src;
+      target.style = 'display: block';
+      fileInfo.textContent = origins[currentIdx].src.split('/').slice(-1);
+      console.log(origins[currentIdx].src);
+    })
+    nextBtn.addEventListener('click', () => {
+      if (currentIdx < origins.length - 1) {
+        currentIdx++;
+      }
+      console.log(currentIdx);
+      target.src = origins[currentIdx].src;
+      target.style = 'display: block';
+      fileInfo.textContent = origins[currentIdx].src.split('/').slice(-1);
+      console.log(origins[currentIdx].src);
+    })
+
+  </script>
+</body>
+
+</html>

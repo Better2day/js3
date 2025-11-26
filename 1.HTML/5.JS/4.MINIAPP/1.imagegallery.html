@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .gallery img {
+      width: 100px;
+      height: 100px;
+      margin: 5px;
+      cursor: pointer;
+    }
+
+    #large-image {
+      display: none;
+      margin: 20px auto;
+      width: 50%;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Image Gallery</h1>
+  <div class="gallery">
+    <img src="images/puppy1.jpg" class="origin">
+    <img src="images/puppy2.jpg" class="origin">
+    <img src="images/puppy3.jpg" class="origin">
+  </div>
+  <!-- 이미지를 클릭하면 크기 확대 -->
+  <!-- 클릭한 이미지를 large-image에 보이도록 -->
+  <img id="large-image" src="" alt="큰 이미지">
+
+  <script>
+    const target = document.getElementById('large-image');
+    const origins = document.getElementsByClassName('origin');
+    console.log(origins);
+    for (let origin of origins) {
+      origin.addEventListener('click', () => {
+        target.src = origin.src;
+        target.style = 'display: block';
+      });
+    }
+  </script>
+</body>
+
+</html>
