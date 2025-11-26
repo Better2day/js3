@@ -52,11 +52,11 @@
     };
 
     document.getElementById('changeColorBtn').addEventListener('click', () => {
+      // const newColor = getRandomColor();
       const newColor = getRandomHexColor();
       // document.getElementById('colorCode').textContent = '여기에 색상 표현';
       document.getElementById('colorCode').textContent = newColor;
-      // document.getElementsByTagName('body')[0].style = `background-color: ${randomColor()}`;
-      document.getElementsByTagName('body')[0].style = `background-color: ${getRandomHexColor()}`;
+      document.body.style.backgroundColor = newColor;
     });
 
   </script>
