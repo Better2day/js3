@@ -6,5 +6,10 @@
 *.pptx
 *.xlsx
 
-# 백업 파일
+# Backup files
 *.bak
+
+# Image files
+*.jpg
+*.png
+*.gif
