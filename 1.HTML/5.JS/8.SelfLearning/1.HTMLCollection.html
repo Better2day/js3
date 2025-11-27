@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1.HTMLCollection</title>
+</head>
+
+<body>
+  <h1>HTMLCollection test</h1>
+  <form id="myForm">
+    <input type="text" id="input1">
+    <input type="text" id="input2">
+  </form>
+
+  <script>
+    let elem1, elem2;
+    // document.forms is an HTMLCollection
+    elem1 = document.forms[0];
+    elem2 = document.forms.item(0);
+    // console.log(elem2);
+    // console.log(elem1 === elem2);
+
+    elem1 = document.forms.myForm;
+    elem2 = document.forms.namedItem('myForm.');
+    console.log(elem1);
+    console.log(elem2);
+    console.log(elem1 === elem2);
+
+    elem3 = document.forms["named.item.with.periods"];
+    console.log(elem3);
+
+    // alert(elem1 === elem2); // shows: "true"
+
+    // elem1 = document.forms.myForm;
+    // elem2 = document.forms.namedItem("myForm");
+
+    // alert(elem1 === elem2); // shows: "true"
+
+    // elem1 = document.forms["named.item.with.periods"];
+  </script>
+
+</body>
+
+</html>
