@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1>동적 검색 필터</h1>
+  <input type="text" id="searchInput" placeholder="검색어를 입력하세요">
+  <ul id="itemList">
+    <li>사과</li>
+    <li>바나나</li>
+    <li>오렌지</li>
+    <li>포도</li>
+    <li>수박</li>
+    <li>딸기</li>
+    <li>블루베리</li>
+    <li>배</li>
+    <li>자두</li>
+    <li>망고</li>
+    <li>파인애플</li>
+    <li>키위</li>
+    <li>석류</li>
+    <li>복숭아</li>
+    <li>체리</li>
+    <li>무화과</li>
+    <li>자몽</li>
+    <li>레몬</li>
+    <li>귤</li>
+    <li>살구</li>
+    <li>라임</li>
+    <li>파파야</li>
+    <li>두리안</li>
+    <li>람부탄</li>
+    <li>용과</li>
+    <li>리치</li>
+    <li>감</li>
+    <li>아보카도</li>
+    <li>코코넛</li>
+    <li>멜론</li>
+    <li>참외</li>
+    <li>크랜베리</li>
+    <li>구아바</li>
+    <li>스타프루트</li>
+    <li>패션프루트</li>
+    <li>블랙커런트</li>
+    <li>대추</li>
+    <li>카람볼라</li>
+    <li>보이즌베리</li>
+    <li>산딸기(라즈베리)</li>
+    <li>블랙베리</li>
+    <li>앵두</li>
+    <li>홍시</li>
+    <li>유자</li>
+    <li>텐저린</li>
+    <li>쿠미쿼트(금귤)</li>
+    <li>하니듀멜론</li>
+    <li>칸탈로프</li>
+  </ul>
+
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    // li를 가져오고 싶은데 ID가 없는 상황 → UL을 가져와서 그 아래에 있는 LI를 가져온다.
+    const itemList = document.getElementById('itemList');
+    const items = itemList.getElementsByTagName('li');
+    // console.log(itemList);
+    // console.log(items);
+
+    // const items2 = document.getElementById('itemList').getElementsByTagName('li');
+    // console.log(items2);
+
+    // const items = document.querySelectorAll('#itemList > li');
+    // console.log(items);
+
+    searchInput.addEventListener('input', () => {
+      const filter = searchInput.value;
+      // 방법 1. for
+      // for (let i = 0; i < items.length; i++) {
+      //   const item = items[i];
+      //   const text = item.textContent || item.innerText;
+      //   if (text.includes(filter)) {
+      //     item.style.display = '';
+      //   } else {
+      //     item.style.display = 'none';
+      //   }
+      // }
+
+      // 방법 2. forEach (배열 순회) - NodeList는 사용 가능하지만, HTMLCollection은 Array로 변환해야 사용 가능하다.
+      // items.forEach(item => {
+      // Array.prototype.forEach.call(items, item => { // 내가 전에 찾았던 방법
+      Array.from(items).forEach(item => { // HTMLCollection을 가지고 배열을 생성해서 forEach 메서드 이용
+        const text = item.textContent;
+        if (text.includes(filter)) {
+          item.style.display = '';
+        } else {
+          item.style.display = 'none';
+        }
+      })
+    });
+
+
+  </script>
+
+</body>
+
+</html>

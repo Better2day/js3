@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1>동적 검색 필터</h1>
+  <input type="text" id="searchInput" placeholder="검색어를 입력하세요">
+  <ul id="itemList">
+    <li>사과</li>
+    <li>바나나</li>
+    <li>오렌지</li>
+    <li>포도</li>
+    <li>수박</li>
+    <li>딸기</li>
+    <li>블루베리</li>
+    <li>배</li>
+    <li>자두</li>
+    <li>망고</li>
+    <li>파인애플</li>
+    <li>키위</li>
+    <li>석류</li>
+    <li>복숭아</li>
+    <li>체리</li>
+    <li>무화과</li>
+    <li>자몽</li>
+    <li>레몬</li>
+    <li>귤</li>
+    <li>살구</li>
+    <li>라임</li>
+    <li>파파야</li>
+    <li>두리안</li>
+    <li>람부탄</li>
+    <li>용과</li>
+    <li>리치</li>
+    <li>감</li>
+    <li>아보카도</li>
+    <li>코코넛</li>
+    <li>멜론</li>
+    <li>참외</li>
+    <li>크랜베리</li>
+    <li>구아바</li>
+    <li>스타프루트</li>
+    <li>패션프루트</li>
+    <li>블랙커런트</li>
+    <li>대추</li>
+    <li>카람볼라</li>
+    <li>보이즌베리</li>
+    <li>산딸기(라즈베리)</li>
+    <li>블랙베리</li>
+    <li>앵두</li>
+    <li>홍시</li>
+    <li>유자</li>
+    <li>텐저린</li>
+    <li>쿠미쿼트(금귤)</li>
+    <li>하니듀멜론</li>
+    <li>칸탈로프</li>
+  </ul>
+
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    // li를 가져오고 싶은데 ID가 없는 상황 → UL을 가져와서 그 아래에 있는 LI를 가져온다.
+    const items = document.querySelectorAll('#itemList > li');
+
+    function filterItems() {
+      const filter = searchInput.value;
+      items.forEach(item => {
+        const item = items[i];
+        const text = item.textContent || item.innerText;
+        if (text.includes(filter)) {
+          item.style.display = '';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+    let debounceTimer = null;
+    // keydown 대신 'input' 사용 + 디바운스 적용
+    searchInput.addEventListener('input', () => {
+      // 이전에 예약한 검색 작업이 있으면 취소
+      if (debounceTimer !== null) {
+        clearTimeout(debounceTimer);
+      }
+
+      // 300ms 동안 추가 입력이 없으면 검색 실행
+      debounceTimer = setTimeout(() => {
+        filterItems();
+      }, 500);
+    });
+  </script>
+
+</body>
+
+</html>
