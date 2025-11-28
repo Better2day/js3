@@ -26,7 +26,7 @@
       height: 200px;
       border: 1px solid #ccc;
       text-align: center;
-      padding: 50px 0;
+      /* padding: 70px 0; */
     }
 
     span#stopwatch {
@@ -38,6 +38,7 @@
 
 <body>
   <div id="watchScreen">
+    <!-- <time id="stopwatch" datetime="00:00.00">00:00.00</time> -->
     <span id="stopwatch">00:00.00</span>
     <button id="startBtn">start</button>
     <button id="stopBtn">stop</button>
@@ -46,9 +47,24 @@
 
   <script>
     const stopwatch = document.getElementById('stopwatch');
-    // stopwatch.addEventListener('click', e => {
-
-    // });
+    document.getElementById('watchScreen').addEventListener('click', e => {
+      // console.log('e.target: ', e.target);
+      // console.log('e.currentTarget: ', e.currentTarget);
+      // console.log('event.target: ', event.target);
+      // console.log('event.currentTarget: ', event.currentTarget);
+      if (e.target.id == 'startBtn') {
+        const startDate = new Date();
+        setInterval(() => {
+          const currentDate = new Date();
+          // stopwatch.innerText = `00:00.${Math.floor(currentDate.getMilliseconds() / 10) - Math.floor(startDate.getMilliseconds() / 10)}`; // 밀리초는 빼면 minus 숫자가 나와서 아래처럼 처리
+          stopwatch.innerText = `${currentDate.getMinutes() - startDate.getMinutes()}:${currentDate.getSeconds() - startDate.getSeconds()}.${Math.floor(currentDate.getMilliseconds() / 10).toString().padStart(2, '0')}`; // 소수점 2자리(10ms)까지 표기
+        }, 10);
+      } else if (e.target.id == 'stopBtn') {
+        // console.log('You clicked stop button.');
+      } if (e.target.id == 'resetBtn') {
+        // console.log('You clicked reset button.');
+      }
+    });
   </script>
 
 </body>
