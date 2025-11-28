@@ -9,22 +9,56 @@
 
 <body>
   <div class="outer light mt10">test layer</div>
+  <button>test</button>
 
   <script>
-    console.log('div\'s className: ', document.querySelector('div').className);
-    console.log('div\'s classList: ', document.querySelector('div').classList);
-    console.log('-- after toggling light class using classList --');
-    document.querySelector('div').classList.toggle('light');
-    console.log('div\'s className: ', document.querySelector('div').className);
-    console.log('div\'s classList: ', document.querySelector('div').classList);
-    console.log('-- after toggling light class using classList --');
-    document.querySelector('div').classList.toggle('light');
-    console.log('div\'s className: ', document.querySelector('div').className);
-    console.log('div\'s classList: ', document.querySelector('div').classList);
+    const div = document.querySelector('div');
+
+    // console.log('div\'s className: ', div.className);
+    // console.log('div\'s classList: ', div.classList);
+    // console.log('-- after toggling light class using classList --');
+    // div.classList.toggle('light');
+    // console.log('div\'s className: ', div.className);
+    // console.log('div\'s classList: ', div.classList);
+    // console.log('-- after toggling light class using classList --');
+    // div.classList.toggle('light');
+    // console.log('div\'s className: ', div.className);
+    // console.log('div\'s classList: ', div.classList);
 
     // className은 단일 클래스명이나 공백으로 나뉜 다중 클래스명으로 이뤄진 문자열 변수인데,
     // className을 통해서 클래스를 추가/삭제/토글하려면, 일일이 문자열 함수를 이용해서 처리해야 한다.
     // 그만 알아보고 classList를 이용하자.
+    document.querySelector('button').addEventListener('click', () => {
+      // replace 함수만으로는 토글이 불가능하고 조건문을 이용해야 한다.
+      // 아래처럼 하면 도로아미타불
+      // div.classList.replace('light', 'dark');
+      // div.classList.replace('dark', 'light');
+      // 아래처럼 조건문을 추가해야 토글 가능
+      // if (div.classList.contains('light')) {
+      //   div.classList.replace('light', 'dark');
+      // } else {
+      //   // } else if (div.classList.contains('dark')) {
+      //   div.classList.replace('dark', 'light');
+      // }
+      // 그나마 replace로 해서 조건당 한 줄이지, add remove로 하면 조건당 두 줄 작성해야 함
+
+      // 다크 모드 등 on/off 식으로 작동하는 기능은 toggle로 하는 것이 가장 편하다.
+      div.classList.toggle('dark');
+      console.log('div\'s classList: ', div.classList);
+      div.classList.toggle('dark');
+      console.log('div\'s classList: ', div.classList);
+
+      let viewCount = 1;
+      div.classList.toggle('star', viewCount > 9);
+      console.log('div\'s classList: ', div.classList);
+      // 조회수가 10이상이 되면 star class 추가 (게시글 제목에 별 아이콘 추가)
+      viewCount = 10;
+      // toggle 함수는 2번째 인자에 조건을 넣으면
+      // 조건이 false일 때는 토큰(1번째 인자)를 제거하기만 하고, true일 때는 추가하기만 한다.
+      div.classList.toggle('star', viewCount > 9);
+      console.log('div\'s classList: ', div.classList);
+    })
+
   </script>
 </body>
 
