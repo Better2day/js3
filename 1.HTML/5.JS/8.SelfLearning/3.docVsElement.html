@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>document VS. Element</title>
+</head>
+
+<body>
+  <h1>document VS. Element</h1>
+  <div id="container">
+    <button id="btn1">1st Button</button>
+    <button>2nd Button</button>
+  </div>
+
+  <script>
+    const outerContainer = document.getElementById('container');
+
+    const innerDiv = document.createElement('div');
+    innerDiv.setAttribute('id', 'container');
+    innerDiv.innerHTML = '<button>inner Button</button>';
+    outerContainer.appendChild(innerDiv);
+
+    // getElementsByClassName, querySelector 등의 메서드는 document, Element 객체 양쪽에서 모두 사용할 수 있다.
+    // document.querySelector는 DOM 최상단에서부터, 후자는 querySelector 메서드를 호출한 요소에서부터 검색을 시작한다는 차이가 있다.
+    // 꼭 필요한 게 아니라면 태그에 ID 속성을 주지 않고도, 후자의 방법을 통해서 이벤트 리스너를 추가하는 등 마음대로 접근할 수 있겠다.
+    console.log(document.querySelector('button'));
+    // DOM 내 특정 요소(Element)의 메서드 이용
+    console.log(innerDiv.querySelector('button'));
+
+    document.getElementById('btn1').addEventListener('click', () => {
+      console.log('EventListener to the 1st Button has been added well using ID');
+    });
+
+    // DOM 내 특정 요소(Element)의 메서드 이용
+    innerDiv.querySelector('button').addEventListener('click', () => {
+      console.log('EventListener to the inner Button, without ID, has been also added well');
+    })
+  </script>
+</body>
+
+</html>
