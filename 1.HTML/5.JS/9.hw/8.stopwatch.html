@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      width: 100dvw;
+      height: 100dvh;
+      position: relative;
+    }
+
+    div#watchScreen {
+      position: relative;
+      left: 40%;
+      top: 40%;
+      width: 200px;
+      height: 200px;
+      border: 1px solid #ccc;
+      text-align: center;
+      padding: 50px 0;
+    }
+
+    span#stopwatch {
+      display: block;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="watchScreen">
+    <span id="stopwatch">00:00.00</span>
+    <button id="startBtn">start</button>
+    <button id="stopBtn">stop</button>
+    <button id="resetBtn">reset</button>
+  </div>
+
+  <script>
+    const stopwatch = document.getElementById('stopwatch');
+    // stopwatch.addEventListener('click', e => {
+
+    // });
+  </script>
+
+</body>
+
+</html>
