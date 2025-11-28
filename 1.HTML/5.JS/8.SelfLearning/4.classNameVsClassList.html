@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="outer light mt10">test layer</div>
+
+  <script>
+    console.log('div\'s className: ', document.querySelector('div').className);
+    console.log('div\'s classList: ', document.querySelector('div').classList);
+    console.log('-- after toggling light class using classList --');
+    document.querySelector('div').classList.toggle('light');
+    console.log('div\'s className: ', document.querySelector('div').className);
+    console.log('div\'s classList: ', document.querySelector('div').classList);
+    console.log('-- after toggling light class using classList --');
+    document.querySelector('div').classList.toggle('light');
+    console.log('div\'s className: ', document.querySelector('div').className);
+    console.log('div\'s classList: ', document.querySelector('div').classList);
+
+    // className은 단일 클래스명이나 공백으로 나뉜 다중 클래스명으로 이뤄진 문자열 변수인데,
+    // className을 통해서 클래스를 추가/삭제/토글하려면, 일일이 문자열 함수를 이용해서 처리해야 한다.
+    // 그만 알아보고 classList를 이용하자.
+  </script>
+</body>
+
+</html>
