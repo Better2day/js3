@@ -38,15 +38,18 @@
       /* grid-column-start: 1;
       grid-column-end: 4; */
       grid-column: 1 / span 3;
-      justify-self: center;
-      align-self: center;
+      /* justify-self: center;
+      align-self: center; */
+      /* shorthand property for align-self and justify-self */
+      place-self: center;
     }
 
     button {
       width: 50px;
       height: 30px;
-      justify-self: center;
-      align-self: center;
+      /* justify-self: center;
+      align-self: center; */
+      place-self: center;
       background-color: #ccc;
       border: 2px solid #aaa;
       border-radius: 10px;
@@ -63,7 +66,7 @@
   </div>
 
   <script>
-    const $stopwatch = document.getElementById('stopwatch');
+    const stopwatch = document.getElementById('stopwatch');
     const buttons = document.querySelectorAll('button');
     let intervalId = null;
     // Event Delegation (EventListener를 최소로 만들기 위해서 버튼의 부모 노드인 div에만 추가하고 타겟으로 로직 구분)
@@ -86,7 +89,7 @@
           //   1,000 -> 00:01.00
           //  60,000 -> 01:00.00
           // 606,050 -> 10:06.50
-          $stopwatch.innerText =
+          stopwatch.innerText =
             Math.floor(difference / (60 * 1000)).toString().padStart(2, '0') + ':' + // 분
             Math.floor(difference % (60 * 1000) / 1000).toString().padStart(2, '0') + '.' + // 초
             Math.floor(difference % (60 * 1000) % 1000 / 10).toString().padStart(2, '0'); // ms. 소수점 2자리(10ms)까지 표기
@@ -106,7 +109,7 @@
         clearInterval(intervalId);
         buttons.forEach(button => button.toggleAttribute('disabled', button.id != 'startBtn'));
         // start 버튼은 disabled 제거, 나머지 버튼은 disabled 추가
-        $stopwatch.innerText = '00:00.00';
+        stopwatch.innerText = '00:00.00';
       }
     });
   </script>
