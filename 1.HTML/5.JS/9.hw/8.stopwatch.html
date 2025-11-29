@@ -57,8 +57,18 @@
         const startDate = new Date();
         intervalId = setInterval(() => {
           const currentDate = new Date();
+          const difference = currentDate - startDate;
           // stopwatch.innerText = `00:00.${Math.floor(currentDate.getMilliseconds() / 10) - Math.floor(startDate.getMilliseconds() / 10)}`; // 밀리초는 빼면 minus 숫자가 나와서 아래처럼 처리
-          stopwatch.innerText = `${currentDate.getMinutes() - startDate.getMinutes()}:${currentDate.getSeconds() - startDate.getSeconds()}.${Math.floor(currentDate.getMilliseconds() / 10).toString().padStart(2, '0')}`; // 소수점 2자리(10ms)까지 표기
+          // stopwatch.innerText = `${(currentDate.getMinutes() - startDate.getMinutes()).toString().padStart(2, '0')}:${(currentDate.getSeconds() - startDate.getSeconds()).toString().padStart(2, '0')}.${Math.floor(currentDate.getMilliseconds() / 10).toString().padStart(2, '0')}`; // 소수점 2자리(10ms)까지 표기. 이것도 seconds에서 minus가 나올 때가 있음. 아마 계속 하다 보면 minutes에서도 같은 문제가 발생할 듯
+          // difference (milliseconds)를 직접 MM:SS.mm 형태로 변환
+          // 100 -> 00:00.10
+          // 1000 -> 00:01.00
+          // 60000 -> 01:00.00
+          // 606050 -> 10:06.50
+          stopwatch.innerText =
+            Math.floor(difference / (60 * 1000)).toString().padStart(2, '0') + ':' +
+            Math.floor(difference % (60 * 1000) / 1000).toString().padStart(2, '0') + '.' +
+            Math.floor(difference % (60 * 1000) % 1000 / 10).toString().padStart(2, '0'); // 소수점 2자리(10ms)까지 표기
         }, 10);
       } else if (e.target.id == 'stopBtn') {
         clearInterval(intervalId);
