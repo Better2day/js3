@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    li {
+      /* display: inline-block; */
+      list-style-type: none;
+    }
+
+    /* To do가 완료되면 취소선 처리 */
+    li.completed {
+      text-decoration: line-through;
+    }
+
+    input#test {
+      border-style: none;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>To Do List</h1>
+  <input type="text" id="toDo">
+  <!-- <input type="text" id="test" value="test" readonly> -->
+  <button id="add">Add</button>
+  <button id="multiComplete">선택 완료</button>
+  <button id="multiDelete">선택 삭제</button>
+  <ul id="toDoList">
+  </ul>
+
+  <script>
+    document.getElementById('add').addEventListener('click', () => {
+      const toDo = document.getElementById('toDo');
+      if (toDo.value == '') return -1; // 빈 값은 To do로 추가 불가능
+
+      const toDoList = document.getElementById('toDoList');
+      const li = document.createElement('li');
+      // Text Node를 생성해서 붙이는 방식. 코드가 늘어나므로, 그냥 textContent에 할당
+      // const textNode = document.createTextNode(document.getElementById('toDo').value);
+      // li.appendChild(textNode);
+      toDoList.appendChild(li);
+      const checkBox = document.createElement('input');
+      checkBox.setAttribute('type', 'checkbox');
+      // ※ 이상하게 체크박스를 체크했을 때 아래 이벤트 리스너가 실행되지 않을 때가 있다.
+      checkBox.addEventListener('change', () => {
+        if (checkBox.checked) {
+          li.classList.toggle('selected');
+        }
+      });
+      li.insertAdjacentElement('beforebegin', checkBox);
+      // li.innerHTML += toDo.value + ' ';
+      li.textContent = toDo.value.trim() + ' ';
+      // li.insertAdjacentHTML = '<button>삭제</button>'
+      const button = document.createElement('button');
+      button.textContent = '삭제';
+      button.addEventListener('click', () => {
+        li.remove();
+      });
+      li.appendChild(button);
+      // 입력 후 텍스트박스 초기화
+      toDo.value = '';
+    })
+
+    // To do 입력 후 엔터키를 누르면 [Add] 버튼을 클릭한 것처럼 To do 추가
+    document.getElementById('toDo').addEventListener('keydown', e => {
+      if (e.key == 'Enter') {
+        document.getElementById('add').click();
+      }
+    });
+
+    // 완료 기능 (개별 To do를 한 번 클릭하면 완료 처리, 다시 클릭하면 완료 취소 처리)
+    document.getElementById('toDoList').addEventListener('dblclick', e => {
+      e.target.classList.toggle('completed');
+    })
+
+    // ※ 개별 수정 기능 만들어야 함
+    document.getElementById('toDoList').addEventListener('click', e => {
+      console.log('개별 수정 기능 만들어야 함');
+    })
+
+    // 선택 완료 기능 (체크박스로 선택한 To do 일괄 완료 처리)
+    document.getElementById('multiComplete').addEventListener('click', e => {
+      const lis = toDoList.querySelectorAll('li.selected');
+      lis.forEach(li => li.classList.toggle('completed'));
+    })
+
+    // 선택 삭제 기능 (체크박스로 선택한 To do 일괄 삭제 처리)
+    document.getElementById('multiDelete').addEventListener('click', e => {
+      const lis = toDoList.querySelectorAll('li.selected');
+      lis.forEach(li => { // li (자식으로 삭제 버튼을 가지고 있음), li 앞 체크박스 전부 삭제
+        li.remove()
+        li.previousElementSibling.remove();
+      });
+    })
+  </script>
+</body>
+
+</html>
