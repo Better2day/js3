@@ -1,0 +1,24 @@
+class Car {
+  constructor(brand, model) {
+    this.brand = brand;
+    this.model = model;
+  }
+
+  start() {
+    console.log(`${this.brand} ${this.model}이 시동을 걸었습니다.`);
+  }
+
+  drive() {
+    console.log(`${this.brand} ${this.model}이 이동중입니다.`);
+  }
+
+  stop() {
+    console.log(`${this.brand} ${this.model}이 시동을 껐습니다.`);
+  }
+
+  goto(place) {
+    console.log(`${this.brand} ${this.model}가 ${place}로 가고 있습니다.`);
+  }
+}
+
+module.exports = Car;
