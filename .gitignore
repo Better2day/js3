@@ -13,3 +13,6 @@
 *.jpg
 *.png
 *.gif
+
+# node module 제외
+node_modules

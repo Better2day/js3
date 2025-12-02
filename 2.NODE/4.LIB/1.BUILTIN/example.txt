@@ -1,0 +1,3 @@
+Hello, world
+Hello, Node.js
+Hello, readfile success.
