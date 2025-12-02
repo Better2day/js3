@@ -29,7 +29,9 @@ let nextPath = basePath;
 
 function traverseTree(paramPath, paramBranch = '', depth = 0) {
   try {
-    // 자식 디렉토리를 만나면 자식 경로 순회를 마친 후에 같은 항렬의 나머지를 순회해야 하므로, 동기 함수 사용
+    // basePath에서 시작해서 하위 디렉토리를 포함해서 모든 파일과 디렉토리를 순회하면서 출력하는데,
+    // 자식 디렉토리를 만나면 해당 경로를 인자로 줘서 재귀 함수(본 함수)를 호출한다.
+    // 자식 디렉토리를 다 순회하고 돌아올 때까지 같은 항렬의 순회는 멈춰 있어야 하므로 동기 함수 사용
     const files = fs.readdirSync(paramPath, { withFileTypes: true });
 
     files.forEach((file, index) => {
