@@ -12,8 +12,6 @@ class Order {
     if (product.checkAvailability(quantity)) {
       this.products.push({ product, quantity });
       this.totalAmount += product.price * quantity;
-      // console.log(`${this.totalAmount} = ${product.price} * ${quantity}`);
-      // this.products.quantity = quantity;
     } else {
       console.log(`상품 재고가 부족합니다. ${product.name}을 주문하실 수 없습니다.`);
     }
@@ -38,17 +36,23 @@ class Order {
   // }
 
   getOrderSummary() {
-    // return this.products;
     return {
       // 내가 원하는 것을 key, value로 반환
       user: this.user.name,
       totalAmount: this.totalAmount,
-      items: this.products.map(({ product, quantity }) => ({
+      products: this.products.map(({ product, quantity }) => ({
         name: product.name,
-        quantity: quantity,
-        price: product.price
+        price: product.price,
+        quantity
       }))
     }
+    // const items = [];
+    // items.push(this.products.map(({ product, quantity }) => ({
+    //   name: product.name,
+    //   price: product.price,
+    //   quantity
+    // })));
+    // return items;
   }
 }
 
