@@ -5,6 +5,9 @@
 *.docx
 *.pptx
 *.xlsx
+*.csv
+# 이름에 CSV가 들어간 '폴더'는 ignore 예외 (staging 대상에 포함)
+!*csv*/
 
 # Backup files
 *.bak
