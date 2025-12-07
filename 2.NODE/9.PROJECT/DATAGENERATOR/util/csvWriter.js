@@ -1,18 +1,16 @@
-
-// 아직 분리 안 됐음. 수정해야 함
-function setCsvWriter(filename, header) {
+function setCsvWriter(filenameToWrite, header) {
   const createCsvWriter = require('csv-writer').createObjectCsvWriter;
   const csvWriter = createCsvWriter({
-    path: filename,
+    path: filenameToWrite,
     header: header
   });
   return csvWriter;
 }
 
-function writeCsv(csvWriter, records, fd) {
+function writeCsv(csvWriter, records, filenameToWrite) {
   csvWriter.writeRecords(records)
     .then(() => {
-      console.log(`${fd} CSV 파일 작성 완료`);
+      console.log(`${filenameToWrite} 파일 생성 완료`);
     });
 }
 

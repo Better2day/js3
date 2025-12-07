@@ -27,8 +27,8 @@ const csvWriter = setCsvWriter(csvFileName, [
 
 for (let i = 0; i < args[0]; i++) {
   const id = randomUUID();
-  const name = getRandomBrand();
-  const type = getRandomBranch(name);
+  const type = getRandomBrand();
+  const name = getRandomBranch(type);
   const address = getRandomAddress();
 
   if (args[1] == 'csv') {

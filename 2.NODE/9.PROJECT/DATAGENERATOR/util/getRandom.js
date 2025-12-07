@@ -24,8 +24,12 @@ function getRandomInRange(rangeStart, rangeEnd) {
 }
 
 // 배열 크기를 넣으면 그 안에서 무작위 인덱스 추출
+// 251206 Order.js 쪽 개발하다가 생각난건데, 왜 이렇게 만들었지? 그냥 배열을 받아서, 배열 중 임의의 요소를 반환하는 게 낫겠다.
 function getRandomIndex(arraySize) {
   return Math.floor(Math.random() * arraySize);
+}
+function getRandomElement(array) {
+  return array[Math.floor(Math.random() * array.length)];
 }
 
 // 인자 둘 중의 하나를 무작위로 선택하여 반환
@@ -33,4 +37,4 @@ function getRandomBetween(param1, param2) {
   return Math.random() > 0.5 ? param1 : param2;
 }
 
-module.exports = { getRandomInRange, getRandomIndex, getRandomBetween };
+module.exports = { getRandomInRange, getRandomIndex, getRandomElement, getRandomBetween };
