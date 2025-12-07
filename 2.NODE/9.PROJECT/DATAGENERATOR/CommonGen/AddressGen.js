@@ -1,4 +1,4 @@
-const { getRandomInRange, getRandomElement, getRandomIndex, getRandomBetween } = require('../util/getRandom');
+const { getRandomInRange, getRandomElement, getRandomBetween } = require('../util/getRandom');
 
 // 무작위 주소
 // 도시 미만 구역은 일단 간단하게 서울 정보로 시작하지만, 시간있으면 도시별 맞는 정보로 확장 예정
