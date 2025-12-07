@@ -7,21 +7,25 @@ let storeIdPool;
 
 // 무작위 ID를 뽑을 ID Pool 생성은 I/O bound 작업이므로 Order.js에서 초기에 한 번만 초기화
 async function initializeIdPool() {
-  userIdPool = await getUserIdPool('user.csv');
-  storeIdPool = await getStoreIdPool('store.csv');
+  userIdPool = await getIdPool('user.csv');
+  storeIdPool = await getIdPool('store.csv');
+  // userIdPool = await getUserIdPool('user.csv');
+  // storeIdPool = await getStoreIdPool('store.csv');
   // console.log('ID Pool 초기화 완료');
 }
 
-async function getUserIdPool(filenameToRead) {
+async function getIdPool(filenameToRead) {
+  // async function getUserIdPool(filenameToRead) {
   // readCsv('store.csv', 'ID', 'Address');
   const result = await readCsv(filenameToRead, 'ID');
   return result;
 }
 
-async function getStoreIdPool(filenameToRead) {
-  const result = await readCsv(filenameToRead, 'ID');
-  return result;
-}
+// 인자와 반환값을 저장할 변수만 다를 뿐, 똑같은 작업을 하는 함수라서 getIdPool로 통합
+// async function getStoreIdPool(filenameToRead) {
+//   const result = await readCsv(filenameToRead, 'ID');
+//   return result;
+// }
 
 function getRandomDatetime(yearStart, yearEnd) {
   const year = getRandomInRange(yearStart, yearEnd);
@@ -33,18 +37,24 @@ function getRandomDatetime(yearStart, yearEnd) {
   return `${year}-${month}-${day} ${hour}:${min}:${sec}`;
 }
 
-function getRandomStoreId() {
-  if (typeof storeIdPool != 'undefined') {
+function getRandomId(dataType) {
+  // function getRandomStoreId() {
+  if (dataType == 'store' && typeof storeIdPool != 'undefined') {
     return getRandomElement(storeIdPool)['ID'];
     // return getRandomElement(storeIdPool).ID;
   }
-}
-
-function getRandomUserId() {
-  if (typeof userIdPool != 'undefined') {
+  if (dataType == 'user' && typeof userIdPool != 'undefined') {
     return getRandomElement(userIdPool)['ID'];
-    // return getRandomElement(storeIdPool).ID;
   }
 }
 
-module.exports = { initializeIdPool, getRandomDatetime, getRandomStoreId, getRandomUserId };
+// 값을 가져오는 풀과 반환값만 다를 뿐, 똑같은 작업을 하는 함수라서 getRandomId로 통합
+// function getRandomUserId() {
+//   if (typeof userIdPool != 'undefined') {
+//     return getRandomElement(userIdPool)['ID'];
+//     // return getRandomElement(storeIdPool).ID;
+//   }
+// }
+
+module.exports = { initializeIdPool, getRandomDatetime, getRandomId };
+// module.exports = { initializeIdPool, getRandomDatetime, getRandomStoreId, getRandomUserId };

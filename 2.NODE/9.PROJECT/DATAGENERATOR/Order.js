@@ -6,7 +6,8 @@ const { randomUUID } = require('node:crypto');
 const { getFileInfo } = require('./util/file');
 const { processArgs } = require('./util/argument');
 const { setCsvWriter, writeCsv } = require('./util/csvWriter');
-const { initializeIdPool, getRandomDatetime, getRandomStoreId, getRandomUserId } = require('./OrderGen/orderInfoGen');
+const { initializeIdPool, getRandomDatetime, getRandomId } = require('./OrderGen/orderInfoGen');
+// const { initializeIdPool, getRandomDatetime, getRandomStoreId, getRandomUserId } = require('./OrderGen/orderInfoGen');
 
 const args = process.argv.slice(2);
 const { fileName, csvFileName } = getFileInfo(__filename);
@@ -31,8 +32,10 @@ async function generateOrders() {
   for (let i = 0; i < args[0]; i++) {
     const id = randomUUID();
     const orderAt = getRandomDatetime(1998, 2025);
-    const storeId = getRandomStoreId();
-    const userId = getRandomUserId();
+    const storeId = getRandomId('store');
+    const userId = getRandomId('user');
+    // const storeId = getRandomStoreId();
+    // const userId = getRandomUserId();
 
     if (args[1] == 'csv') {
       // 생성된 무작위 주문 레코드를 주문 배열에 푸시
