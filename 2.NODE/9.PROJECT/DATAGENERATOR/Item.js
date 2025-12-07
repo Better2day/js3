@@ -1,8 +1,3 @@
-// Id,Name,Type,UnitPrice
-// aeaa187d-f30d-42db-8c23-7632f85bacef,Americano Coffee,Coffee,3000
-// f543b3a2-9409-4ba5-be23-75834a916962,Strawberry Cake,Cake,5500
-// d245b380-6572-4404-b809-55eea2daf7d0,Watermelon Juice,Juice,4000
-
 // 아래와 같은 형태의 무작위 품목 데이터를, 프로그램 실행시 인수로 받은 개수만큼 생성
 // 사용법: 명령 프롬프트에서 node Item.js outputQty[, stdout]
 // stdout: csv or console. Default: csv
@@ -23,7 +18,6 @@ const records = [];
 
 // CSV Writer 패키지에 무작위 품목 레코드 헤더 설정
 const csvWriter = setCsvWriter(csvFileName, [
-  // d245b380-6572-4404-b809-55eea2daf7d0,Watermelon Juice,Juice,4000
   { id: 'id', title: 'ID' },
   { id: 'name', title: 'Name' },
   { id: 'type', title: 'Type' },
