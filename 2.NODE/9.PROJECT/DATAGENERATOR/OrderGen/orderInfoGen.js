@@ -16,7 +16,7 @@ async function initializeIdPool() {
 
 async function getIdPool(filenameToRead) {
   // async function getUserIdPool(filenameToRead) {
-  // readCsv('store.csv', 'ID', 'Address');
+  // readCsv('order.csv', 'ID', 'Address');
   const result = await readCsv(filenameToRead, 'ID');
   return result;
 }
