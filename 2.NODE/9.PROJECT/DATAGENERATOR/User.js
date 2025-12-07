@@ -25,7 +25,7 @@ const csvWriter = setCsvWriter(csvFileName, [
   { id: 'gender', title: 'Gender' },
   { id: 'age', title: 'Age' },
   { id: 'birthdate', title: 'Birthdate' },
-  { id: 'address', title: 'Address' },
+  { id: 'address', title: 'Address' }
 ]);
 
 for (let i = 0; i < args[0]; i++) {

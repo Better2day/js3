@@ -1,4 +1,4 @@
-const { getRandomInRange, getRandomIndex, getRandomBetween } = require('../util/getRandom');
+const { getRandomInRange, getRandomElement, getRandomIndex, getRandomBetween } = require('../util/getRandom');
 
 // 무작위 주소
 // 도시 미만 구역은 일단 간단하게 서울 정보로 시작하지만, 시간있으면 도시별 맞는 정보로 확장 예정
@@ -25,13 +25,9 @@ function getRandomAddress() {
   ];
 
   // 아래 리턴문은 너무 긴데, formatter 때문에 가독성을 위한 줄바꿈도 불가능해서 그냥 문자열 수동 조립
-  // return `${cities[getRandomIndex(cities.length)]} ${districts[getRandomIndex(districts.length)]} ${roads[getRandomIndex(roads.length)]} ${getRandomBetween(getRandomInRange(1, 150) + '길 ', '')}${getRandomInRange(1, 500)} `;
-  return cities[getRandomIndex(cities.length)] + ' ' +
-    districts[getRandomIndex(districts.length)] + ' ' +
-    roads[getRandomIndex(roads.length)] + ' ' +
-    getRandomBetween(getRandomInRange(1, 150) + '길 ', '') +
-    getRandomInRange(1, 500);
+  // return `${getRandomElement(cities)} ${getRandomElement(districts)} ${getRandomElement(roads)} ${getRandomBetween(getRandomInRange(1, 150) + '길 ', '')}${getRandomInRange(1, 500)}`;
+  return getRandomElement(cities) + ' ' + getRandomElement(districts) + ' ' + getRandomElement(roads) + ' ' +
+    getRandomBetween(getRandomInRange(1, 150) + '길 ', '') + getRandomInRange(1, 500);
 }
-// console.log(getRandomAddress());
 
 module.exports = { getRandomAddress };

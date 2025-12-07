@@ -33,10 +33,9 @@ function getRandomBetween(param1, param2) {
   return Math.random() > 0.5 ? param1 : param2;
 }
 
-// 배열 크기를 넣으면 그 안에서 무작위 인덱스를 추출해서 반환
+// 배열 크기를 넣으면 그 안에서 무작위 인덱스를 추출해서 반환 (deprecated. getRandomElement()로 대체)
 // function getRandomIndex(arraySize) {
 //   return Math.floor(Math.random() * arraySize);
 // }
 
-// module.exports = { getRandomInRange, getRandomIndex, getRandomElement, getRandomBetween };
 module.exports = { getRandomInRange, getRandomElement, getRandomBetween };

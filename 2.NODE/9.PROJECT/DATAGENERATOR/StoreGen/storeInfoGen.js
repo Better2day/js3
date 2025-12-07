@@ -10,13 +10,11 @@ const location = [
 // 무작위 카페 프랜차이즈
 function getRandomBrand() {
   return getRandomElement(cafe);
-  // return cafe[getRandomIndex(cafe.length)];
 }
 
 // 무작위 카페 지점
 function getRandomBranch(type) {
   return `${type} ${getRandomElement(location)}${getRandomInRange(1, 10)}호점`;
-  // return `${type} ${location[getRandomIndex(location.length)]}${getRandomInRange(1, 10)}호점`;
 }
 
 module.exports = { getRandomBrand, getRandomBranch };
