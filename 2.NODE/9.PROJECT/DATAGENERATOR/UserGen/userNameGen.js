@@ -1,4 +1,4 @@
-const { getRandomInRange } = require('../util/getRandom');
+const { getRandomInRange, getRandomElement } = require('../util/getRandom');
 const { getAgeRange } = require('./userInfoGen');
 
 // 무작위 이름 (다만, 남자, 여자 이름 분리. 무작위로 얻은 성별 및 나이대에 어울리는 이름 선택)
@@ -36,8 +36,8 @@ function getRandomName(gender, age) {
   const randomIndex = getRandomInRange(0, 9) + (getAgeRange(age) - 10);
   // const randomIndex = Math.floor(Math.random() * 10) + ((Math.floor(age / 10) * 10) - 10);
 
-  // return `${familyNames[getRandomInRange(0, 49)]}${(gender.toUpperCase() == 'MALE') ? maleNames[randomIndex] : femaleNames[randomIndex]}`;
-  return familyNames[getRandomInRange(0, 49)] + ((gender.toUpperCase() == '남성') ? maleNames[randomIndex] : femaleNames[randomIndex]);
+  return getRandomElement(familyNames) + ((gender == '남성') ? maleNames[randomIndex] : femaleNames[randomIndex]);
+  // return familyNames[getRandomInRange(0, 49)] + ((gender.toUpperCase() == '남성') ? maleNames[randomIndex] : femaleNames[randomIndex]);
 }
 // console.log(getRandomName('Female', 50));
 
