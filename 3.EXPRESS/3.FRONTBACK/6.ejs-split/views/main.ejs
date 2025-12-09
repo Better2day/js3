@@ -1,0 +1,10 @@
+<!-- <%- include('header', { title: title }) %> -->
+<!-- header에만 있는 title 객체를 따로 안 넘겨줘도 넘어간다. -->
+<!-- ※ include는 <%= 가 아니라 <%- 로 해야 한다. =로 하면 파싱되지 않고 텍스트로 읽어온다. -->
+<%- include('header') %>
+  <h1>
+    <%= message%>
+  </h1>
+  </body>
+
+  </html>

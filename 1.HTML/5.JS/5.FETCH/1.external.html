@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1>남에게 정보 요청하기</h1>
+
+  <div id="result">
+    <!-- 결과를 쓸 곳 -->
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      fetch('https://api.github.com2/')
+        .then(res => {
+          console.log(res);
+          if (!res.ok) {
+            throw new Error('HTTP 요청에 실패했습니다.');
+          } else {
+            return res.json(); // 결과를 json 형태의 자료 구조로 반환
+          }
+        })
+        .then(data => {
+          document.getElementById('result').innerHTML = '<p><strong>현재 사용자 URL: </strong>' + data.current_user_url + '</p>' +
+            '<p><strong>코드 검색 URL: </strong>' + data.code_search_url + '</p>';
+        })
+        .catch(error => {
+          // 오류 처리
+          document.getElementById('result').innerHTML = '<p style="color: red">데이터 요청에 실패했습니다';
+        })
+    });
+  </script>
+</body>
+
+</html>

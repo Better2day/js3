@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1>typicode.com 사이트에 CRUD 해보기</h1>
+  <div>
+    <h3>포스트 생성하기</h3>
+    <button id="createPost">포스트 생성</button>
+  </div>
+  <div>
+    <h3>포스트 조회하기</h3>
+    <button id="readPost">포스트 조회</button>
+  </div>
+  <div>
+    <h3>포스트 수정하기</h3>
+    <button id="updatePost">포스트 수정</button>
+  </div>
+  <div>
+    <h3>포스트 삭제하기</h3>
+    <button id="deletePost">포스트 삭제</button>
+  </div>
+  <div>
+    <h3>공통 결과를 출력할 곳</h3>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    const requestURL = 'https://jsonplaceholder.typicode.com/posts';
+
+    document.getElementById('createPost').addEventListener('click', () => {
+      const myUser = {
+        title: 'sesac',
+        body: 'seoul',
+        userId: 1,
+      };
+
+      fetch(requestURL, {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8'
+        },
+        body: JSON.stringify(myUser)
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          document.getElementById('result').innerText = JSON.stringify(data)
+          console.log(JSON.parse(data));
+        })
+        .catch(error => alert(error));
+    });
+  </script>
+</body>
+
+</html>
