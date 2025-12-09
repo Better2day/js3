@@ -19,3 +19,7 @@
 
 # node module 제외
 node_modules
+
+# 개인 설정
+.vscode/extensions.json
+.vscode/settings.json
