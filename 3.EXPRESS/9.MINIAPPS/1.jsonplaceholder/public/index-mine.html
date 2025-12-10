@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRUD test</title>
+  <style>
+    input {
+      margin-bottom: 10px;
+      width: 180px;
+    }
+
+    textarea {
+      width: 300px;
+      height: 200px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>CRUD test</h1>
+  <input type="text" id="postIdInput" placeholder="글 번호를 입력하세요 (1~3 사이)">
+  <button id="readBtn">글 조회하기</button>
+  <button id="updateBtn">글 수정하기</button>
+  <button id="deleteBtn">글 삭제하기</button>
+  <br>
+  글 제목 <input type="text" id="postTitle"><br>
+  <textarea id="postBody"></textarea><br>
+  <button id="createBtn">글 작성하기</button>
+  <br>
+  <div id="result"></div>
+
+  <script>
+    const baseURL = 'http://127.0.0.1:3000';
+
+    const createBtn = document.getElementById('createBtn');
+    const readBtn = document.getElementById('readBtn');
+    const updateBtn = document.getElementById('updateBtn');
+    const deleteaBtn = document.getElementById('deleteBtn');
+
+    const postIdInput = document.getElementById('postIdInput');
+    const postTitleInput = document.getElementById('postTitle');
+    const postBodyInput = document.getElementById('postBody');
+
+    const resultDiv = document.getElementById('result');
+
+    createBtn.addEventListener('click', createPost);
+    readBtn.addEventListener('click', async () => {
+      if (postIdInput.value == '') {
+        fetchAllPosts();
+      } else {
+        fetchPost(postIdInput.value);
+      }
+    });
+    updateBtn.addEventListener('click', updatePost);
+    deleteBtn.addEventListener('click', deletePost);
+
+    function createPost() {
+      // const postTitle = document.getElementById('postTitle').value;
+      // const postBody = document.getElementById('postBody').value;
+      const postTitle = postTitleInput.value;
+      const postBody = postBodyInput.value;
+
+      const data = {
+        title: postTitle, // postTitleInput.value;
+        body: postBody // postBodyInput.value;
+      }
+
+      const response = fetch(`${baseURL}/api/post`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+      // const data = response.json();
+    }
+
+    async function fetchAllPosts() {
+      const response = await fetch(`${baseURL}/api/post`);
+      const data = await response.json();
+      // console.log(data);
+
+      resultDiv.innerHTML = '';
+
+      data.forEach(post => {
+        resultDiv.innerHTML += `<p><strong>${post.title}</strong></p><p>${post.body}</p><hr>`;
+      })
+    }
+
+    async function fetchPost(postId) {
+      // const postId = document.getElementById('postId').value;
+      const response = await fetch(`${baseURL}/api/post/${postId}`);
+      const data = await response.json();
+
+      postTitleInput.value = data.title;
+      postBodyInput.value = data.body;
+      // resultDiv.innerHTML = `<p><strong>${data.title}</strong></p><p>${data.body}</p>`;
+    }
+
+    async function updatePost() {
+      const postId = postIdInput.value;
+      const postTitle = postTitleInput.value;
+      const postBody = postBodyInput.value;
+      const updatedBody = {
+        title: postTitle,
+        body: postBody
+      };
+
+      // 쿼리 방식 실험. 그러나 현 상황에서는 parameter 방식이 더 적합한 듯
+      // const response = await fetch(`/api/post?id=${postId}`, {
+      const response = await fetch(`/api/post/${postId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedBody)
+      });
+      // const data = response.json();
+      if (response.ok) {
+        fetchAllPosts();
+      }
+    }
+
+    async function deletePost() {
+      const response = await fetch(`${baseURL}/api/post/${postIdInput.value}`, { method: 'DELETE' });
+      console.log(response);
+      // fetchAllPosts();
+    }
+
+  </script>
+</body>
+
+</html>
