@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <title>CRUD with Axios</title>
+</head>
+
+<body>
+  <h1>typicode.com 사이트에 CRUD 해보기 (Axios)</h1>
+  <div>
+    <h3>포스트 생성하기</h3>
+    <button id="createPost">포스트 생성</button>
+  </div>
+  <div>
+    <h3>포스트 전체 조회하기</h3>
+    <button id="readAllPost">포스트 전체 조회</button>
+  </div>
+  <br>
+  <hr>
+  <br>
+  <input type="text" id="postIdInput" placeholder="Post ID를 입력해주세요 (1~100)" style="width:180px">
+  <div>
+    <h3>포스트 한 개 조회하기</h3>
+    <button id="readPost">포스트 한 개 조회</button>
+  </div>
+  <div>
+    <h3>포스트 전체 수정하기</h3>
+    <button id="putPost">포스트 수정</button>
+  </div>
+  <div>
+    <h3>포스트 일부 수정하기</h3>
+    <button id="patchPost">포스트 수정</button>
+  </div>
+  <div>
+    <h3>포스트 삭제하기</h3>
+    <button id="deletePost">포스트 삭제</button>
+  </div>
+  <div>
+    <h3>공통 결과를 출력할 곳</h3>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    const requestURL = 'https://jsonplaceholder.typicode.com/posts';
+    const postIdInput = document.getElementById('postIdInput');
+
+    // POST 생성
+    document.getElementById('createPost').addEventListener('click', async () => {
+      const response = await axios.post(`${requestURL}`, {
+        // body: JSON.stringify({
+        title: '글 작성 테스트 2',
+        body: '글 작성 테스트 2',
+        userId: 5,
+        //   headers: {
+        //   'Content-Type': 'application/json; charset=UTF-8'
+        // }
+      });
+
+      console.log(response.data);
+      document.getElementById('result').innerText = JSON.stringify(response.data);
+    });
+
+    // POST 전체 조회
+    document.getElementById('readAllPost').addEventListener('click', async () => {
+      const response = await axios.get(`${requestURL}`);
+      // const data = await response.json();
+
+      document.getElementById('result').innerHTML = '';
+      Array.from(response.data).forEach(post => {
+        document.getElementById('result').innerHTML += `<p>title: ${post.title}<br>body: ${post.body}</p>`;
+      })
+    });
+
+    // POST 한 개 조회
+    document.getElementById('readPost').addEventListener('click', async () => {
+      const response = await axios.get(`${requestURL}/${postIdInput.value}`);
+      // const data = await response.json();
+      const post = response.data;
+      console.log(post);
+
+      document.getElementById('result').innerHTML = `<p>id: ${post.id}<br>title: ${post.title}<br>body: ${post.body}</p>`;
+    });
+
+
+    // POST 전체 수정
+    document.getElementById('putPost').addEventListener('click', async () => {
+      // const response = await fetch(`${requestURL}/${postIdInput.value}`, {
+      const response = await axios.put(`${requestURL}/${postIdInput.value}`, {
+        // headers: {
+        //   'Content-Type': 'application/json; charset=UTF-8'
+        // },
+        // body: JSON.stringify({
+        id: document.getElementById('postIdInput').value,
+        title: '제목 수정',
+        body: '본문 수정 (모든 정보 수정)',
+        userId: 1
+        // })
+      });
+      // const data = await response.json();
+      const data = response.data;
+      document.getElementById('result').innerHTML = `<p>ID: ${data.id}<br>user ID: ${data.id}<br>title: ${data.title}<br>body: ${data.body}</p>`;
+    });
+
+    // POST 일부 수정
+    document.getElementById('patchPost').addEventListener('click', async () => {
+      // const response = await fetch(`${requestURL}/${postIdInput.value}}`, {
+      const response = await axios.patch(`${requestURL}/${postIdInput.value}}`, {
+        body: '본문만 수정',
+      });
+      const data = response.data;
+      document.getElementById('result').innerHTML = `<p>id: ${data.id}<br>title: ${data.title}<br>body: ${data.body}</p>`;
+    });
+
+    // POST 삭제
+    document.getElementById('deletePost').addEventListener('click', async () => {
+      // const response = await fetch(`${requestURL}/${postIdInput.value}`, { method: 'DELETE' });
+      const response = await axios.delete(`${requestURL}/${postIdInput.value}`);
+      const data = response.data;
+      console.log(response);
+      console.log(data);
+      document.getElementById('result').innerHTML = `<p>id: ${data.id}<br>title: ${data.title}<br>body: ${data.body}</p>`;
+    });
+  </script>
+</body>
+
+</html>
