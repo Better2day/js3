@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h2>사용자 조회</h2>
+  <input type="number" id="userId" placeholder="사용자 ID를 입력하세요">
+  <button id="loadContent">불러오기</button>
+  <div id="result"></div>
+
+  <script>
+    document.getElementById('loadContent').addEventListener('click', async () => {
+      const userId = document.getElementById('userId').value;
+      const requestURL = `https://jsonplaceholder.typicode.com/users/${userId}`;
+      // console.log('버튼 눌림');
+      try {
+        // placehodler 사이트에서 100개의 글 중에서 1번 글을 가져온다.
+        const response = fetch(requestURL);
+        console.log(response);
+        const data = checkResponseStatus(response);
+        renderResponseToResult(data);
+      } catch (error) {
+        alert('요청한 사용자가 없습니다')
+      }
+    })
+
+    function checkResponseStatus(response) {
+      if (!response.ok) {
+        throw new Error('Network error !');
+      }
+      return response.json();
+    }
+
+    function renderResponseToResult(data) {
+      console.log(data);
+      document.getElementById('result').innerHTML = `
+        <p><strong>이름:</strong> ${data.name}</p>
+        <p><strong>이메일:</strong> ${data.email}</p>
+        <p><strong>전화번호:</strong> ${data.phone}</p>
+        <p><strong>웹사이트:</strong> ${data.website}</p>
+        `;
+    }
+  </script>
+</body>
+
+</html>
