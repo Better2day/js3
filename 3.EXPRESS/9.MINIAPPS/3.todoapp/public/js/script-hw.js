@@ -40,6 +40,7 @@ function fetchTodoList() {
     .catch(error => console.log(error));
 }
 
+// 요소를 만들고 추가하는 작업이 주기능이므로 함수명에 render가 적합한지 생각해볼 것! 약간 헷갈린다.
 function renderTodoList(todoArr) {
   todoList.innerHTML = '';
   todoArr.forEach(el => {
@@ -50,6 +51,7 @@ function renderTodoList(todoArr) {
   });
 }
 
+// 요소를 만들고 추가하는 작업이 주기능이므로 함수명에 render가 적합한지 생각해볼 것! 약간 헷갈린다.
 function renderTodo(el) {
   const li = document.createElement('li');
   const delBtn = document.createElement('button');
@@ -64,6 +66,7 @@ function renderTodo(el) {
     }
   });
 
+  // To do 클릭했을 때 li → input 으로 바꿔서 업데이트할 수 있도록 수정중
   li.addEventListener('click', () => {
     const updateInput = document.createElement('input');
     updateInput.setAttribute('type', 'text');
@@ -74,8 +77,8 @@ function renderTodo(el) {
     });
     li.insertAdjacentElement('afterend', updateInput);
     li.remove();
-    //  = `<input type="text" value=${el.todo}>`;
   });
+
   li.addEventListener('dblclick', () => {
     li.classList.toggle('completed');
   });
@@ -91,5 +94,10 @@ function deleteTodo(todoId) {
 
 function updateTodo(el) {
   console.log('수정이염');
-  renderTodo(el);
+  // renderTodo(el); // li
+  // To do를 입력했을 때 li 요소를 만들고 추가하는 작업이 위 함수 내부 로직에 있어서 넣었는데,
+  // To do update 기능의 경우 li → input 으로 바꿔서 수정 후
+  // 수정 작업이 완료되었을 때 input → li로 바꿔야 해서 (input 바로 다음에 li를 추가 후 input 삭제)
+  // 약간 로직이 다르다.
+  // 함수를 따로 만들어야 할지, renderTodo에 위치 인자(기본값은 없는 것)를 줘서 처리할지 고민 필요!
 }
