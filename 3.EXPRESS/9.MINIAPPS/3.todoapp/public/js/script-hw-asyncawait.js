@@ -8,9 +8,21 @@ const todoInput = document.getElementById('todo');
 
 document.getElementById('add-todo').addEventListener('click', addTodo);
 // 엔터키를 눌러도 To do 추가 가능
-todoInput.addEventListener('keydown', e => {
+// todoInput.addEventListener('keyup', e => {
+document.addEventListener('keyup', e => {
+  const updateInput = document.querySelector('ul > input');
+  console.log(updateInput);
+
   if (e.key == 'Enter') {
-    addTodo();
+    if (e.target == todoInput) {
+      addTodo();
+    } else if (e.target == updateInput) {
+      // To do를 업데이트할 때도 엔터키 입력을 지원하기 위한 로직
+      // 현재 To do 업데이트 창(updateInput)은 focusout 이벤트 발생시 updateTodo() 함수를 호출
+      // 그런데, updateTodo() 함수는 이 리스너에 없는 인자가 필요하므로, 아래와 같이 다른 요소에 focus를 줘서 우회
+      // (아래처럼 하면 updateInput 요소에 달려있는 focusout 리스너가 실행 → updateTodo() 함수 호출)
+      todoInput.focus();
+    }
   }
 });
 
