@@ -12,12 +12,6 @@ app.use(express.static('public', { index: 'index-hw.html' })); // 기본 route (
 app.use(express.json());
 app.use(morgan('dev'));
 
-
-// Routes
-// app.get('/', (_, res) => {
-//   res.redirect('/api/todo')
-// });
-
 app.post('/api/todo', (req, res) => {
   console.log('Post route');
   console.log('데이터가 생성되었습니다.');
@@ -33,10 +27,15 @@ app.get('/api/todo', (req, res) => {
   res.json(toDoList);
 });
 
-app.put('/api/todo/:id', (req, res) => {
+app.put('/api/todo/:id/todo', (req, res) => {
   console.log('Put route');
+  console.log(req.params.id);
   console.log('데이터가 수정되었습니다.');
-  res.json({});
+  const indexToPut = toDoList.findIndex(todo => todo.id == req.params.id);
+  console.log(toDoList[indexToPut]);
+  toDoList[indexToPut].todo = req.body.todo;
+  res.json({ id: toDoList[indexToPut].id, todo: toDoList[indexToPut].todo });
+  console.log(toDoList);
 });
 
 app.delete('/api/todo/:id', (req, res) => {

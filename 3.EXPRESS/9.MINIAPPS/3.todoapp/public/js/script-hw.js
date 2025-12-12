@@ -31,6 +31,7 @@ function addTodo() {
 
   // fetchTodoList(); // To do를 추가한 다음에는 전체 목록 다시 로드
   // 서버에 부하를 줄 수 있는데 굳이 이렇게 할 필요 없어서, 새로 추가한 To do만 li 노드로 추가
+  todoInput.value = '';
 }
 
 function fetchTodoList() {
@@ -67,19 +68,21 @@ function renderTodo(el) {
   });
 
   // To do 클릭했을 때 li → input 으로 바꿔서 업데이트할 수 있도록 수정중
-  li.addEventListener('click', () => {
+  li.addEventListener('dblclick', () => {
     const updateInput = document.createElement('input');
     updateInput.setAttribute('type', 'text');
     updateInput.setAttribute('value', el.todo);
     updateInput.addEventListener('focusout', () => {
-      updateTodo(el);
+      updateTodo(el, updateInput, li);
       updateInput.remove();
     });
     li.insertAdjacentElement('afterend', updateInput);
-    li.remove();
+    updateInput.focus();
+    // li.remove();
+    li.hidden = true;
   });
 
-  li.addEventListener('dblclick', () => {
+  li.addEventListener('click', () => {
     li.classList.toggle('completed');
   });
 }
@@ -92,7 +95,7 @@ function deleteTodo(todoId) {
   return true;
 }
 
-function updateTodo(el) {
+function updateTodo(el, updateInput, li) {
   console.log('수정이염');
   // renderTodo(el); // li
   // To do를 입력했을 때 li 요소를 만들고 추가하는 작업이 위 함수 내부 로직에 있어서 넣었는데,
@@ -100,4 +103,29 @@ function updateTodo(el) {
   // 수정 작업이 완료되었을 때 input → li로 바꿔야 해서 (input 바로 다음에 li를 추가 후 input 삭제)
   // 약간 로직이 다르다.
   // 함수를 따로 만들어야 할지, renderTodo에 위치 인자(기본값은 없는 것)를 줘서 처리할지 고민 필요!
+
+  // renderTodo 앞 로직 상당 부분과 중복. 함수로 모듈화해야 할 듯
+  const delBtn = document.createElement('button');
+  delBtn.innerText = '삭제';
+  li.innerHTML = updateInput.value + ' ';
+  li.appendChild(delBtn);
+
+  // li.insertAdjacentElement('afterend', updateInput);
+  delBtn.addEventListener('click', () => {
+    if (deleteTodo(el.id)) {
+      li.remove();
+    }
+  });
+
+  fetch(`/api/todo/${el.id}/todo`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    body: JSON.stringify({ 'todo': updateInput.value })
+  })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.log(error))
+
+  li.hidden = false;
+  todoInput.value = '';
 }
