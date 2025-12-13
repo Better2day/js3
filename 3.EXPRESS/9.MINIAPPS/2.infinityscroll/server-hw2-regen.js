@@ -4,7 +4,7 @@ const app = express();
 const PORT = 3000;
 
 // 무한 스크롤 기능 구현을 위해서 필요한 가상 데이터 생성
-const data = Array.from({ length: 120 }, (_, i) => `Item ${(i + 1).toString().padStart(2, '0')}`);
+const data = Array.from({ length: 60 }, (_, i) => `Item ${(i + 1).toString().padStart(2, '0')}`);
 console.log(data);
 
 // Middleware
@@ -24,6 +24,22 @@ function myLogger(req, _, next) { // 입력 인자를 채워넣고
 }
 
 app.use(myLogger);
+
+// 0부터 20 사이의 랜덤 숫자 생성
+function getRandomIncrease() {
+  // return Math.floor(Math.random() * 21); // 0~20
+  return Math.floor(Math.random() * 10) + 1; // 1~10 // 빠르고 쉽게 테스트하려고 개수를 줄임
+
+}
+// 매 10초마다 위에서 얻은 무작위 개수만큼 증가
+setInterval(() => {
+  const randNum = getRandomIncrease();
+  const currentLength = data.length;
+  for (let i = 1; i <= randNum; i++) {
+    data.push(`Item ${currentLength + i}`);
+  }
+  console.log(`${randNum} Added`);
+}, 10_000); // 10,000ms = 10s
 
 // /api/items?start=5&end=10
 app.get('/api/items', (req, res) => {
