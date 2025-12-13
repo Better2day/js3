@@ -1,6 +1,6 @@
 // 시작시 초기값
-const itemsPerLoad = 20; // 스크롤바가 화면 하단에 도착할 때마다 추가로 불러오는 개수
-const maxItemsOnScreen = 40; // 화면 안에 유지할 품목 최대 개수
+const itemsPerLoad = 20; // 스크롤바가 화면 하단/상단에 도달할 때마다 추가로 불러오는 품목 개수
+const maxItemsOnScreen = 40; // 화면 안에 유지할 품목 최대 개수 (DOM, CPU/Memoery 등 리소스 절약 및 느려짐 방지 목적)
 
 // getPrevItems() 함수를 통해서 이전 아이템을 읽어올 때 사용할 배열 인덱스 범위
 let prevStart = 0;
@@ -24,12 +24,7 @@ async function getNextItems() {
   // 품목 1개를 추가할 때마다 active document tree structure에 반영할 필요는 없어서 프래그먼트 이용 
   const fragment = new DocumentFragment();
   data.forEach(item => {
-    // console.log(el);
     appendChildToParent(fragment, item)
-    // const itemElement = document.createElement('div');
-    // itemElement.classList.add('item'); // 디자인을 넣기 위해서 클래스 추가
-    // itemElement.textContent = item;
-    // fragment.appendChild(itemElement);
   })
   // itemsPerLoad 개만큼의 품목이 전부 추가되었으면, 결과 레이어 하단에 추가
   result.appendChild(fragment);
@@ -58,7 +53,6 @@ async function getPrevItems() {
   // getPrevItems() 함수 호출시 사용할 prevStart/prevEnd 배열 인덱스 설정
   setPrevRange();
 
-
   // 화면 최상단에 이미 첫 품목이 있으면 이전 품목 로드 작업 중단 (fetch로 발생하는 network, disk I/O 부하 제거)
   if (prevEnd == 0) {
     return false;
@@ -68,15 +62,9 @@ async function getPrevItems() {
   const data = await response.json();
   console.log(data);
 
-  // 품목 1개를 추가할 때마다 active document tree structure에 반영할 필요는 없어서 프래그먼트 이용 
   const fragment = new DocumentFragment();
   data.forEach(item => {
-    // console.log(el);
     appendChildToParent(fragment, item)
-    // const itemElement = document.createElement('div');
-    // itemElement.classList.add('item'); // 디자인을 넣기 위해서 클래스 추가
-    // itemElement.textContent = item;
-    // fragment.appendChild(itemElement);
   })
   // itemsPerLoad 개만큼의 품목이 전부 추가되었으면, 결과 레이어 상단에 추가 (div 아래, 기존 자식 앞에 추가)
   result.prepend(fragment);
