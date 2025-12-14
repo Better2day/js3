@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <input type="text">
+  <div class="msg"></div>
+  <script>
+    const input = document.querySelector('input');
+    const msg = document.querySelector('.msg');
+
+    const debounce = (callback, delay) => {
+      let timerId;
+
+      return (...args) => { // args 인수에 e (event 정보)가 넘어온다.
+        // console.log('args: ', ...args);
+        if (timerId) clearTimeout(timerId);
+        // setTimeout 3번째 인수인 parameter (e)는 callback 함수(아래 29번째 줄 e 부분 ~ 31번째 줄)에 넘겨진다.
+        timerId = setTimeout(callback, delay, ...args);
+      };
+    };
+
+    // input event handler property에 debounce 함수 실행 결과(위 return 문)를 바인딩
+    input.oninput = debounce(e => {
+      msg.textContent = e.target.value;
+    }, 300);
+  </script>
+</body>
+
+</html>
