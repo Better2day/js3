@@ -1,11 +1,12 @@
-// 시작시 초기값
-const itemsPerLoad = 20; // 스크롤바가 화면 하단/상단에 도달할 때마다 추가로 불러오는 품목 개수
-const maxItemsOnScreen = 40; // 화면 안에 유지할 품목 최대 개수 (DOM, CPU/Memoery 등 리소스 절약 및 느려짐 방지 목적)
+// 스크롤바가 화면 하단/상단에 도달할 때마다 추가로 불러오는 품목 개수
+const itemsPerLoad = 20;
+// 화면 안에 유지할 품목 최대 개수 (DOM, CPU/Memoery 등 리소스 절약 및 느려짐 방지 목적)
+const maxItemsOnScreen = 40;
 
-// getPrevItems() 함수를 통해서 이전 아이템을 읽어올 때 사용할 배열 인덱스 범위
+// getPrevItems() 함수를 통해서 이전 아이템을 읽어올 때 사용할 배열 범위 (시작 ~ 끝 인덱스)
 let prevStart = 0;
 let prevEnd = prevStart + itemsPerLoad;
-// getNextItems() 함수를 통해서 다음 아이템을 읽어올 때 사용할 배열 인덱스 범위
+// getNextItems() 함수를 통해서 다음 아이템을 읽어올 때 "
 let nextStart = 0;
 let nextEnd = nextStart + itemsPerLoad;
 
@@ -17,15 +18,14 @@ async function getNextItems() {
     console.log('현재 화면 하단 마지막 품목: Item ', result.lastElementChild.textContent.split(' ').slice(-1)[0]);
   }
 
-  const response = await fetch(`/api/items?start=${nextStart}&end=${nextEnd}`);
-  const data = await response.json();
-  console.log(data);
+  const data = await fetchData(nextStart, nextEnd);
+  // const response = await fetch(`/api/items?start=${nextStart}&end=${nextEnd}`);
+  // const data = await response.json();
+  // console.log(data);
 
   // 품목 1개를 추가할 때마다 active document tree structure에 반영할 필요는 없어서 프래그먼트 이용 
   const fragment = new DocumentFragment();
-  data.forEach(item => {
-    appendChildToParent(fragment, item)
-  })
+  data.forEach(item => appendChildToParent(fragment, item));
   // itemsPerLoad 개만큼의 품목이 전부 추가되었으면, 결과 레이어 하단에 추가
   result.appendChild(fragment);
 
@@ -39,6 +39,7 @@ async function getNextItems() {
 
   console.log('현재 화면에 보이는 품목 전체 개수: ', result.children.length);
   console.log('화면당 품목 최대 개수: ', maxItemsOnScreen);
+
   let itemQtyToRemove = result.children.length - maxItemsOnScreen;
   if (itemQtyToRemove > 0) {
     removePrevItems(itemQtyToRemove);
@@ -46,6 +47,8 @@ async function getNextItems() {
     // ∵ maxItemsOnScreen 개수를 초과하는만큼 상단 품목을 삭제했으므로,
     // 삭제한 개수만큼 prevStart/prevEnd 배열 인덱스 범위를 뒤로 옮겨놓아야
     // 다음에 이전 품목 로딩시 중간에 누락되는 품목이 생기지 않는다.
+    // scrollBy(0, -1 * itemQtyToRemove * 60); // height + gap = 60px
+    // scrollBy(0, -1 * (itemQtyToRemove / maxItemsOnScreen) * window.innerHeight);
     setPrevRange();
   }
   console.log('getNextItems() 함수 끝');
@@ -66,27 +69,43 @@ async function getPrevItems() {
     return false;
   }
 
-  const response = await fetch(`/api/items?start=${prevStart}&end=${prevEnd}`);
-  const data = await response.json();
-  console.log(data);
+  const data = await fetchData(prevStart, prevEnd);
+  // const response = await fetch(`/api/items?start=${prevStart}&end=${prevEnd}`);
+  // const data = await response.json();
+  // console.log(data);
 
   const fragment = new DocumentFragment();
-  data.forEach(item => {
-    appendChildToParent(fragment, item)
-  })
+  data.forEach(item => appendChildToParent(fragment, item));
   // itemsPerLoad 개만큼의 품목이 전부 추가되었으면, 결과 레이어 상단에 추가 (div 아래, 기존 자식 앞에 추가)
   result.prepend(fragment);
 
   console.log('현재 화면에 보이는 품목 전체 개수: ', result.children.length);
   console.log('화면당 품목 최대 개수: ', maxItemsOnScreen);
+
   let itemQtyToRemove = result.children.length - maxItemsOnScreen;
   if (itemQtyToRemove > 0) {
     removeNextItems(itemQtyToRemove);
     // 다음 번 getNextItems() 함수 호출에 사용할 배열 인덱스 범위 조절
     // 삭제한 개수만큼 nextStart/nextEnd 배열 인덱스 범위를 앞으로 옮겨놓아야
     // 다음에 다음 품목 로딩시 중간에 누락되는 품목이 생기지 않는다.
+    // scrollBy(0, itemQtyToRemove * 60);
     setNextRange();
   }
+}
+
+async function fetchData(rangeStart, rangeEnd) {
+  const response = await fetch(`/api/items?start=${rangeStart}&end=${rangeEnd}`);
+  const data = await response.json();
+  console.log(data);
+  return data;
+}
+
+// 부모 노드에 자식 노드 추가
+function appendChildToParent(parent, child) {
+  const itemElement = document.createElement('div');
+  itemElement.classList.add('item');
+  itemElement.textContent = child;
+  parent.appendChild(itemElement);
 }
 
 function removePrevItems(itemQtyToRemove) {
@@ -118,14 +137,6 @@ function setNextRange() {
   console.log(`nextStart: ${nextStart} / nextEnd: ${nextEnd}`);
 }
 
-// 부모 노드에 자식 노드 추가
-function appendChildToParent(parent, child) {
-  const itemElement = document.createElement('div');
-  itemElement.classList.add('item');
-  itemElement.textContent = child;
-  parent.appendChild(itemElement);
-}
-
 
 document.addEventListener('DOMContentLoaded', () => {
   console.log("DOM ready");
@@ -134,9 +145,16 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 window.addEventListener('scroll', () => {
+  // const oldScrollY = window.scrollY;
+  // console.log('window.scrollY: ', oldScrollY);
+  console.log(`window.innerHeight: ${window.innerHeight}, window.scrollY: ${window.scrollY}, document.body.offsetHeight: ${document.body.offsetHeight}`);
   if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+    console.log(`window.innerHeight: ${window.innerHeight}, window.scrollY: ${window.scrollY}, document.body.offsetHeight: ${document.body.offsetHeight}`);
     getNextItems();
+    // window.scrollTo(0, oldScrollY);
   } else if (window.scrollY == 0) {
+    console.log(`window.innerHeight: ${window.innerHeight}, window.scrollY: ${window.scrollY}, document.body.offsetHeight: ${document.body.offsetHeight}`);
     getPrevItems();
+    // window.scrollTo(0, oldScrollY);
   }
 });
