@@ -14,12 +14,12 @@ app.use(express.json()); // FE에서 json 형식의 데이터를 보내면, 그�
 // app.use(express.urlencoded({ extended: false })); // FE에서 urlencoded 형식의 데이터를 보내면, "
 
 // Route start -->
-app.get('/api/todo', (req, res) => {
+app.get('/api/todos', (req, res) => {
   console.log('To do 달라는 요청 받음');
   res.send(todos);
 });
 
-app.post('/api/todo', (req, res) => {
+app.post('/api/todos', (req, res) => {
   console.log('To do 생성해달라는 요청 받음');
   console.log(req.body);
   console.log('Request body: ' + JSON.stringify(req.body));
@@ -33,20 +33,35 @@ app.post('/api/todo', (req, res) => {
   res.json(({ "status": "ok" }));
 });
 
-app.delete('/api/todo', (req, res) => { // 입력 인자를 Query Parameter, URL Parameter 중 어느 것으로 받을지 결정
+app.delete('/api/todos/:id', (req, res) => { // 입력 인자를 Query Parameter, URL Parameter 중 어느 것으로 받을지 결정
   console.log('To do 삭제해달라는 요청 받음');
   // id를 받아서, 그 id를 가진 todo를 삭제한다.
   // todos.filter를 통해서 비교
+  const id = req.params.id;
+  console.log(`${id}번 To do를 삭제해달라고 요청`);
+  todos = todos.filter(todo => todo.id != id);
+
   res.json(({ success: true })); // 다양한 양식으로 작성해봤지만, 한 유형으로 통일하는 게 좋다.
 });
 
-app.put('/api/todo', (req, res) => { // 입력 인자. 위철
-  console.log('To do 수정해달라는 요청 받음');
-  // id를 찾아서, completed를 토글
-  res.send(todos);
+app.put('/api/todos/:id/completed', (req, res) => { // 입력 인자. 위철
+  const id = req.params.id;
+  console.log(`${id} 완료 여부 확인`);
+  const todo = todos.find(todo => todo.id == id);
+  console.log('검색한 내용: ', todo);
+  // console.log('To do 수정해달라는 요청 받음');
+  // id를 찾아서, completed를 토글 (true/false 변경)
+  // res.send(todos);
+
+  if (todo) {
+    todo.completed = !todo.completed;
+    res.json({ success: true, completed: todo.completed });
+  }
+  else {
+    res.json({ success: false });
+  }
 });
 // Route end -->
-
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://127.0.0.1:${PORT}`);

@@ -1,45 +1,43 @@
 document.addEventListener('DOMContentLoaded', () => {
   console.log('DOM loading completed.');
 
-  function getTodo() {
-    fetch('/api/todos')
-      .then(res => res.json())
-      .then(data => {
-        console.log(data);
-        renderTodos(data);
+  async function getTodo() {
+    const res = await fetch('/api/todos');
+    const data = await res.json();
 
-      });
+    console.log(data);
+    renderTodos(data);
   }
 
   getTodo();
 
-  function renderTodos(todos) {
+  function renderTodos(data) {
     const result = document.getElementById('todo-list');
     result.innerHTML = '';
-
-    todos.forEach(todo => {
+    data.forEach(todo => {
       const li = document.createElement('li');
       li.textContent = todo.todo;
-      // if (todo.completed) {
-      //   li.classList.add('completed');
-      // } else {
-      //   li.classList.remove('completed');
-      // }
       li.classList.toggle('completed', todo.completed);
       result.appendChild(li);
 
-      li.addEventListener('click', () => {
-        fetch(`/api/todos/${todo.id}/completed`, { method: 'PUT' })
-          .then(() => getTodo());
+      li.addEventListener('click', async () => {
+        const res = await fetch(`/api/todos/${todo.id}/completed`, { method: 'PUT' });
+        const data = await res.json();
+        if (data.success == true) {
+          getTodo();
+        } else {
+          alert('해당 항목은 찾을 수 없습니다.');
+        }
 
       })
 
       const deleteBtn = document.createElement('button');
       deleteBtn.textContent = '삭제';
-      deleteBtn.addEventListener('click', e => {
+      deleteBtn.addEventListener('click', async e => {
         e.stopPropagation();
-        fetch(`/api/todos/${todo.id}`, { method: 'DELETE' })
-          .then(() => getTodo());
+        const res = await fetch(`/api/todos/${todo.id}`, { method: 'DELETE' });
+        const data = res.json();
+        getTodo();
       })
       li.appendChild(deleteBtn);
     });
@@ -47,17 +45,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // To do 추가
   const addBtn = document.getElementById('add-todo');
-  addBtn.addEventListener('click', () => {
+  addBtn.addEventListener('click', async () => {
     const inputText = document.getElementById('new-todo').value;
     const text = inputText.trim();
     console.log(text);
     if (!text) return; // 빈 칸이면 끝
 
-    fetch('/api/todos', {
+    const res = await fetch('/api/todos', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ todo: text })
-    })
-      .then(data => getTodo());
+    });
+    const data = await res.json();
+    getTodo();
   });
 });
