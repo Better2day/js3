@@ -22,7 +22,7 @@ async function generateOrders() {
 
   // CSV Writer 패키지에 무작위 주문 레코드 헤더 설정
   const csvWriter = setCsvWriter(csvFileName, [
-    { id: 'id', title: 'ID' },
+    { id: 'id', title: 'Id' },
     { id: 'orderAt', title: 'OrderAt' },
     { id: 'storeId', title: 'StoreId' },
     { id: 'userId', title: 'UserId' },

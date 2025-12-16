@@ -19,7 +19,7 @@ const records = [];
 
 // CSV Writer 패키지에 무작위 상점 레코드 헤더 설정
 const csvWriter = setCsvWriter(csvFileName, [
-  { id: 'id', title: 'ID' },
+  { id: 'id', title: 'Id' },
   { id: 'name', title: 'Name' },
   { id: 'type', title: 'Type' },
   { id: 'address', title: 'Address' },

@@ -20,7 +20,7 @@ const records = [];
 
 // CSV Writer 패키지에 무작위 사용자 레코드 헤더 설정
 const csvWriter = setCsvWriter(csvFileName, [
-  { id: 'id', title: 'ID' },
+  { id: 'id', title: 'Id' },
   { id: 'name', title: 'Name' },
   { id: 'gender', title: 'Gender' },
   { id: 'age', title: 'Age' },
