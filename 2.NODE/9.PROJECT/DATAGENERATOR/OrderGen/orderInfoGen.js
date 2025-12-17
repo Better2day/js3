@@ -17,7 +17,7 @@ async function initializeIdPool() {
 async function getIdPool(filenameToRead) {
   // async function getUserIdPool(filenameToRead) {
   // readCsv('order.csv', 'ID', 'Address');
-  const result = await readCsv(filenameToRead, 'ID');
+  const result = await readCsv(filenameToRead, 'Id');
   return result;
 }
 
@@ -40,11 +40,11 @@ function getRandomDatetime(yearStart, yearEnd) {
 function getRandomId(dataType) {
   // function getRandomStoreId() {
   if (dataType == 'store' && typeof storeIdPool != 'undefined') {
-    return getRandomElement(storeIdPool)['ID'];
+    return getRandomElement(storeIdPool)['Id'];
     // return getRandomElement(storeIdPool).ID;
   }
   if (dataType == 'user' && typeof userIdPool != 'undefined') {
-    return getRandomElement(userIdPool)['ID'];
+    return getRandomElement(userIdPool)['Id'];
   }
 }
 

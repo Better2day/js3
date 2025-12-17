@@ -13,16 +13,16 @@ async function initializeIdPool() {
 }
 
 async function getIdPool(filenameToRead) {
-  const result = await readCsv(filenameToRead, 'ID');
+  const result = await readCsv(filenameToRead, 'Id');
   return result;
 }
 
 function getRandomId(dataType) {
   if (dataType == 'order' && typeof orderIdPool != 'undefined') {
-    return getRandomElement(orderIdPool)['ID'];
+    return getRandomElement(orderIdPool)['Id'];
   }
   if (dataType == 'item' && typeof itemIdPool != 'undefined') {
-    return getRandomElement(itemIdPool)['ID'];
+    return getRandomElement(itemIdPool)['Id'];
   }
 }
 
