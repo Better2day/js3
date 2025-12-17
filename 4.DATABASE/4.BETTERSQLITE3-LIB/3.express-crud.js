@@ -24,13 +24,10 @@ function init_database() {
   try {
     // db.transaction은 성공하면 commit, 실패하면 rollback;
     db.transaction(() => {
-      console.log(statements);
       for (const statement of statements) {
-        console.log('여기는 실행 안되나요?');
-        console.log(statement);
         db.exec(statement);
       }
-    });
+    })();
     console.log('try 블록 실행');
   } catch (error) {
     console.log('이미 초기화되었습니다.');
@@ -89,7 +86,7 @@ app.post('/api/users', (req, res) => {
 });
 
 // 숙제
-app.put('/api/usrs/:id', (req, res) => {
+app.put('/api/users/:id', (req, res) => {
   const userId = req.params.id;
   console.log(userId);
   const { username, password } = req.body;
