@@ -23,11 +23,9 @@ function init_database() {
 
   try {
     // db.transaction은 성공하면 commit, 실패하면 rollback;
-    db.transaction(() => {
-      for (const statement of statements) {
-        db.exec(statement);
-      }
-    })();
+    for (const statement of statements) {
+      db.exec(statement);
+    }
     console.log('try 블록 실행');
   } catch (error) {
     console.log('이미 초기화되었습니다.');
