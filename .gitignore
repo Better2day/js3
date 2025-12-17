@@ -20,6 +20,11 @@
 # node module 제외
 node_modules
 
+# 각종 DB files
+*.db
+*.sqlite
+*.sqlite3
+
 # 개인 설정
 .vscode/extensions.json
 .vscode/settings.json
