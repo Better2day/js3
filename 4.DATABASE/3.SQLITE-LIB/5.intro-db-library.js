@@ -9,7 +9,10 @@ function runQuery(query, params = []) {
   return new Promise((resolve, reject) => {
     db.run(query, params, err => {
       if (err) return reject(err);
-      resolve(this); // 여기에서 this는 삽입된 데이터의 Id 등 정보를 가지고 있음
+      resolve(this); // this: Statement      
+      // db.run이 내부적으로 실행한 결과를 담아서 Promise 외부로 반환
+      // this에 바인딩되어 있는 것은 Statemnt 클래스를 상속한 RunResult 클래스 객체로
+      // lastID: number, changes : number 형태의 속성을 가지고 있다.
     });
   });
 }
