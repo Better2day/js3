@@ -18,7 +18,11 @@ function init_database() {
   const sql = fs.readFileSync('init-database.sql', 'utf8');
   // 각 행을 ;로 잘라서, 빈 행(undefiled/null 등)으로 나오는 것을 제외 
   // const statements = sql.split(';').filter(Boolean);
+  // 위 filter 고차 배열 함수는 filter(x => Boolean(x)); 축약 형태
+  // 현재 결과가 다르지 않은 것은, sql 파일 안에 오타 등 별 오류가 없기 때문
   const statements = sql.split(';');
+  // 지금 상황에서 조금 더 의미 있는 것은
+  // const statements = sql.split(';').map(s => s.trim()).filter(s => s.length > 0);
   // console.log(statements);
 
   try {
@@ -36,7 +40,7 @@ function init_database() {
       console.log('try 블록 실행');
     })();
   } catch (error) {
-    console.log('이미 초기화되었습니다.');
+    console.log('이미 초기화되었습니다.'); // 여기서만 오류를 잡으면 좋은 코드는 아님
   }
 }
 

@@ -1,0 +1,10 @@
+#todo-list li {
+  cursor: pointer;
+  /* width: 200px;
+  margin-bottom: 2px; */
+}
+
+#todo-list li.completed {
+  text-decoration: line-through;
+  color: gray;
+}
