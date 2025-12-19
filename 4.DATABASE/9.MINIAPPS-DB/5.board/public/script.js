@@ -31,6 +31,7 @@ function renderCard({ id, title, message }) {
   updateBtn.textContent = '수정';
   const deleteBtn = document.createElement('button');
   deleteBtn.textContent = '삭제';
+  deleteBtn.addEventListener('click', () => deletePost(id));
   cardDiv.appendChild(titleSpan);
   cardDiv.appendChild(messageSpan);
   cardDiv.appendChild(updateBtn);
@@ -78,16 +79,26 @@ async function uploadPost() {
 }
 
 // .delete('/api/delete'
-async function deletePost(Title, Content) {
+async function deletePost(id) {
   // DOM에서 입력한 내용 가져오기
   // fetch를 통해서 BE API의 글쓰기 경로에 글쓰기 요청
   // fetch(글쓰기)
   //   .then(성공 확인)
   //   .then(불러오기(=카드 만들기))
+  console.log(id);
+
+  const res = await fetch(`/api/delete/${id}`, { method: 'DELETE' });
+  const result = await res.json();
+
+  if (result?.changes == 1) {
+    location.reload();
+  } else {
+    console.log('삭제 오류 발생');
+  }
 }
 
 // .put('/api/modify'
-async function updatedPost(Title, Content) {
+async function updatedPost(id, Title, Content) {
   // DOM에서 입력한 내용 가져오기
   // 기존에 글이 보이던 요소를, 글을 입력할 수 있는 요소로 변경
   // 저장을 누르면? 다시 글을 보여주는 요소로 변경
