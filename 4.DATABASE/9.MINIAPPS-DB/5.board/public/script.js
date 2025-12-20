@@ -1,37 +1,33 @@
-
-// 1. 이 페이지가 로딩
+// 웹페이지 로딩시 메모 읽어오기
 document.addEventListener('DOMContentLoaded', () => {
-  // fetch (게시판 글)
-  //  .then(카드 만들기)
-  const posts = readPost();
+  const posts = readMemo();
 });
 
 const inputTitle = document.getElementById('input-title');
 const inputText = document.getElementById('input-text');
 
-// inputTitle.addEventListener('click')
-
-
 function renderCard({ id, title, message }) {
-  // DOM 가져오기
-  // DOM Element 생성
-  // 생성한 요소를 기존에 있던 DOM에 자식으로 추가
   const cardList = document.getElementById('card-list');
   const cardDiv = document.createElement('div');
   cardDiv.classList.add('card');
-  // const titleDiv = document.createElement('div');
-  // const messageDiv = document.createElement('div');
-  // messageDiv.innerHTML += `${message}&nbsp;`;
+
   const titleSpan = document.createElement('span');
   titleSpan.innerHTML = `${title}&nbsp;`;
+
   const messageSpan = document.createElement('span');
   messageSpan.innerHTML += `${message}&nbsp;`;
-  // cardList.appendChild(`${titleDiv}<br>${messageDiv}`);
+
   const updateBtn = document.createElement('button');
   updateBtn.textContent = '수정';
+  updateBtn.classList.add('btn');
+  updateBtn.classList.add('btn-primary');
+
   const deleteBtn = document.createElement('button');
   deleteBtn.textContent = '삭제';
-  deleteBtn.addEventListener('click', () => deletePost(id));
+  deleteBtn.classList.add('btn');
+  deleteBtn.classList.add('btn-primary');
+  deleteBtn.addEventListener('click', () => deleteMemo(id));
+
   cardDiv.appendChild(titleSpan);
   cardDiv.appendChild(messageSpan);
   cardDiv.appendChild(updateBtn);
@@ -39,78 +35,70 @@ function renderCard({ id, title, message }) {
   cardList.appendChild(cardDiv);
 }
 
-// .get('/api/list'
-async function readPost() {
-  const res = await fetch('/api/list');
-  const posts = await res.json();
+async function readMemo() {
+  try {
+    const res = await fetch('/api/list');
+    const posts = await res.json();
 
-  console.log(typeof posts);
-  console.log(posts);
-  if (posts) {
-    posts.forEach(post => renderCard(post));
+    if (posts) {
+      posts.forEach(post => renderCard(post));
+    }
+  } catch (error) {
+    console.log(error);
   }
 }
 
-// .post('/api/create'
-// function uploadPost(Title, Content) {
-async function uploadPost() {
+// function createMemo(Title, Content) {
+async function createMemo() {
   const title = inputTitle.value;
   const message = inputText.value;
 
   console.log(`${title} ${message}`);
 
   const article = { title, message };
-  const res = await fetch('/api/create', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(article)
-  });
-  const post = await res.json();
+  try {
+    const res = await fetch('/api/create', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(article)
+    });
+    const post = await res.json();
 
-  if (post) {
-    renderCard(post);
-  }
-
-  // DOM에서 입력한 내용 가져오기
-  // fetch를 통해서 BE API의 글쓰기 경로에 글쓰기 요청
-  // fetch(글쓰기)
-  //   .then(성공 확인)
-  //   .then(불러오기(=카드 만들기))
-}
-
-// .delete('/api/delete'
-async function deletePost(id) {
-  // DOM에서 입력한 내용 가져오기
-  // fetch를 통해서 BE API의 글쓰기 경로에 글쓰기 요청
-  // fetch(글쓰기)
-  //   .then(성공 확인)
-  //   .then(불러오기(=카드 만들기))
-  console.log(id);
-
-  const res = await fetch(`/api/delete/${id}`, { method: 'DELETE' });
-  const result = await res.json();
-
-  if (result?.changes == 1) {
-    location.reload();
-  } else {
-    console.log('삭제 오류 발생');
+    if (post) {
+      renderCard(post);
+    }
+  } catch (error) {
+    console.log('메모 저장 중 오류 발생: ', error);
   }
 }
 
-// .put('/api/modify'
-async function updatedPost(id, Title, Content) {
-  // DOM에서 입력한 내용 가져오기
-  // 기존에 글이 보이던 요소를, 글을 입력할 수 있는 요소로 변경
-  // 저장을 누르면? 다시 글을 보여주는 요소로 변경
-  // fetch를 통해서 BE API의 글쓰기 경로에 글쓰기 요청
-  // fetch(글쓰기)
-  //   .then(성공 확인)
-  //   .then(불러오기(=카드 만들기))
+async function deleteMemo(id) {
+  try {
+    const res = await fetch(`/api/delete/${id}`, { method: 'DELETE' });
+    const result = await res.json();
 
-  // const id =
+    if (result?.changes == 1) {
+      location.reload();
+    }
+  } catch (error) {
+    console.log('메모 삭제 중 오류 발생: ', error);
+  }
+}
+
+async function updatedMemo(id, title, message) {
   console.log(id);
+  try {
+    const res = await fetch(`/api/modify/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title, message })
+    });
+    const result = await res.json();
 
-  const res = await fetch('/api/delete/:id', { method: 'DELETE' });
-  const post = await res.json();
-
+    if (result?.changes == 1) {
+      location.reload();
+    }
+  } catch (error) {
+    console.log('메모 수정 중 오류 발생: ', error);
+  }
 }
