@@ -8,30 +8,69 @@ const inputText = document.getElementById('input-text');
 
 function renderCard({ id, title, message }) {
   const cardList = document.getElementById('card-list');
+
   const cardDiv = document.createElement('div');
   cardDiv.classList.add('card');
 
   const titleSpan = document.createElement('span');
-  titleSpan.innerHTML = `${title}&nbsp;`;
+  titleSpan.innerHTML = title;
+  titleSpan.classList.add('for-view');
+  const titleInput = document.createElement('input');
+  titleInput.setAttribute('type', 'text');
+  titleInput.value = title;
+  titleInput.classList.add('for-edit');
 
   const messageSpan = document.createElement('span');
-  messageSpan.innerHTML += `${message}&nbsp;`;
+  messageSpan.innerHTML += message;
+  messageSpan.classList.add('for-view');
+  const messageInput = document.createElement('input');
+  messageInput.setAttribute('type', 'text');
+  messageInput.value = message;
+  messageInput.classList.add('for-edit');
 
   const updateBtn = document.createElement('button');
   updateBtn.textContent = '수정';
+  updateBtn.classList.add('for-view');
   updateBtn.classList.add('btn');
   updateBtn.classList.add('btn-primary');
+  updateBtn.addEventListener('click', () => {
+    cardDiv.classList.add('is-editing');
+  });
 
   const deleteBtn = document.createElement('button');
   deleteBtn.textContent = '삭제';
+  deleteBtn.classList.add('for-view');
   deleteBtn.classList.add('btn');
   deleteBtn.classList.add('btn-primary');
   deleteBtn.addEventListener('click', () => deleteMemo(id));
 
+  const saveBtn = document.createElement('button');
+  saveBtn.textContent = '저장';
+  saveBtn.classList.add('for-edit');
+  saveBtn.classList.add('btn');
+  saveBtn.classList.add('btn-primary');
+  saveBtn.addEventListener('click', () => {
+    updateMemo(id, titleInput.value, messageInput.value);
+    cardDiv.classList.remove('is-editing');
+  })
+
+  const cancelBtn = document.createElement('button');
+  cancelBtn.textContent = '취소';
+  cancelBtn.classList.add('for-edit');
+  cancelBtn.classList.add('btn');
+  cancelBtn.classList.add('btn-primary');
+  cancelBtn.addEventListener('click', () => {
+    cardDiv.classList.remove('is-editing');
+  })
+
   cardDiv.appendChild(titleSpan);
+  cardDiv.appendChild(titleInput);
   cardDiv.appendChild(messageSpan);
+  cardDiv.appendChild(messageInput);
   cardDiv.appendChild(updateBtn);
   cardDiv.appendChild(deleteBtn);
+  cardDiv.appendChild(saveBtn);
+  cardDiv.appendChild(cancelBtn);
   cardList.appendChild(cardDiv);
 }
 
@@ -85,7 +124,7 @@ async function deleteMemo(id) {
   }
 }
 
-async function updatedMemo(id, title, message) {
+async function updateMemo(id, title, message) {
   console.log(id);
   try {
     const res = await fetch(`/api/modify/${id}`, {

@@ -56,9 +56,10 @@ app.delete('/api/delete/:id', (req, res) => {
 app.put('/api/modify/:id', (req, res) => {
   const id = req.params.id;
   const { title, message } = req.body;
+  console.log(title, message);
   console.log(`${id}번 글 수정`);
 
-  const sql = 'UPDATE memo SET title=? AND message=? WHERE id=?';
+  const sql = 'UPDATE memo SET title=?, message=? WHERE id=?';
   const { lastId, changes } = db.execute(sql, [title, message, id]);
 
   if (changes == 1) {
