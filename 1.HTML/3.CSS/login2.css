@@ -16,7 +16,7 @@ div#container {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 3;
+  /* z-index: 3; */
 }
 
 form {
@@ -113,7 +113,7 @@ div.fb {
   position: relative;
   width: 100%;
   height: 100%;
-  z-index: 1;
+  /* z-index: 1; */
   /* transform: translate(-50%, -50%); */
 }
 
@@ -122,19 +122,19 @@ div.fb {
   width: 200px;
   height: 200px;
   border-radius: 50%;
-  z-index: 2;
+  /* z-index: 2; */
 }
 
 .shape:first-child {
   background: linear-gradient(#1845ad, #23a2f6);
   left: 180px;
   top: 180px;
-  z-index: 2;
+  /* z-index: 2; */
 }
 
 .shape:last-child {
   background: linear-gradient(to right, #ff512f, #f09819);
   left: 550px;
   top: 650px;
-  z-index: 2;
+  /* z-index: 2; */
 }
