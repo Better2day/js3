@@ -5,6 +5,40 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <style>
+    #body {
+      position: relative;
+    }
+
+    #alertBox {
+      position: absolute;
+      top: 350px;
+      left: 350px;
+      width: 320px;
+      height: 200px;
+      font-size: 32px;
+      font-weight: 500;
+      color: red;
+      /* display: none; */
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* 
+    #alertBox.show {
+      opacity: 1;
+      visibility: visible;
+      transition: none;
+    } */
+
+    #alertBox.hidden {
+      /* display: block; */
+      opacity: 0;
+      transition: opacity 3s;
+      /* visibility: hidden; */
+      /* transition: all 3s; */
+    }
+  </style>
 </head>
 
 <body>
@@ -35,15 +69,37 @@
         <h3>공통 결과를 출력할 곳</h3>
         <div id="result"></div>
       </div>
+      <div id="alertBox" class="hidden">경고창</div>
 
       <script>
         const requestURL = 'https://jsonplaceholder.typicode.com/posts';
+
+        function validateInput() {
+          const postId = parseInt(document.getElementById('postId').value.trim());
+          if (Number.isNaN(postId) || postId < 1) {
+            alertBox.textContent = '1~100 사이 숫자를 입력해주세요';
+            alertBox.classList.remove('hidden');
+            alertBox.style.visibility = 'visible';
+            setTimeout(() => {
+              alertBox.classList.add('hidden');
+
+              setTimeout(() => {
+                alertBox.textContent = '';
+                alertBox.style.visibility = 'hidden';
+              }, 3000)
+            }, 1000);
+
+            return false;
+          }
+
+          return true;
+        }
 
         document.getElementById('createPost').addEventListener('click', () => {
           const myPost = {
             title: 'sesac',
             body: 'seoul',
-            postId: 1,
+            id: 100
           };
 
           createPost(myPost);
@@ -97,6 +153,9 @@
         }
 
         function readPost() {
+          if (!validateInput()) {
+            return false;
+          }
           const readFirstPost = `${requestURL}/${document.getElementById('postId').value}`;
           fetch(readFirstPost)
             .then(response => response.json())
@@ -105,7 +164,30 @@
         }
 
         function updatePost(newPost) {
+          if (!validateInput()) {
+            return false;
+          }
           const updateFirstPost = `${requestURL}/${document.getElementById('postId').value}`;
+          const queriedPost = (document.getElementById('result').innerText != '') ?
+            JSON.parse(document.getElementById('result').innerText) : '';
+          const inputPostId = document.getElementById('postId').value;
+
+          if (queriedPost == '' || inputPostId == '' || parseInt(queriedPost?.id) != parseInt(inputPostId.trim())) {
+            const alertBox = document.getElementById('alertBox');
+            alertBox.textContent = '현재 조회된 포스트만 수정할 수 있습니다';
+            alertBox.classList.remove('hidden');
+            alertBox.style.visibility = 'visible';
+            setTimeout(() => {
+              alertBox.classList.add('hidden');
+
+              setTimeout(() => {
+                alertBox.textContent = '';
+                alertBox.style.visibility = 'hidden';
+              }, 3000)
+            }, 1000);
+            return false;
+          }
+
           fetch(updateFirstPost, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
@@ -121,7 +203,30 @@
         }
 
         function deletePost(postId) {
+          if (!validateInput()) {
+            return false;
+          }
           const deletePost = `${requestURL}/${postId}`;
+          const queriedPost = (document.getElementById('result').innerText != '') ?
+            JSON.parse(document.getElementById('result').innerText) : '';
+          const inputPostId = document.getElementById('postId').value;
+
+          if (queriedPost == '' || inputPostId == '' || parseInt(queriedPost?.id) != parseInt(inputPostId.trim())) {
+            const alertBox = document.getElementById('alertBox');
+            alertBox.textContent = '현재 조회된 포스트만 삭제할 수 있습니다';
+            alertBox.classList.remove('hidden');
+            alertBox.style.visibility = 'visible';
+            setTimeout(() => {
+              alertBox.classList.add('hidden');
+
+              setTimeout(() => {
+                alertBox.textContent = '';
+                alertBox.style.visibility = 'hidden';
+              }, 3000)
+            }, 1000);
+            return false;
+          }
+
           fetch(deletePost, {
             method: 'DELETE'
           })
