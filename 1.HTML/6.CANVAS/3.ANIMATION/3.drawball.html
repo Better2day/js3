@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    canvas {
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="aniCanvas" width="400" height="200"></canvas>
+
+  <script>
+    const canvas = document.getElementById('aniCanvas');
+    const context = canvas.getContext('2d');
+
+    const ball = {
+      x: 50,
+      y: 50,
+      dx: 5,
+      dy: 5,
+      radius: 10
+    }
+
+    let xDirection = 1;
+    let yDirection = 1;
+
+    function drawBall() {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      context.beginPath();
+      context.arc(ball.x, ball.y, ball.radius, 0, 2 * Math.PI);
+      context.fillStyle = '#0095DD';
+      context.fill();
+      context.closePath();
+
+
+      // 오른쪽/왼쪽 벽에 부딪치면 좌우 방향 반전
+      // 위/아래 벽에 부딪치면 상하 방향 반전
+      if (ball.x - ball.radius <= 0 || ball.x + ball.radius >= canvas.width) {
+        xDirection *= -1;
+      }
+      if (ball.y - ball.radius <= 0 || ball.y + ball.radius >= canvas.height) {
+        yDirection *= -1;
+      }
+      console.log(`(x, y) = ${ball.x}, ${ball.y}`);
+      console.log(ball.y);
+
+      ball.x += ball.dx * xDirection;
+      ball.y += ball.dy * yDirection;
+      // ball.dx += 0.1;
+      // ball.dy += 0.1;
+
+      requestAnimationFrame(drawBall); // 화면 주사율대로 애니메이션 반복 (60Hz)
+    }
+
+    // 화면에서 공이 무한으로 튕기도록 구현
+    drawBall();
+  </script>
+</body>
+
+</html>

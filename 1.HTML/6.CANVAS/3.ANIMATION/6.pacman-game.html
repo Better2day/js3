@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      background-color: black;
+    }
+
+    canvas {
+      border: 1px solid white;
+    }
+
+    #scoreText {
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="scoreText">Score: <span id="score"><!-- 점수가 올 곳 --></span></div>
+  <canvas id="aniCanvas" width="600" height="400"></canvas>
+
+  <script>
+    const canvas = document.getElementById('aniCanvas');
+    const context = canvas.getContext('2d');
+
+    let pacman = {
+      x: 200,
+      y: 200,
+      size: 30,
+      speed: 2,
+    };
+    let startAngle = 0.2 * Math.PI;
+    let endAngle = 1.8 * Math.PI;
+    let mouthOpen = 1; // 1 = open , -1 = close
+    let mouthSpeed = 0.05;
+    // let positionX = 200;
+    // let positionY = 200;
+    // const pacmanSize = 30;
+    let directionX = 1;
+    let directionY = 0;
+
+    let score = 0;
+
+    function updateMouth() {
+      if (startAngle > 0.3 * Math.PI || startAngle < 0.05 & Math.PI) {
+        mouthOpen = -mouthOpen;
+        // mouthOpen *= -1;
+      }
+      startAngle += mouthSpeed * mouthOpen;
+      endAngle -= mouthSpeed * mouthOpen;
+    }
+
+    function drawPacman() {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+
+      context.beginPath();
+      context.moveTo(pacman.x, pacman.y);
+      context.arc(pacman.x, pacman.y, pacman.size, startAngle, endAngle);
+      context.fillStyle = 'yellow';
+      context.fill();
+      context.closePath();
+    }
+
+    function updatePosition() {
+      pacman.x += pacman.speed * directionX;
+      pacman.y += pacman.speed * directionY;
+
+      if (pacman.x > canvas.width - pacman.size) {
+        pacman.x = canvas.width - pacman.size; // 화면을 벗어나려고 하면, 그 자리에 멈춤
+      }
+      if (pacman.y > canvas.height - pacman.size) {
+        pacman.y = canvas.height - pacman.size;
+      }
+      if (pacman.x < pacman.size) {
+        pacman.x = pacman.size;
+      }
+      if (pacman.y < pacman.size) {
+        pacman.y = pacman.size;
+      }
+    }
+
+    function pacmanMovementHandler(ev) {
+      switch (ev.key) {
+        case 'ArrowUp':
+          directionY = -1;
+          directionX = 0;
+          break;
+        case 'ArrowDown':
+          directionY = 1;
+          directionX = 0;
+          break;
+        case 'ArrowLeft':
+          directionX = -1;
+          directionY = 0;
+          break;
+        case 'ArrowRight':
+          directionX = 1
+          directionY = 0;
+          break;
+      }
+    }
+
+    document.addEventListener('keydown', ev => pacmanMovementHandler(ev));
+
+    let foods = [];
+
+    function generateFood() {
+      if (foods.filter(food => !food.eaten).length < 3) {
+
+        // 원하는 갯수만큼 반복해서 음식 만들기 (지금은 3개)
+        for (let i = 0; i < 3; i++) {
+          const food = {
+            x: Math.floor(Math.random() * (canvas.width - 40)) + 20, // 20 ~ (canvas.width - 20) 사이에 만듦
+            y: Math.floor(Math.random() * (canvas.height - 40)) + 20,
+            radius: 10,
+            eaten: false
+          };
+          foods.push(food);
+          console.log(food);
+        }
+      }
+    }
+
+
+    function drawFood() {
+
+      foods.forEach(food => {
+        // 먹은 건 안 그린다
+        if (!food.eaten) {
+          context.beginPath();
+          // context.moveTo(pacman.x, pacman.y);
+          context.arc(food.x, food.y, food.radius, 0, 2 * Math.PI);
+          context.fillStyle = 'white';
+          context.fill();
+          context.closePath();
+        }
+      });
+    }
+
+    function clearScreen() {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    const scoreSpan = document.getElementById('score');
+
+    function checkFoodEaten() {
+      // pacman의 위치와 먹이가 같은 곳(근처)에 있는지 확인해서, 먹었으면 표시
+      foods.forEach(food => {
+        const dx = food.x - pacman.x;
+        const dy = food.y - pacman.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < pacman.size && !food.eaten) {
+          // console.log('먹었음');
+          food.eaten = true;
+          score += 10;
+          scoreSpan.innerText = score;
+        }
+        // console.log('음식과 팩맨 사이의 거리', dist);
+      });
+      foods = foods.filter(food => !food.eaten);
+    }
+
+    /*************************
+     *  여기가 메인 루프
+     *************************/
+    function animatePacman() {
+      // clearScreen();
+      drawPacman();
+      generateFood();
+      drawFood();
+      updateMouth();
+      updatePosition();
+      checkFoodEaten();
+
+      requestAnimationFrame(animatePacman);
+    }
+
+    animatePacman();
+  </script>
+</body>
+
+</html>

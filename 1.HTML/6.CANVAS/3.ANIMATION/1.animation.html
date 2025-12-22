@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    canvas {
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="aniCanvas" width="400" height="200"></canvas>
+
+  <script>
+    const canvas = document.getElementById('aniCanvas');
+    const context = canvas.getContext('2d');
+    let x = 0;
+    const RECT_WIDTH = 50;
+    const RECT_HEIGHT = 50;
+    const directionSet = {
+      LEFT: 0,
+      RIGHT: 1
+    };
+    let DIRECTION = directionSet.RIGHT;
+
+
+    // context.fillStyle = '#ff0000';
+    // context.fillRect(x, 50, 50, 50);
+
+    function draw() {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      context.fillStyle = '#ff0000';
+      context.fillRect(x, 50, RECT_WIDTH, RECT_HEIGHT);
+
+      console.log(x);
+      if (x >= canvas.width - RECT_WIDTH) {
+        // x -= 5;
+        DIRECTION == directionSet.LEFT;
+      } else {
+        if (DIRECTION == directionSet.RIGHT) {
+          x += 5;
+        } else if (DIRECTION == directionSet.LEFT) {
+          x -= 5;
+          // if (x <= canvas.width - 50) {
+          // }
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+
+    draw();
+
+  </script>
+</body>
+
+</html>
