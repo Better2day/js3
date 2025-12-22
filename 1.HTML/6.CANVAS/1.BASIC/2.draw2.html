@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    canvas {
+      border: 1px dashed blue;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="myCanvas" width="400" height="200"></canvas>
+  <script>
+    // const canvas = document.getElementById('myCanvas');
+    // const context = canvas.getContext('2d');
+
+    const context = document.getElementById('myCanvas').getContext('2d');
+
+    context.beginPath();
+    context.moveTo(300, 100);
+
+    const startAngle = Math.PI * 0.2; // 0도에서 0.2PI만큼 내려감 (더 감)
+    const endAngle = Math.PI * 1.8; // 360도에서 0.2PI만큼 올라감 (덜 감)
+
+    context.arc(300, 100, 70, startAngle, endAngle); // radian
+    context.lineTo(300, 100);
+
+    // context.moveTo(300, 100);
+    // context.lineTo(370, 100);
+    // context.stroke();
+    context.fillStyle = 'yellow';
+    context.fill();
+
+    context.strokeStyle = 'black';
+    context.stroke();
+    context.closePath();
+
+    // 얼굴 그리기
+    context.beginPath();
+
+    // context.moveTo(75, 75);
+    // context.lineTo(75, 125);
+    // context.stroke();
+    context.arc(75, 75, 50, 0, Math.PI * 2, true);
+    context.stroke();
+    context.closePath();
+
+    // 여기에 나머지 채워넣기
+    context.beginPath();
+    context.moveTo(65, 65);
+    context.arc(60, 65, 5, 0, Math.PI * 2, true);
+    // context.stroke();
+    context.moveTo(95, 65);
+    context.arc(90, 65, 5, 0, Math.PI * 2, true);
+    // context.stroke();
+    context.moveTo(110, 75);
+    // context.arc(75, 75, 35, 0, Math.PI, false);
+    context.arc(75, 75, 35, 0, Math.PI); // 6번째 인자로 아무 것도 안 넣으면 기본값 0(false)
+    context.stroke();
+    context.closePath();
+  </script>
+</body>
+
+</html>

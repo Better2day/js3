@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    canvas {
+      border: 1px solid red;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="myCanvas" width="400" height="200"></canvas>
+  <script>
+    const context = document.getElementById('myCanvas').getContext('2d');
+
+    function drawText(x, y, text, font, style) {
+      context.font = font;
+      context.fillStyle = style;
+      context.fillText(text, x, y);
+    }
+
+    drawText(30, 50, 'Hello, Canvas!', '30px Consolas', 'red');
+    drawText(20, 180, 'Text1', '24px 맑은고딕', 'blue');
+    drawText(100, 100, 'Text2', 'italic 16px Verdana', 'green');
+    drawText(250, 150, 'Text3', 'bold 30px Arial', 'black');
+  </script>
+</body>
+
+</html>

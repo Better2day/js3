@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  <div>
+    <canvas id="myChart"></canvas>
+  </div>
+
+  <script>
+    const ctx = document.getElementById('myChart');
+
+    // 1. 데이터 정의 (data)
+    const data = {
+      labels: [
+        '식사',
+        '수면',
+        '공부',
+        '운동',
+        '여가'
+      ],
+      datasets: [{
+        label: '나의 매장 매출 비중',
+        data: [20, 50, 70, 5, 10],
+        backgroundColor: [
+          'rgba(255, 205, 86, 0.5)'
+        ],
+      }]
+    };
+    // 2. 차트 설정 정의 (config)
+    const config = {
+      type: 'radar',
+      data: data,
+      options: {
+        responsive: false, // 반응형 비활성화
+        scales: {
+          r: {
+            min: 0,
+            max: 60,
+            ticks: { stepSize: 10 }
+            // beginAtZero: true
+          },
+
+        }
+      }
+    };
+
+    // 3. 그린다.
+    const piechart = new Chart(ctx, config);
+
+  </script>
+</body>
+
+</html>

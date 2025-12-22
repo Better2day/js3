@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    canvas {
+      border: 1px solid #000;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="myCanvas" width="400" height="200"></canvas>
+
+  <script>
+    const canvas = document.getElementById('myCanvas');
+    const context = canvas.getContext('2d'); // 2D 그림 그릴 공간을 가져온다.
+
+    // 1. 사각형 그리기
+    context.fillStyle = '#FF0000'; // RGB
+    context.fillRect(50, 50, 100, 80); // (x, y, width, height);
+
+    context.strokeStyle = 'BLUE'; // 파란 테두리 사각형
+    context.strokeRect(50, 100, 100, 80);
+
+    // 2. 라인 그리기
+    context.strokeStyle = '#00FF00';
+    context.lineWidth = 3;
+    context.beginPath(); // 경로 시작
+    context.moveTo(200, 50); // 시작점
+    context.lineTo(300, 130); // 끝점
+    context.stroke(); // 실제로 그리기
+    context.closePath(); // 경로 끝
+
+    context.beginPath(); // 경로 시작
+    context.moveTo(190, 70); // 시작점
+    context.lineTo(290, 150); // 끝점
+    context.stroke(); // 실제로 그리기
+    context.closePath(); // 경로 끝
+
+    context.strokeStyle = '#FF0000';
+    context.lineWidth = 5;
+    context.beginPath(); // 경로 시작
+    context.moveTo(350, 50); // 시작점
+    context.lineTo(350, 150); // 끝점
+    context.stroke(); // 실제로 그리기
+    context.closePath(); // 경로 끝
+
+    // 3. 원 그리기
+    // arc(x, y, radius, startAngle, endAngle, counterclockwise); 원 또는 호 그리기
+    context.fillStyle = '#00FF00';
+    context.beginPath();
+    context.arc(350, 50, 30, 0, 2 * Math.PI); // 각도: degree, radian (2PI = 360 )
+    context.fill(); // 내용 채우기
+
+    context.fillStyle = '#0000FF';
+    context.beginPath();
+    context.arc(350, 150, 30, 0, Math.PI); // 각도: degree, radian (2PI = 360 )
+    context.fill(); // 내용 채우기
+
+
+
+
+  </script>
+
+</body>
+
+</html>
