@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    crossorigin="anonymous">
+</head>
+
+<body>
+  <div class="container">
+    <h2 class="text-center my-4">Bootstrap Grid</h2>
+    <div class="row">
+      <div class="col">O1번 열</div>
+      <div class="col">O2번 열</div>
+      <div class="col">O3번 열</div>
+      <div class="col">O4번 열</div>
+      <div class="col">O5번 열</div>
+      <div class="col">O6번 열</div>
+      <div class="col">O7번 열</div>
+      <div class="col">O8번 열</div>
+      <div class="col">O9번 열</div>
+      <div class="col">1O번 열</div>
+      <div class="col">11번 열</div>
+      <div class="col">12번 열</div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <!-- https://getbootstrap.com/docs/5.3/layout/grid/ -->
+      <!-- col, medium(md), 4 -->
+      <!-- Extra small 없음 (xs) 0 기본값, 가장 작은 화면
+      Small sm 576px 작은 태블릿 / 큰 모바일 가로
+      Medium md 768px 태블릿
+      Large lg 992px 작은 데스크톱 / 랩탑
+      Extra large xl 1200px 일반 데스크톱
+      Extra extra large xxl 1400px 큰 모니터(와이드) -->
+      <div class="col-md-4">4칸 짜리 열</div>
+      <div class="col-md-8">8칸 짜리 열</div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-4" style="background-color:lightblue">4칸 열</div>
+      <div class="col-6" style="background-color:lightcoral">6칸 열</div>
+      <div class="col-8 bg-info">8칸 열</div>
+    </div>
+  </div>
+
+  <div class="container">
+    <h2 class="text-center my-4">Bootstrap responsive example</h2>
+    <div class="row">
+      <div class="col-12 col-sm6 col-md-4 col-lg-3 bg-primary">Box 1</div>
+      <div class="col-12 col-sm6 col-md-4 col-lg-3 bg-secondary">Box 2</div>
+      <div class="col-12 col-sm6 col-md-4 col-lg-3 bg-success">Box 3</div>
+      <div class="col-12 col-sm6 col-md-4 col-lg-3 bg-warning">Box 4</div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- d 시리즈를 잘 사용해서, 아래 내용을 완성하시오 -->
+    <!-- d-block, d-none, d-md-block, d-md-none 등 활용 -->
+    <!-- .d-{value} for xs -->
+    <!-- .d-{breakpoint}-{value} for sm, md, lg, xl, and xxl. -->
+    <h2 class="text-center my-4">Responsive example #2</h2>
+    <div class="d-block d-sm-none bg-success text-white p-3 text-center">제일 작은 화면에서만 보입니다. (576px 미만)</div>
+    <div class="d-none d-sm-block d-md-none bg-secondary text-white p-3 text-center">작은 화면에서만 보입니다. (576px 이상, 768px 미만)
+    </div>
+    <div class="d-none d-md-block d-lg-none bg-primary text-white p-3 text-center">중간 화면에서만 보입니다. (768px 이상, 992px 미만)
+    </div>
+    <div class="d-none d-lg-block d-xl-none bg-warning text-white p-3 text-center">큰 화면에서만 보입니다. (992x 이상, 1200pxx 미만)
+    </div>
+    <div class="d-none d-xl-block bg-danger text-white p-3 text-center">제일 큰 화면에서만 보입니다. (1200px 이상)
+    </div>
+
+  </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

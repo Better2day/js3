@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <style>
+    body {
+      /* 스크롤을 위해서 길게 */
+      height: 2000px;
+    }
+
+    .box {
+      margin: 100px 0;
+      padding: 40px;
+      background: #f0f0f0;
+      border: 2px solid #ccc;
+      text-align: center;
+      font-size: 24pt;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>스크롤하면 등장하는 요소 라이브러리 AOS</h1>
+
+  <div class="box" data-aos="fade-up">첫 번째 상자</div>
+  <div class="box" data-aos="fade-right">두 번째 상자</div>
+  <div class="box" data-aos="zoom-in">세 번째 상자</div>
+  <div class="box" data-aos="zoom-out">네 번째 상자</div>
+  <div class="box" data-aos="fade-left">다섯 번째 상자</div>
+  <div class="box" data-aos="flip-left">여섯 번째 상자</div>
+  <div class="box" data-aos="flip-right">일곱 번째 상자</div>
+
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    // AOS.init(); // AOS 기본 옵션으로 초기화
+
+    // 상세 옵션으로 초기화
+    AOS.init({
+      once: false,
+      offset: 100, // 스크롤 기준 위치
+      duration: 3000, // 애니메이션 지속 시간 (ms)
+      easing: 'ease-in-out' // 기본 이징 함수
+    })
+  </script>
+</body>
+
+</html>
