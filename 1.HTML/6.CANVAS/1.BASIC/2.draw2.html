@@ -20,24 +20,43 @@
 
     const context = document.getElementById('myCanvas').getContext('2d');
 
+    // context.beginPath();
+    // context.strokeStyle = 'black';
+    // context.moveTo(150, 100);
+    // context.lineTo(250, 100);
+    // context.stroke();
+    // context.closePath();
+
     context.beginPath();
-    context.moveTo(300, 100);
+    context.moveTo(300, 100); // 선을 그리기 '시작'할 지점으로 '펜(Pen)'의 좌표를 '이동'만 한다.
 
-    const startAngle = Math.PI * 0; // 0도에서 0.2PI만큼 내려감 (더 감)
-    const endAngle = Math.PI * 1.8; // 360도에서 0.2PI만큼 올라감 (덜 감)
+    const startAngle = Math.PI * 0; // 0.2 PI: 0도에서 0.2PI만큼 내려감 (더 감)
+    const endAngle = Math.PI * 1.5; // 1.8 PI: 360도에서 0.2PI만큼 올라감 (덜 감)
 
+    // beginPath() 이후 moveTo로 정해놓은 시작 좌표가 있거나 앞서 뭔가 그려진 게 있으면,
+    // 전자의 경우 시작 좌표, 후자의 경우 그려진 것 마지막 점부터 arc 시작점까지 선이 그려지고
+    // 그 끝점에서부터 호를 그리기 시작. 둘 다 없으면 원 둘레에 있는 호 시작점부터 그리기 시작
     context.arc(300, 100, 70, startAngle, endAngle); // radian
-    context.lineTo(300, 100);
+    // context.lineTo(300, 100); // 앞서 moveTo로 정해놓은 좌표가 있거나 그려진 게 있어야, lineTo가 작동
 
     // context.moveTo(300, 100);
     // context.lineTo(370, 100);
     // context.stroke();
+
+    context.closePath();
     context.fillStyle = 'yellow';
     context.fill();
 
     context.strokeStyle = 'black';
     context.stroke();
-    context.closePath();
+    // context.closePath();
+    // closePath()가 이 위치에 있으면 자동으로 arc 시작점까지 직선을 그리지 않지만, 46번째 줄에 두면 그린다.
+    // cf. fill() 메소드 호출 시, 열린 도형은 자동으로 닫히게 되기 때문이다.
+    // ("stroke() 메소드는 해당되지 않는다."라고 되어 있는데, 이 메서드도 자동으로 닫는 듯@251223 기준)
+    // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/closePath
+    // https://developer.mozilla.org/ko/docs/Web/API/Canvas_API/Tutorial/Drawing_shapes
+    // closePath() 메소드는 현재 점 위치와 시작점 위치를 직선으로 이어서 도형을 닫습니다.
+    // 이미 도형이 닫혔거나 한 점만 존재한다면, 이 메소드는 아무것도 하지 않습니다.
 
     // 얼굴 그리기
     context.beginPath();
