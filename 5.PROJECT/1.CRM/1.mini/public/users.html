@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    crossorigin="anonymous">
+</head>
+
+<body>
+  <div class="container mb-4">
+    <h1>사용자 테이블</h1>
+  </div>
+  <div class="container mb-2">
+    <input type="text" id="search-name" placeholder="사용자 이름 검색">
+    <button id="search-button">검색</button>
+  </div>
+  <div class="container">
+    <table class="table table-striped table-bordered table-hover">
+      <thead id="table-header" class="table table-header"></thead>
+      <tbody id="table-body" class="table table-body"></tbody>
+    </table>
+  </div>
+  <div class="container" id="pagination">
+    <!-- << 1 2 3 >> 식의 페이징이 올 곳 -->
+    <!-- 대안: 이전 1 / 50 다음 식으로 하면 훨씬 쉽다.-->
+  </div>
+
+  <!-- 여기는 기본 경로라서 경로 앞에 /(slash)를 붙이지 않아도 정상 작동하기는 한다. -->
+  <!-- <script src="users.js"></script> -->
+  <script src="/users.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
