@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      width: 50%;
+    }
+
+    input {
+      width: 300px;
+    }
+
+    ::placeholder {
+      color: red;
+    }
+
+    body:has(input:focus) *:not(input) {
+      background-color: #ccc;
+      opacity: 0.3;
+      pointer-events: none;
+      /* filter: blur(1px); */
+    }
+
+    /* input:focus {
+      background-color: white;
+      opacity: 1;
+      z-index: 3;
+    } */
+
+    button {
+      cursor: pointer;
+    }
+
+    div {
+      margin: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- div로 전체를 감싸지 않으면, 블럭 요소만 어두운 반투명으로 돼서 전체적으로 얼룩덜룩  -->
+  <!-- div로 전체를 감쌌더니, input 요소마저 어두운 반투명으로 됨 (자식에게 강제 상속되는 듯)-->
+  <!-- CSS로 input:focus 부분을 따로 설정해도, 자식이 부모를 못 이김;; (CSS 기본 설정인 듯) -->
+  <!-- <div class="container"> -->
+
+  <h1>Outfocus effect using :has and :not Pseudo Class</h1>
+  <input type="text" placeholder="입력에만 집중할 수 있게 도와드립니다.">
+  <button>입력</button>
+
+  <div>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestiae sunt quisquam nam id, voluptatem illum
+    impedit omnis culpa, temporibus minima repellendus? Minima rerum dolorem eligendi corporis blanditiis quaerat
+    delectus. Maxime.</div>
+
+  <div>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Reiciendis ad neque enim sapiente tenetur amet id
+    consectetur distinctio laborum. Porro impedit similique soluta qui ea delectus reiciendis autem sunt asperiores.
+  </div>
+
+  <!-- </div> -->
+</body>
+
+</html>
