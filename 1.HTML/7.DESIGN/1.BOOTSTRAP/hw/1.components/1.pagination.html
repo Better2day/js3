@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bootstrap demo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    crossorigin="anonymous">
+</head>
+
+<body>
+  <h1>Pagination</h1>
+  <br>
+  <nav aria-label="Page Navigation Example">
+    <ul class="pagination">
+      <li class="page-item"><a class="page-link" href="#">이전</a></li>
+      <li class="page-item"><a class="page-link" href="#">1</a></li>
+      <li class="page-item"><a class="page-link" href="#">2</a></li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item"><a class="page-link" href="#">다음</a></li>
+    </ul>
+  </nav>
+
+  Prev/Next 대신에 화살표 아이콘 사용 (A, span 태그의 Aria label 내용에 주목)
+  <nav aria-label="Page Navigation Example">
+    <ul class="pagination">
+      <li class="page-item"><a class="page-link" href="#" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span></a></li>
+      <li class="page-item"><a class="page-link" href="#">1</a></li>
+      <li class="page-item"><a class="page-link" href="#">2</a></li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item"><a class="page-link" href="#" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span></a></li>
+    </ul>
+  </nav>
+
+  <nav aria-label="Page Navigation Example">
+    <ul class="pagination">
+      <li class="page-item disabled"><a class="page-link" href="#">이전</a></li>
+      <li class="page-item"><a class="page-link" href="#">1</a></li>
+      <li class="page-item active" aria-current="page"><a class="page-link" href="#">2</a></li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item"><a class="page-link" href="#">다음</a></li>
+    </ul>
+  </nav>
+
+  <nav aria-label="Page Navigation Example">
+    <ul class="pagination">
+      <li class="page-item disabled">
+        <span class="page-link">이전</span>
+      </li>
+      <li class="page-item"><a class="page-link" href="#">1</a></li>
+      <li class="page-item active" aria-current="page">
+        <span class="page-link">2</span>
+      </li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item">
+        <a class="page-link" href="#">다음</a>
+      </li>
+    </ul>
+  </nav>
+
+  <nav aria-label="Page Navigation Example">
+    <ul class="pagination pagination-sm">
+      <li class="page-item"><a class="page-link" href="#">이전</a></li>
+      <li class="page-item"><a class="page-link" href="#">1</a></li>
+      <li class="page-item"><a class="page-link" href="#">2</a></li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item"><a class="page-link" href="#">다음</a></li>
+    </ul>
+  </nav>
+
+  <nav aria-label="Page Navigation Example">
+    <ul class="pagination pagination-lg justify-content-center">
+      <li class="page-item disabled"><a class="page-link" href="#">이전</a></li>
+      <li class="page-item"><a class="page-link" href="#">1</a></li>
+      <li class="page-item active" aria-current="page"><a class="page-link" href="#">2</a></li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item"><a class="page-link" href="#">다음</a></li>
+    </ul>
+  </nav>
+
+  <nav aria-label="Page Navigation Example">
+    <ul class="pagination pagination-xl justify-content-end">
+      <li class="page-item disabled"><a class="page-link" href="#">이전</a></li>
+      <li class="page-item"><a class="page-link" href="#">1</a></li>
+      <li class="page-item active" aria-current="page"><a class="page-link" href="#">2</a></li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item"><a class="page-link" href="#">다음</a></li>
+    </ul>
+  </nav>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
