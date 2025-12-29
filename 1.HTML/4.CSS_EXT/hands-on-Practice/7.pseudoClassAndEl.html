@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      width: 50vw;
+    }
+
+    /* p:first-child {
+      font-size: 1.2rem;
+      font-weight: bold;
+    } */
+
+    article section:first-child>ul>li:nth-child(-n+14) {
+      color: red;
+    }
+
+    article section:last-child>ul>li:nth-child(-n+4) {
+      color: red;
+    }
+
+    section p:first-child {
+      color: purple;
+    }
+
+    a:link,
+    a:visited {
+      color: rebeccapurple;
+    }
+
+    a:hover {
+      color: hotpink;
+    }
+
+    /* p::before {
+      content: '* ';
+    } */
+
+    p::after {
+      content: ' >';
+      color: red;
+    }
+
+    article p::first-line {
+      font-weight: bold;
+    }
+
+    article p::first-letter {
+      font-size: 2rem;
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <article>
+      <p>Veggies es bonus vobis, proinde vos postulo essum magis kohlrabi welsh onion
+        daikon amaranth tatsoi tomatillo melon azuki bean garlic.</p>
+
+      <p>Gumbo beet greens corn soko endive gumbo gourd. Parsley shallot courgette
+        tatsoi pea sprouts fava bean collard greens dandelion okra wakame tomato.
+        Dandelion cucumber earthnut pea peanut soko zucchini.</p>
+    </article>
+
+    <p><a href="">Hover over me</a></p>
+
+    <article>
+      <section>
+        <p>:only-child test</p>
+        <h1>Pseudo Class (desc by rough frequency of use)</h1>
+        <ul>
+          <li>:active</li>
+          <li>:checked</li>
+          <li>:disabled</li>
+          <li>:first-child</li>
+          <li>:last-child</li>
+          <li>:nth-child()</li>
+          <li>:nth-last-child()</li>
+          <li>:only-child</li>
+          <li>:has()</li>
+          <li>:not()</li>
+          <li>:is()</li>
+          <li>:where()</li>
+          <li>:focus</li>
+          <li>:hover</li>
+          <li>:focus-within</li>
+          <li>:enabled</li>
+          <li>:empty</li>
+          <li>:only-of-type</li>
+          <li>:first-of-type</li>
+          <li>:last-of-type</li>
+          <li>:nth-of-type()</li>
+          <li>:nth-last-of-type()</li>
+          <li>:in-range</li>
+          <li>:out-of-range</li>
+          <li>:required</li>
+          <li>:valid</li>
+          <li>:invalid</li>
+        </ul>
+      </section>
+      <section>
+        <h1>Pseudo Element</h1>
+        <ul>
+          <li>::before</li>
+          <li>::after</li>
+          <li>::placeholder</li>
+          <li>::selection</li>
+          <li>::first-line</li>
+          <li>::first-letter</li>
+        </ul>
+      </section>
+    </article>
+  </main>
+</body>
+
+</html>
