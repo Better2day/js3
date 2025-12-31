@@ -4,11 +4,81 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Users</title>
+  <title>CRM - Users</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      position: relative;
+      width: 100vw;
+    }
+
+    nav {
+      width: 70%;
+      height: 5vh;
+      color: #ccc;
+      background-color: #333;
+      margin: 0 auto;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+    }
+
+    main {
+      width: 70%;
+      margin: 0 auto;
+    }
+
+    table {
+      width: 70%;
+      /* border: 1px solid black; */
+    }
+
+    ul {
+      display: flex;
+      list-style: none;
+    }
+
+    li {
+      margin-right: 10px;
+    }
+  </style>
 </head>
 
 <body>
-  <h1>Users</h1>
+  <header>
+    <nav>
+      <ul>
+        <li>User</li>
+        <li>Order</li>
+        <li>OrderItem</li>
+        <li>Item</li>
+        <li>Store</li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <table id="user-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Gender</th>
+          <th>Age</th>
+          <th>Birthday</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </main>
+
+  <footer></footer>
 
 </body>
 

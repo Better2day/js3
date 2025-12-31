@@ -1,9 +1,6 @@
-const path = require('path');
-const express = require('express');
-const router = express.Router();
+const router = require('express').Router();
+const userController = require('../controllers/userController');
 
-router.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public', 'users.html'));
-});
+router.get('/', userController.getUsers);
 
 module.exports = router;
