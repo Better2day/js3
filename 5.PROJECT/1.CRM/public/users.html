@@ -18,25 +18,31 @@
       width: 100vw;
     }
 
-    nav {
+    body>* {
       width: 70%;
+      margin: 0 auto;
+    }
+
+    nav {
       height: 5vh;
       color: #ccc;
       background-color: #333;
-      margin: 0 auto;
       padding: 20px;
       display: flex;
       align-items: center;
     }
 
     main {
-      width: 70%;
-      margin: 0 auto;
+      /* width: 70%; */
+      /* margin: 0 auto; */
+      height: 90vh;
+      margin: 10px auto;
     }
 
     table {
-      width: 70%;
-      /* border: 1px solid black; */
+      width: 100%;
+      border: 1px solid black;
+      border-collapse: collapse;
     }
 
     ul {
@@ -46,6 +52,20 @@
 
     li {
       margin-right: 10px;
+    }
+
+    th,
+    td {
+      border: 1px solid black;
+    }
+
+    th {
+      padding: 10px;
+      text-align: left;
+    }
+
+    td {
+      padding: 10px;
     }
   </style>
 </head>
@@ -66,20 +86,14 @@
   <main>
     <table id="user-table">
       <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Gender</th>
-          <th>Age</th>
-          <th>Birthday</th>
-        </tr>
+        <tr></tr>
       </thead>
       <tbody></tbody>
     </table>
   </main>
 
-  <footer></footer>
-
+  <footer>Copyright reserved.</footer>
+  <script src="./scripts/users.js"></script>
 </body>
 
 </html>
