@@ -9,4 +9,13 @@ function getUsers(req, res) {
   }
 }
 
-module.exports = { getUsers };
+function getUserCount(req, res) {
+  try {
+    const userCount = userService.getUserCount();
+    res.json(userCount);
+  } catch (err) {
+    res.status(500).send('Server error: ', err);
+  }
+}
+
+module.exports = { getUsers, getUserCount };

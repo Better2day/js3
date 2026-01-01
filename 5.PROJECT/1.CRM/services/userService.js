@@ -8,4 +8,12 @@ function getUsers() {
   return users;
 }
 
-module.exports = { getUsers };
+function getUserCount() {
+  const userCount = userModel.getUserCount();
+  if (!userCount) {
+    throw new Error('User Not Found');
+  }
+  return userCount;
+}
+
+module.exports = { getUsers, getUserCount };
