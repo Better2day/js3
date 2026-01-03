@@ -87,16 +87,32 @@
   </header>
 
   <main>
-    <table id="user-table" class="table table-striped">
-      <thead>
-        <tr></tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+    <section>
+      <form role="search">
+        <label for="name">Name</label>
+        <input type="text" id="name">
+        <label for="gender">Gender</label>
+        <select id="gender">
+          <option></option>
+          <option>남성</option>
+          <option>여성</option>
+        </select>
+        <button id="searchBtn">Search</button>
+      </form>
+    </section>
 
-    <nav id="pagination">
-      <ul></ul>
-    </nav>
+    <section>
+      <table id="user-table" class="table table-striped">
+        <thead>
+          <tr></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <nav id="pagination">
+        <ul></ul>
+      </nav>
+    </section>
   </main>
 
   <footer>Copyright reserved.</footer>
