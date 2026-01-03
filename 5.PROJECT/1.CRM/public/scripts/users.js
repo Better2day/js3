@@ -1,7 +1,6 @@
 const PAGE_SIZE = 20;
 
 document.addEventListener('DOMContentLoaded', () => {
-  // console.log(document.URL);
   // new URL(document.URL).search // queryParameter 전체
   loadData();
 });
@@ -75,7 +74,7 @@ function renderUsers(users) {
     })
 
     // table > tbody 안에 사용자 데이터 추가
-    const fragment = new DocumentFragment(); // reflow 한 번으로 줄이도록 프래그먼트 이용
+    const fragment = new DocumentFragment(); // reflow 최소화하려고 프래그먼트 이용
     users.forEach(user => {
       const tr = document.createElement('tr');
 
@@ -109,24 +108,19 @@ function renderPagination({ name, gender, page = 1, pageSize, totalCount }) {
     const li = document.createElement('li');
 
     // li.innerHTML = `<a href="/users?page=${i}">${i}</a>`;
-    const queryParams = `name=${name}&gender=${gender}&page=${i}`;
-    li.innerHTML = `<a href="/users?${queryParams}"><span>${i}</span></a>`;
-    // li.innerHTML = `<a href="/users?name=${name}&gender=${gender}&page=${i}">${i}</a>`;
+    li.innerHTML = `<a href="/users?name=${name}&gender=${gender}&page=${i}">${i}</a>`;
+    // li.innerHTML = `<a href="/users?name=${name}&gender=${gender}&page=${i}"><span>${i}</span></a>`;
 
     fragment.appendChild(li);
   }
   ul.appendChild(fragment);
 
-  // console.log(a.href);
-  // console.log(new URL(a.href).search);
-  // console.log((new URL(a.href).search).split('?').pop());
   // if (totalCound > 0) {
   // }
 }
 
 // Event Delegation을 통해서 페이지네이션 ul 한 개에만 이벤트 리스너 추가
 document.getElementById('pagination').querySelector('ul').addEventListener('click', e => {
-  console.log('ul click event handler');
   // if (e.target == 'a') {
   // 문자열 'a'와 비교는 불가능. 하려면 e.target.tagName === 'a'로 비교해야 함
   // 그런데 이럴 경우 <a href="URL"><span>1</span></a> 식으로 코드를 변경할 경우, target이 span이 되서 코드가 정상 작동하지 않게 됨
@@ -136,5 +130,25 @@ document.getElementById('pagination').querySelector('ul').addEventListener('clic
 
   e.preventDefault();
   e.stopPropagation();
+  // console.log('document.URL: ', document.URL);
+  // history.pushState({}, '', new URL(a.href));
+  console.log('new URL(a.href).search: ', new URL(a.href).search);
+  const searchParams = new URL(a.href).searchParams;
+  // 사용자가 뒤로/앞으로 가기 버튼을 눌러서 이동할 때 상태 복원을 위해서 히스토리 저장
+  // URL, 쿼리 파라미터 내용만으로 과거 상태를 다 복원(저장)할 수 없는 경우 (예: 정렬 옵션, UI 열림/닫힘 상태 등)
+  // 관련 정보를 state 객체에 저장하고, 이 정보를 상태를 복원하는 함수를 새로 만들면 더 나은 복원이 가능하다.
+  // history.pushState({
+  //   name: searchParams.get('name') || '',
+  //   gender: searchParams.get('gender') || '',
+  //   page: searchParams.get('page') ?? 1
+  // }, '', new URL(a.href).search);
+  history.pushState({}, '', new URL(a.href).search);
+  console.log('loadData() 실행 직전 location.href: ', location.href);
   loadData(new URL(a.href));
+  console.log('loadData() 실행 직후 location.href: ', location.href);
 })
+
+window.addEventListener('popstate', () => {
+  console.log('popstate 이벤트 리스너 안. location.href: ', location.href);
+  loadData(location.href);
+});
