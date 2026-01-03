@@ -5,9 +5,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   // new URL(document.URL).search // queryParameter 전체
   const searchParams = new URL(document.URL).searchParams;
   const page = searchParams.get('page') || 1;
+  // title에 페이지 번호를 적어서, 브라우저 히스토리를 통한 편리한 이동이 가능하도록 함
+  document.title = `CRM Users - page ${page}`;
 
-  // const users = await getUsers(page);
-  // const userCount = await getUserCount();
   const [users, userCount] = await Promise.all([getUsers(page), getUserCount()]);
 
   renderUsers(users);
@@ -76,14 +76,12 @@ function renderUsers(users) {
 function renderPagination({ items, page = 1, pageSize, totalCount }) {
 
   const totalPages = Math.ceil(totalCount / pageSize);
-  // console.log(totalPages);
 
   const nav = document.getElementById('pagination');
   const ul = nav.querySelector('ul');
   ul.textContent = '';
 
   for (let i = 1; i <= totalPages; i++) {
-    // const linkURL = `<a href="/api/${items}?page=${page}">${i}</a>`;
     const li = document.createElement('li');
 
     li.innerHTML = `<a href="/users?page=${i}">${i}</a>`;
