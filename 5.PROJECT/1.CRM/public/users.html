@@ -30,14 +30,24 @@
       margin: 0 auto;
     }
 
-    nav {
+    nav#header-nav {
       height: 5vh;
       color: #ccc;
       background-color: #333;
       /* padding: 20px; */
       display: flex;
       align-items: center;
-      flex-wrap: wrap;
+      /* flex-wrap: wrap; */
+    }
+
+    nav#header-nav ul {
+      display: flex;
+      list-style: none;
+      margin-bottom: 0;
+    }
+
+    nav#header-nav li {
+      margin-right: 10px;
     }
 
     main {
@@ -47,35 +57,18 @@
       margin: 10px auto;
     }
 
-    nav#pagination {
-      /* width: 70%; */
-      height: 5vh;
-      color: #555;
-      background-color: white;
-      /* padding: 20px; */
-      /* justify-content: center; */
-      flex-wrap: wrap;
-    }
-
-    ul {
+    main section:last-child {
+      height: 90%;
       display: flex;
-      list-style: none;
-      margin-bottom: 0;
-    }
-
-    nav#pagination ul {
-      flex-wrap: wrap;
-    }
-
-    li {
-      margin-right: 10px;
+      flex-direction: column;
+      justify-content: space-between;
     }
   </style>
 </head>
 
 <body>
   <header>
-    <nav>
+    <nav id="header-nav">
       <ul>
         <li>User</li>
         <li>Order</li>
@@ -110,7 +103,7 @@
       </table>
 
       <nav id="pagination">
-        <ul></ul>
+        <ul class="pagination justify-content-center"></ul>
       </nav>
     </section>
   </main>

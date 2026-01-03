@@ -1,4 +1,5 @@
 const PAGE_SIZE = 20;
+const NAV_SIZE = 10;
 
 document.addEventListener('DOMContentLoaded', () => {
   loadData();
@@ -9,9 +10,9 @@ async function loadData(url = '') {
   const name = searchParams.get('name') || '';
   const gender = searchParams.get('gender') || '';
   const page = searchParams.get('page') || 1;
-  console.log('page: ', page);
-  console.log('name: ', name);
-  console.log('gender: ', gender);
+  // console.log('page: ', page);
+  // console.log('name: ', name);
+  // console.log('gender: ', gender);
 
   // title에 페이지 번호를 적어서, 브라우저 히스토리를 통한 편리한 이동이 가능하도록 함
   document.title = `CRM Users - page ${page}`;
@@ -111,14 +112,52 @@ function renderPagination({ name, gender, page = 1, pageSize, totalCount }) {
   ul.textContent = '';
 
   const fragment = new DocumentFragment();
-  for (let i = 1; i <= totalPages; i++) {
-    const li = document.createElement('li');
 
-    li.innerHTML = `<a href="/users?name=${name}&gender=${gender}&page=${i}">${i}</a>`;
-    // li.innerHTML = `<a href="/users?name=${name}&gender=${gender}&page=${i}"><span>${i}</span></a>`;
+  const baseURL = `<a href="/users?name=${name}&gender=${gender}`;
+  // 이전 페이지와 다음 페이지를 계산하기 위해 이용할 값 ((페이지 그룹에서 제일 작은 페이지 - 1) / 10 )
+  const pageTenth = Math.floor((page - 1) / 10);
+  if (page > 10) {
+    // 첫 페이지
+    const liForFirstPage = document.createElement('li');
+    liForFirstPage.classList.add('page-item');
+    liForFirstPage.innerHTML = `${baseURL}&page=1" class="page-link"><<</a>`;
+    fragment.appendChild(liForFirstPage);
+    // 이전 페이지 (페이지 그룹에서 제일 작은 페이지 - 1)
+    const liForPrevPage = document.createElement('li');
+    liForPrevPage.classList.add('page-item');
+    const prevPage = NAV_SIZE * pageTenth;
+    liForPrevPage.innerHTML = `${baseURL}&page=${prevPage}" class="page-link"><</a>`;
+    fragment.appendChild(liForPrevPage);
+  }
+
+  const li = document.createElement('li');
+
+  // 가운데 보일 페이지 그룹 (min(totalPage, 10개 페이지))
+  for (let i = (NAV_SIZE * pageTenth) + 1; i <= Math.min(totalPages, NAV_SIZE * (pageTenth + 1)); i++) {
+    const li = document.createElement('li');
+    li.classList.add('page-item');
+    if (i == page) li.classList.add('active');
+
+    li.innerHTML = `${baseURL}&page=${i}" class="page-link">${i}</a>`;
+    // li.innerHTML = `${baseURL}&page=${i}"><span>${i}</span></a>`;
 
     fragment.appendChild(li);
   }
+
+  if (totalPages > 10 && NAV_SIZE * (pageTenth + 1) < totalPages) {
+    // 다음 페이지 (가운데 있는 10개 페이지 중 최댓값 + 1))
+    const liForNextPage = document.createElement('li');
+    liForNextPage.classList.add('page-item');
+    const nextPage = NAV_SIZE * (pageTenth + 1) + 1;
+    liForNextPage.innerHTML = `${baseURL}&page=${nextPage}" class="page-link">></a>`;
+    fragment.appendChild(liForNextPage);
+    // 마지막 페이지
+    const liForLastPage = document.createElement('li');
+    liForLastPage.classList.add('page-item');
+    liForLastPage.innerHTML = `${baseURL}&page=${totalPages}" class="page-link">>></a>`;
+    fragment.appendChild(liForLastPage);
+  }
+
   ul.appendChild(fragment);
 
   // if (totalCound > 0) {
@@ -137,8 +176,8 @@ document.getElementById('pagination').querySelector('ul').addEventListener('clic
   e.preventDefault();
   e.stopPropagation();
 
+  // console.log(new URL(a.href).search);
   // 사용자가 뒤로/앞으로 가기 버튼을 눌러서 이동할 때 상태 복원을 위해서 히스토리 저장
-  console.log(new URL(a.href).search);
   history.pushState({}, '', new URL(a.href).search);
   // history.pushState({}, '', a.href); // 이것도 별 문제 없지만, 위 방식이 조금 더 많은 정보를 넘겨줌
 
