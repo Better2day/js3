@@ -126,18 +126,22 @@ document.getElementById('pagination').querySelector('ul').addEventListener('clic
   e.preventDefault();
   e.stopPropagation();
 
-  console.log('new URL(a.href).search: ', new URL(a.href).search);
-  const searchParams = new URL(a.href).searchParams;
   // 사용자가 뒤로/앞으로 가기 버튼을 눌러서 이동할 때 상태 복원을 위해서 히스토리 저장
+  history.pushState({}, '', new URL(a.href).search);
+  // history.pushState({}, '', a.href); // 이것도 별 문제 없지만, 위 방식이 조금 더 많은 정보를 넘겨줌
+
   // URL, 쿼리 파라미터 내용만으로 과거 상태를 다 복원(저장)할 수 없는 경우 (예: 정렬 옵션, UI 열림/닫힘 상태 등)
   // 관련 정보를 state 객체에 저장하고, 이 정보를 상태를 복원하는 함수를 새로 만들면 더 나은 복원이 가능하다.
+  // const searchParams = new URL(a.href).searchParams;
   // history.pushState({
   //   name: searchParams.get('name') || '',
   //   gender: searchParams.get('gender') || '',
   //   page: searchParams.get('page') ?? 1
   // }, '', new URL(a.href).search);
-  history.pushState({}, '', new URL(a.href).search);
-  loadData(new URL(a.href));
+
+  // loadData(new URL(a.href));
+  // loadData(url) 함수 안에서 new URL()로 객체를 생성하므로, 함수 호출시 생성해서 넘겨줄 필요 없음
+  loadData(a.href);
 })
 
 // 사용자가 웹브라우저에서 뒤로/앞으로 가기 버튼을 눌렀을 때 이벤트 처리
