@@ -1,7 +1,7 @@
 const userModel = require('../models/userModel');
 
-function getUsers() {
-  const users = userModel.getUsers();
+function getUsers(page) {
+  const users = userModel.getUsers(page);
   if (!users) {
     throw new Error('User Not Found');
   }

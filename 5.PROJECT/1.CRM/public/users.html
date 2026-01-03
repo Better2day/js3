@@ -37,6 +37,7 @@
       /* padding: 20px; */
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
     }
 
     main {
@@ -47,12 +48,27 @@
     }
 
     nav#pagination {
-      height: 2vh;
+      /* width: 70%; */
+      height: 5vh;
       color: #555;
       background-color: white;
       /* padding: 20px; */
+      /* justify-content: center; */
+      flex-wrap: wrap;
+    }
+
+    ul {
       display: flex;
-      justify-content: center;
+      list-style: none;
+      margin-bottom: 0;
+    }
+
+    nav#pagination ul {
+      flex-wrap: wrap;
+    }
+
+    li {
+      margin-right: 10px;
     }
 
     /* 
@@ -76,17 +92,6 @@
       padding: 10px;
     }
     */
-
-
-    ul {
-      display: flex;
-      list-style: none;
-      margin-bottom: 0;
-    }
-
-    li {
-      margin-right: 10px;
-    }
   </style>
 </head>
 
@@ -111,7 +116,9 @@
       <tbody></tbody>
     </table>
 
-    <nav id="pagination"></nav>
+    <nav id="pagination">
+      <ul></ul>
+    </nav>
   </main>
 
   <footer>Copyright reserved.</footer>

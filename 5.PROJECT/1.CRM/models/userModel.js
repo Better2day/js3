@@ -1,7 +1,9 @@
 const db = require('better-sqlite3')('mycrm.db');
 
-function getUsers() {
-  const rows = db.prepare('SELECT * FROM users LIMIT 20').all();
+const PAGE_SIZE = 20;
+
+function getUsers(page = 1) {
+  const rows = db.prepare('SELECT * FROM users LIMIT 20 OFFSET ?').all((page - 1) * PAGE_SIZE);
   return rows;
 }
 

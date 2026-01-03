@@ -1,21 +1,26 @@
 const PAGE_SIZE = 20;
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const users = await getUsers();
-  renderUsers(users);
+  console.log(document.URL);
+  // new URL(document.URL).search // queryParameter 전체
+  const searchParams = new URL(document.URL).searchParams;
+  const page = searchParams.get('page') || 1;
 
+  // const users = await getUsers(page);
   // const userCount = await getUserCount();
+  const [users, userCount] = await Promise.all([getUsers(page), getUserCount()]);
 
+  renderUsers(users);
   renderPagination({
     items: users,
-    page: 1,
+    page: page,
     pageSize: PAGE_SIZE,
-    totalCount: await getUserCount()
+    totalCount: userCount
   });
 });
 
-async function getUsers() {
-  const res = await fetch('/api/users');
+async function getUsers(page = 1) {
+  const res = await fetch(`/api/users?page=${page}`);
   const users = await res.json();
 
   return users ?? [];
@@ -74,10 +79,15 @@ function renderPagination({ items, page = 1, pageSize, totalCount }) {
   // console.log(totalPages);
 
   const nav = document.getElementById('pagination');
-  nav.textContent = '';
+  const ul = nav.querySelector('ul');
+  ul.textContent = '';
 
   for (let i = 1; i <= totalPages; i++) {
-    nav.textContent += i + ' ';
+    // const linkURL = `<a href="/api/${items}?page=${page}">${i}</a>`;
+    const li = document.createElement('li');
+
+    li.innerHTML = `<a href="/users?page=${i}">${i}</a>`;
+    ul.appendChild(li);
   }
   // if (totalCound > 0) {
   // }
