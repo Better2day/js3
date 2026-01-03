@@ -39,7 +39,6 @@ function getUserCount(req, res) {
     res.json(userCount);
   } catch (err) {
     console.log(err);
-    // res.status(500).send('Server error: ', err);
     res.status(500).json({ 'Server error': err });
   }
 }
