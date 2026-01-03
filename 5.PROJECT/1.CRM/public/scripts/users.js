@@ -8,7 +8,7 @@ async function loadData(url = '') {
   const searchParams = new URL(url || document.URL).searchParams;
   const name = searchParams.get('name') || '';
   const gender = searchParams.get('gender') || '';
-  const page = searchParams.get('page') ?? 1;
+  const page = searchParams.get('page') || 1;
   console.log('page: ', page);
   console.log('name: ', name);
   console.log('gender: ', gender);
@@ -18,7 +18,8 @@ async function loadData(url = '') {
 
   const [users, userCount] = await Promise.all([
     getUsers({ name, gender, page }),
-    getUserCount({ name, gender })]);
+    getUserCount({ name, gender })
+  ]);
 
   renderUsers(users);
   renderPagination({
@@ -33,8 +34,10 @@ async function loadData(url = '') {
 
 // async function getUsers(page = 1) {
 async function getUsers({ name, gender, page }) {
-  // const res = await fetch(`/api/users?name=${encodeURIComponent(name)}&gender=${encodeURIComponent(gender)}&page=${page}`);
-  const res = await fetch(`/api/users?name=${name}&gender=${gender}&page=${page}`);
+  // 현재 내 개발 환경에서는 encodeURIComponent 처리를 하지 않아도 정상 작동 (최신 브라우저에서는 자동으로 UTF-8로 처리해서 그런 듯)
+  // 하지만 다른 환경에서 쿼리 파라미터에 CJK가 들어가거나, &, ?, = 같은 특수문자 포함시 오류가 발생할 수 있다고 하니 처리하는 게 정석
+  // const res = await fetch(`/api/users?name=${name}&gender=${gender}&page=${page}`);
+  const res = await fetch(`/api/users?name=${encodeURIComponent(name)}&gender=${encodeURIComponent(gender)}&page=${page}`);
   if (!res.ok) {
     const error = await res.json();
     throw new Error(error) || 'HTTP Request failed';
@@ -45,8 +48,8 @@ async function getUsers({ name, gender, page }) {
 };
 
 async function getUserCount({ name, gender }) {
-  // const res = await fetch(`/api/users/count?name=${encodeURIComponent(name)}&gender=${encodeURIComponent(gender)}`);
-  const res = await fetch(`/api/users/count?name=${name}&gender=${gender}`);
+  // const res = await fetch(`/api/users/count?name=${name}&gender=${gender}`);
+  const res = await fetch(`/api/users/count?name=${encodeURIComponent(name)}&gender=${encodeURIComponent(gender)}`);
   if (!res.ok) {
     const error = await res.json();
     throw new Error(error) || 'HTTP Request failed';
@@ -135,6 +138,7 @@ document.getElementById('pagination').querySelector('ul').addEventListener('clic
   e.stopPropagation();
 
   // 사용자가 뒤로/앞으로 가기 버튼을 눌러서 이동할 때 상태 복원을 위해서 히스토리 저장
+  console.log(new URL(a.href).search);
   history.pushState({}, '', new URL(a.href).search);
   // history.pushState({}, '', a.href); // 이것도 별 문제 없지만, 위 방식이 조금 더 많은 정보를 넘겨줌
 
@@ -155,4 +159,17 @@ document.getElementById('pagination').querySelector('ul').addEventListener('clic
 // 사용자가 웹브라우저에서 뒤로/앞으로 가기 버튼을 눌렀을 때 이벤트 처리
 window.addEventListener('popstate', () => {
   loadData(location.href);
+});
+
+document.getElementById('searchForm').addEventListener('submit', e => {
+  e.preventDefault();
+
+  const name = document.getElementById('name').value;
+  const gender = document.getElementById('gender').value;
+
+  // console.log(`?name=${name}&gender=${gender}`);
+  // console.log(`${document.URL}?name=${name}&gender=${gender}`);
+  history.pushState({}, '', `?name=${name}&gender=${gender}`);
+
+  loadData(`http://127.0.0.1:3000/users?name=${name}&gender=${gender}`);
 });

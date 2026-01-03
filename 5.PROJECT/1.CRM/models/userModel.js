@@ -15,7 +15,7 @@ function getUsers({ name, gender, page = 1 }) {
     AND gender LIKE ?
     LIMIT ?
     OFFSET ?
-     `).all(`%${name}%`, `%${gender}%`, PAGE_SIZE, (page - 1) * PAGE_SIZE);
+     `).all(`%${name}%`, `${gender}%`, PAGE_SIZE, (page - 1) * PAGE_SIZE);
 
   console.log(rows);
 
@@ -29,7 +29,7 @@ function getUserCount({ name, gender }) {
     FROM users
     WHERE name LIKE ?
     AND gender LIKE ?
-     `).get(`%${name}%`, `%${gender}%`);
+     `).get(`%${name}%`, `${gender}%`);
 
   console.log('usreModel.js → getUserCount() 안');
   console.log('userCount: ', userCount);
