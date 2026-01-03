@@ -1,14 +1,22 @@
 const PAGE_SIZE = 20;
 
 document.addEventListener('DOMContentLoaded', async () => {
-  console.log(document.URL);
+  // console.log(document.URL);
   // new URL(document.URL).search // queryParameter 전체
   const searchParams = new URL(document.URL).searchParams;
-  const page = searchParams.get('page') || 1;
+  const name = searchParams.get('name') || '';
+  const gender = searchParams.get('gender') || '';
+  const page = searchParams.get('page') ?? 1;
+  // const page = searchParams.get('page');
+  console.log('page: ', page);
+  console.log('typeof page: ', typeof page);
+
   // title에 페이지 번호를 적어서, 브라우저 히스토리를 통한 편리한 이동이 가능하도록 함
   document.title = `CRM Users - page ${page}`;
 
-  const [users, userCount] = await Promise.all([getUsers(page), getUserCount()]);
+  const [users, userCount] = await Promise.all([
+    getUsers({ q: name, gender, page }),
+    getUserCount({ q: name, gender })]);
 
   renderUsers(users);
   renderPagination({
@@ -19,7 +27,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 });
 
-async function getUsers(page = 1) {
+// async function getUsers(page = 1) {
+async function getUsers({ q, gender, page }) {
   const res = await fetch(`/api/users?page=${page}`);
   const users = await res.json();
 
