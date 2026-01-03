@@ -35,6 +35,10 @@ async function loadData(url = '') {
 async function getUsers({ name, gender, page }) {
   // const res = await fetch(`/api/users?name=${encodeURIComponent(name)}&gender=${encodeURIComponent(gender)}&page=${page}`);
   const res = await fetch(`/api/users?name=${name}&gender=${gender}&page=${page}`);
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error) || 'HTTP Request failed';
+  }
   const users = await res.json();
 
   return users ?? [];
@@ -43,6 +47,10 @@ async function getUsers({ name, gender, page }) {
 async function getUserCount({ name, gender }) {
   // const res = await fetch(`/api/users/count?name=${encodeURIComponent(name)}&gender=${encodeURIComponent(gender)}`);
   const res = await fetch(`/api/users/count?name=${name}&gender=${gender}`);
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error) || 'HTTP Request failed';
+  }
   const userCount = await res.json();
 
   return userCount ?? 0;
