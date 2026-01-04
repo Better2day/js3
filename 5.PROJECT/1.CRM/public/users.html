@@ -51,17 +51,19 @@
     }
 
     main {
-      /* width: 70%; */
-      /* margin: 0 auto; */
       height: 90vh;
       margin: 10px auto;
     }
 
-    main section:last-child {
-      height: 90%;
+    main section {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+    }
+
+    main section div.order-data {
+      max-height: 85vh;
+      overflow-y: auto;
     }
   </style>
 </head>
@@ -93,18 +95,20 @@
         <button>Search</button>
       </form>
     </section>
-
     <section>
-      <table id="user-table" class="table table-striped">
-        <thead>
-          <tr></tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-
-      <nav id="pagination">
-        <ul class="pagination justify-content-center"></ul>
-      </nav>
+      <div class="user-data">
+        <table id="user-table" class="table table-striped">
+          <thead>
+            <tr></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div>
+        <nav id="pagination">
+          <ul class="pagination justify-content-center"></ul>
+        </nav>
+      </div>
     </section>
   </main>
 

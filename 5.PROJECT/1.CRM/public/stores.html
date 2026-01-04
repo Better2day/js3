@@ -51,17 +51,19 @@
     }
 
     main {
-      /* width: 70%; */
-      /* margin: 0 auto; */
       height: 90vh;
       margin: 10px auto;
     }
 
     main section {
-      height: 90%;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+    }
+
+    main section div.store-data {
+      max-height: 85vh;
+      overflow-y: auto;
     }
   </style>
 </head>
@@ -81,16 +83,19 @@
 
   <main>
     <section>
-      <table id="store-table" class="table table-striped">
-        <thead>
-          <tr></tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-
-      <nav id="pagination">
-        <ul class="pagination justify-content-center"></ul>
-      </nav>
+      <div class="store-data">
+        <table id="store-table" class="table table-striped">
+          <thead>
+            <tr></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div>
+        <nav id="pagination">
+          <ul class="pagination justify-content-center"></ul>
+        </nav>
+      </div>
     </section>
   </main>
 
