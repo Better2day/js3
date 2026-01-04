@@ -4,7 +4,7 @@ const morgan = require('morgan');
 const index = require('./routes/index');
 const users = require('./routes/users');
 const stores = require('./routes/stores');
-// const items = require('./routes/items');
+const items = require('./routes/items');
 // const orders = require('./routes/orders');
 // const orderItems = require('./routes/orderItems');
 
@@ -20,7 +20,7 @@ app.use(morgan('dev'));
 app.use('/', index); // serves static HTML files for each entities
 app.use('/api/users', users);
 app.use('/api/stores', stores);
-// app.use('/api/items', items);
+app.use('/api/items', items);
 // app.use('/api/orders', orders);
 // app.use('/api/orderitems', orderItems);
 

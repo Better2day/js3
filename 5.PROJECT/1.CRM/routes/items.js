@@ -1,9 +1,8 @@
-const path = require('path');
-const express = require('express');
-const router = express.Router();
+const router = require('express').Router();
+const itemController = require('../controllers/itemController');
 
-router.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public', 'items.html'));
-});
+router.get('/', itemController.getItems);
+router.get('/count', itemController.getItemCount);
 
 module.exports = router;
+
