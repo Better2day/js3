@@ -1,13 +1,8 @@
 const orderitemService = require('../services/orderitemService');
 
+// 주문별 품목 목록
 function getOrderitems(req, res) {
   const { page } = req.query;
-  // 검색 기능 추가할 경우 필요
-  // const orderId = decodeURIComponent(req.query.orderId);
-
-  console.log('orderitemController.js → getOrderitems() 안');
-  console.log('page: ', page);
-  // console.log('orderId: ', orderId);
 
   try {
     const orderitems = orderitemService.getOrderitems({ page });
@@ -19,10 +14,6 @@ function getOrderitems(req, res) {
 }
 
 function getOrderitemCount(req, res) {
-  // const orderId = decodeURIComponent(req.query.orderId);
-
-  console.log('orderitemController.js → getOrderitemCount() 안');
-
   try {
     const orderitemCount = orderitemService.getOrderitemCount();
     res.json(orderitemCount);
@@ -32,4 +23,18 @@ function getOrderitemCount(req, res) {
   }
 }
 
-module.exports = { getOrderitems, getOrderitemCount };
+// 주문별 품목 상세
+function getOrderitemDetail(req, res) {
+  const id = decodeURIComponent(req.params.id);
+  console.log('orderitemController.js → getOrderitemDetail() 안. id: ', id);
+
+  try {
+    const orderitem = orderitemService.getOrderitemDetail({ id });
+    res.json(orderitem);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ 'Server error': err });
+  }
+}
+
+module.exports = { getOrderitems, getOrderitemCount, getOrderitemDetail };

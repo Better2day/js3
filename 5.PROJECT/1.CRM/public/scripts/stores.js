@@ -72,9 +72,9 @@ function renderStores(stores) {
     stores.forEach(store => {
       const tr = document.createElement('tr');
 
-      Object.values(store).forEach(val => {
+      Object.entries(store).forEach(([key, val]) => {
         const td = document.createElement('td');
-        td.textContent = val;
+        td.innerHTML = (key != 'Id') ? val : `<a href="/store-detail?id=${val}">${val}</a>`;
         tr.appendChild(td);
       })
       fragment.appendChild(tr);

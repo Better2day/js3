@@ -2,11 +2,8 @@ const db = require('better-sqlite3')('mycrm.db');
 
 const PAGE_SIZE = 20;
 
+// 주문별 품목 목록
 function getOrderitems({ page = 1 }) {
-  // console.log('orderitemModel.js → getOrderitems() 안');
-  // console.log('page: ', page);
-  // console.log('orderId: ', orderId);
-
   const rows = db.prepare(`
     SELECT *
     FROM orderitems
@@ -18,8 +15,6 @@ function getOrderitems({ page = 1 }) {
   // WHERE orderId = ?
   //  `).all(`${orderId}`, PAGE_SIZE, (page - 1) * PAGE_SIZE);
 
-  console.log(rows);
-
   return rows;
 }
 
@@ -29,9 +24,21 @@ function getOrderitemCount() {
     FROM orderitems
     `).get();
 
-  console.log('orderitemModel.js → getOrderitemCount() 안');
-  console.log('orderitemCount: ', orderitemCount);
   return orderitemCount;
 }
 
-module.exports = { getOrderitems, getOrderitemCount };
+// 주문별 품목 상세
+function getOrderitemDetail({ id }) {
+  console.log('orderitemModel.js → getOrderitemDetail() 안');
+
+  const row = db.prepare(`
+    SELECT *
+    FROM orderitems
+    WHERE Id = ?
+    `).get(id);
+
+  console.log(row);
+  return row;
+}
+
+module.exports = { getOrderitems, getOrderitemCount, getOrderitemDetail };

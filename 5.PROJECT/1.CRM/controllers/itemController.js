@@ -1,13 +1,8 @@
 const itemService = require('../services/itemService');
 
+// 품목 목록
 function getItems(req, res) {
   const { page } = req.query;
-  // 검색 기능 추가할 경우 필요
-  // const name = decodeURIComponent(req.query.name);
-
-  console.log('itemController.js → getItems() 안');
-  console.log('page: ', page);
-  // console.log('name: ', name);
 
   try {
     const items = itemService.getItems({ page });
@@ -19,10 +14,6 @@ function getItems(req, res) {
 }
 
 function getItemCount(req, res) {
-  // const name = decodeURIComponent(req.query.name);
-
-  console.log('itemController.js → getItemCount() 안');
-
   try {
     const itemCount = itemService.getItemCount();
     res.json(itemCount);
@@ -32,4 +23,18 @@ function getItemCount(req, res) {
   }
 }
 
-module.exports = { getItems, getItemCount };
+// 품목 상세
+function getItemDetail(req, res) {
+  const id = decodeURIComponent(req.params.id);
+  console.log('itemController.js → getItemDetail() 안. id: ', id);
+
+  try {
+    const item = itemService.getItemDetail({ id });
+    res.json(item);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ 'Server error': err });
+  }
+}
+
+module.exports = { getItems, getItemCount, getItemDetail };

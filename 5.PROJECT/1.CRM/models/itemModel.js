@@ -2,11 +2,8 @@ const db = require('better-sqlite3')('mycrm.db');
 
 const PAGE_SIZE = 20;
 
+// 품목 목록
 function getItems({ page = 1 }) {
-  // console.log('itemModel.js → getItems() 안');
-  // console.log('page: ', page);
-  // console.log('name: ', name);
-
   const rows = db.prepare(`
     SELECT *
     FROM items
@@ -18,8 +15,6 @@ function getItems({ page = 1 }) {
   // WHERE name LIKE ?
   //  `).all(`%${name}%`, PAGE_SIZE, (page - 1) * PAGE_SIZE);
 
-  console.log(rows);
-
   return rows;
 }
 
@@ -29,9 +24,21 @@ function getItemCount() {
     FROM items
     `).get();
 
-  console.log('itemModel.js → getItemCount() 안');
-  console.log('itemCount: ', itemCount);
   return itemCount;
 }
 
-module.exports = { getItems, getItemCount };
+// 품목 상세
+function getItemDetail({ id }) {
+  console.log('itemModel.js → getItemDetail() 안');
+
+  const row = db.prepare(`
+    SELECT *
+    FROM items
+    WHERE Id = ?
+    `).get(id);
+
+  console.log(row);
+  return row;
+}
+
+module.exports = { getItems, getItemCount, getItemDetail };

@@ -72,9 +72,9 @@ function renderItems(items) {
     items.forEach(item => {
       const tr = document.createElement('tr');
 
-      Object.values(item).forEach(val => {
+      Object.entries(item).forEach(([key, val]) => {
         const td = document.createElement('td');
-        td.textContent = val;
+        td.innerHTML = (key != 'Id') ? val : `<a href="/item-detail?id=${val}">${val}</a>`;
         tr.appendChild(td);
       })
       fragment.appendChild(tr);

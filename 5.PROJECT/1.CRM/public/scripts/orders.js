@@ -72,9 +72,9 @@ function renderOrders(orders) {
     orders.forEach(order => {
       const tr = document.createElement('tr');
 
-      Object.values(order).forEach(val => {
+      Object.entries(order).forEach(([key, val]) => {
         const td = document.createElement('td');
-        td.textContent = val;
+        td.innerHTML = (key != 'Id') ? val : `<a href="/order-detail?id=${val}">${val}</a>`;
         tr.appendChild(td);
       })
       fragment.appendChild(tr);

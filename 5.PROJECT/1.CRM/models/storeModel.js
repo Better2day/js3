@@ -2,12 +2,8 @@ const db = require('better-sqlite3')('mycrm.db');
 
 const PAGE_SIZE = 20;
 
+// 상점 목록
 function getStores({ page = 1 }) {
-  // console.log('storeModel.js → getStores() 안');
-  // console.log('page: ', page);
-  // console.log('name: ', name);
-  // console.log('address: ', address);
-
   const rows = db.prepare(`
     SELECT *
     FROM stores
@@ -20,8 +16,6 @@ function getStores({ page = 1 }) {
   //   AND address LIKE ?
   //  `).all(`%${name}%`, `%${address}%`, PAGE_SIZE, (page - 1) * PAGE_SIZE);
 
-  console.log(rows);
-
   return rows;
 }
 
@@ -31,9 +25,21 @@ function getStoreCount() {
     FROM stores
     `).get();
 
-  console.log('storeModel.js → getStoreCount() 안');
-  console.log('storeCount: ', storeCount);
   return storeCount;
 }
 
-module.exports = { getStores, getStoreCount };
+// 상점 상세
+function getStoreDetail({ id }) {
+  console.log('storeModel.js → getStoreDetail() 안');
+
+  const row = db.prepare(`
+    SELECT *
+    FROM stores
+    WHERE Id = ?
+    `).get(id);
+
+  console.log(row);
+  return row;
+}
+
+module.exports = { getStores, getStoreCount, getStoreDetail };

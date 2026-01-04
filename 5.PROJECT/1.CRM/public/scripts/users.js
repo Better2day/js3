@@ -88,7 +88,7 @@ function renderUsers(users) {
       Object.entries(user).forEach(([key, val]) => {
         if (key != 'Address') {
           const td = document.createElement('td');
-          td.textContent = val;
+          td.innerHTML = (key != 'Id') ? val : `<a href="/user-detail?id=${val}">${val}</a>`;
           tr.appendChild(td);
         }
       })

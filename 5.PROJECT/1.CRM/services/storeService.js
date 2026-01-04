@@ -1,13 +1,7 @@
 const storeModel = require('../models/storeModel');
 
+// 상점 목록
 function getStores({ page }) {
-  // console.log('storeService.js → getStores() 안');
-  // console.log('page: ', page);
-
-  // 검색 기능 추가할 경우 필요
-  // console.log('name: ', name);
-  // console.log('address: ', address);
-
   const stores = storeModel.getStores({ page }); // 상점 데이터 페이지 기본값: 첫 페이지
   if (!stores) {
     throw new Error('Store Not Found');
@@ -23,4 +17,14 @@ function getStoreCount() {
   return storeCount;
 }
 
-module.exports = { getStores, getStoreCount };
+// 상점 상세
+function getStoreDetail({ id }) {
+  console.log('storeService.js → getStoreDetail() 안');
+  const store = storeModel.getStoreDetail({ id });
+  if (!store) {
+    throw new Error('Store Not Found');
+  }
+  return store;
+}
+
+module.exports = { getStores, getStoreCount, getStoreDetail };

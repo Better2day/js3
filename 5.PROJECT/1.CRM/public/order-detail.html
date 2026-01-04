@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRM Order Detail</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+  <style>
+    /* 
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    
+    html,
+    body {
+      position: relative;
+      width: 100vw;
+    }
+    */
+
+    body {
+      width: 70%;
+      margin: 0 auto;
+    }
+
+    main {
+      height: 90vh;
+      margin: 10px auto;
+    }
+
+    main section {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    main section div.order-data {
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <nav class="navbar navbar-expand-sm bg-dark">
+      <ul class="navbar-nav ms-3 me-auto">
+        <li class="nav-item">
+          <a href="/users" class="nav-link text-light">User</a>
+        </li>
+        <li class="nav-item">
+          <a href="/orders" class="nav-link text-light">Order</a>
+        </li>
+        <li class="nav-item">
+          <a href="/orderitems" class="nav-link text-light">OrderItem</a>
+        </li>
+        <li class="nav-item">
+          <a href="/items" class="nav-link text-light">Item</a>
+        </li>
+        <li class="nav-item">
+          <a href="/stores" class="nav-link text-light">Store</a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section>
+      <div class="order-data">
+        <table id="order-table" class="table table-striped">
+          <thead>
+            <tr></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div>
+    </section>
+  </main>
+
+  <footer>Copyright reserved.</footer>
+  <script src="./scripts/order-detail.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

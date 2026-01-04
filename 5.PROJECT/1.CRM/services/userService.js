@@ -1,11 +1,7 @@
 const userModel = require('../models/userModel');
 
+// 사용자 목록
 function getUsers({ name, gender, page }) {
-  // console.log('usreService.js → getUsers() 안');
-  // console.log('page: ', page);
-  // console.log('name: ', name);
-  // console.log('gender: ', gender);
-
   const users = userModel.getUsers({ name, gender, page }); // 사용자 데이터 페이지 기본값: 첫 페이지
   if (!users) {
     throw new Error('User Not Found');
@@ -21,4 +17,14 @@ function getUserCount({ name, gender }) {
   return userCount;
 }
 
-module.exports = { getUsers, getUserCount };
+// 사용자 상세
+function getUserDetail({ id }) {
+  console.log('useeService.js → getUserDetail() 안');
+  const user = userModel.getUserDetail({ id });
+  if (!user) {
+    throw new Error('User Not Found');
+  }
+  return user;
+}
+
+module.exports = { getUsers, getUserCount, getUserDetail };
