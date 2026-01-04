@@ -1,8 +1,8 @@
 const orderModel = require('../models/orderModel');
 
 function getOrders({ page }) {
-  console.log('orderService.js → getOrders() 안');
-  console.log('page: ', page);
+  // console.log('orderService.js → getOrders() 안');
+  // console.log('page: ', page);
 
   // 검색 기능 추가할 경우 필요
   // console.log('orderAt: ', orderAt);

@@ -3,8 +3,8 @@ const db = require('better-sqlite3')('mycrm.db');
 const PAGE_SIZE = 20;
 
 function getOrderitems({ page = 1 }) {
-  console.log('orderitemModel.js → getOrderitems() 안');
-  console.log('page: ', page);
+  // console.log('orderitemModel.js → getOrderitems() 안');
+  // console.log('page: ', page);
   // console.log('orderId: ', orderId);
 
   const rows = db.prepare(`
@@ -16,7 +16,7 @@ function getOrderitems({ page = 1 }) {
 
   // 검색 기능 추가할 경우 필요
   // WHERE orderId = ?
-  //  `).all(`${orderId}%`, PAGE_SIZE, (page - 1) * PAGE_SIZE);
+  //  `).all(`${orderId}`, PAGE_SIZE, (page - 1) * PAGE_SIZE);
 
   console.log(rows);
 

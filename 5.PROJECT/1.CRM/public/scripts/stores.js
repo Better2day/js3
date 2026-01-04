@@ -7,13 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function loadData(url = '') {
   const searchParams = new URL(url || document.URL).searchParams;
-  // 검색 기능 추가할 경우 필요
-  // const name = searchParams.get('name') || '';
-  // const address = searchParams.get('address') || '';
   const page = searchParams.get('page') || 1;
-  // console.log('page: ', page);
-  // console.log('name: ', name);
-  // console.log('address: ', address);
 
   // title에 페이지 번호를 적어서, 브라우저 히스토리를 통한 편리한 이동이 가능하도록 함
   document.title = `CRM Stores - page ${page}`;
@@ -25,18 +19,15 @@ async function loadData(url = '') {
 
   renderStores(stores);
   renderPagination({
-    // name: name,
-    // address: address,
     page: page,
     pageSize: PAGE_SIZE,
     totalCount: storeCount
   });
 }
 
-// async function getStores(page = 1) {
 async function getStores({ page }) {
-  // const res = await fetch(`/api/stores?name=${encodeURIComponent(name)}&gender=${encodeURIComponent(gender)}?page=${page}`);
   const res = await fetch(`/api/stores?page=${page}`);
+
   if (!res.ok) {
     const error = await res.json();
     throw new Error(error) || 'HTTP Request failed';
@@ -47,8 +38,8 @@ async function getStores({ page }) {
 };
 
 async function getStoreCount() {
-  // const res = await fetch(`/api/stores/count?name=${encodeURIComponent(name)}&gender=${encodeURIComponent(gender)}`);
   const res = await fetch(`/api/stores/count`);
+
   if (!res.ok) {
     const error = await res.json();
     throw new Error(error) || 'HTTP Request failed';
@@ -57,7 +48,6 @@ async function getStoreCount() {
 
   return storeCount ?? 0;
 };
-
 
 // Store table 안에 상점 데이터 추가
 function renderStores(stores) {
@@ -72,24 +62,20 @@ function renderStores(stores) {
     // table > thead 안에 상점 데이터 헤더 추가
     const tableHeaders = Object.keys(stores[0]);
     tableHeaders.forEach(header => {
-      // if (header != 'Address') {
       const th = document.createElement('th');
       th.textContent = header;
       storeTheadTr.appendChild(th);
-      // }
     })
 
     // table > tbody 안에 상점 데이터 추가
-    const fragment = new DocumentFragment(); // reflow 최소화하려고 프래그먼트 이용
+    const fragment = new DocumentFragment();
     stores.forEach(store => {
       const tr = document.createElement('tr');
 
       Object.entries(store).forEach(([key, val]) => {
-        // if (key != 'Address') {
         const td = document.createElement('td');
         td.textContent = val;
         tr.appendChild(td);
-        // }
       })
       fragment.appendChild(tr);
     })
@@ -101,20 +87,17 @@ function renderStores(stores) {
 
 // 페이지네이션
 function renderPagination({ page = 1, pageSize, totalCount }) {
-  // function renderPagination({ name, gender, page = 1, pageSize, totalCount }) {
-
   const totalPages = Math.ceil(totalCount / pageSize);
 
   const pagination = document.getElementById('pagination');
   const ul = pagination.querySelector('ul');
   ul.textContent = '';
-
   const fragment = new DocumentFragment();
 
-  // const baseURL = `<a href="/stores?name=${name}&gender=${gender}`;
   const baseURL = '<a href="/stores';
   // 이전 페이지와 다음 페이지를 계산하기 위해 이용할 값 ((페이지 그룹에서 제일 작은 페이지 - 1) / 10 )
   const pageTenth = Math.floor((page - 1) / 10);
+
   if (page > 10) {
     // 첫 페이지
     const liForFirstPage = document.createElement('li');
@@ -129,16 +112,14 @@ function renderPagination({ page = 1, pageSize, totalCount }) {
     fragment.appendChild(liForPrevPage);
   }
 
-  const li = document.createElement('li');
+  // const li = document.createElement('li');
 
   // 가운데 보일 페이지 그룹 (min(totalPage, 10개 페이지))
   for (let i = (NAV_SIZE * pageTenth) + 1; i <= Math.min(totalPages, NAV_SIZE * (pageTenth + 1)); i++) {
     const li = document.createElement('li');
     li.classList.add('page-item');
     if (i == page) li.classList.add('active');
-
     li.innerHTML = `${baseURL}?page=${i}" class="page-link">${i}</a>`;
-    // li.innerHTML = `${baseURL}?page=${i}"><span>${i}</span></a>`;
 
     fragment.appendChild(li);
   }
@@ -158,9 +139,6 @@ function renderPagination({ page = 1, pageSize, totalCount }) {
   }
 
   ul.appendChild(fragment);
-
-  // if (totalCound > 0) {
-  // }
 }
 
 // (Event Delegation) 페이지네이션 ul 한 개에만 페이지 링크 클릭시 처리할 이벤트 리스너 추가
@@ -181,17 +159,3 @@ document.getElementById('pagination').querySelector('ul').addEventListener('clic
 window.addEventListener('popstate', () => {
   loadData(location.href);
 });
-
-/* 
-document.getElementById('searchForm').addEventListener('submit', e => {
-  e.preventDefault();
-
-  // const name = document.getElementById('name').value;
-  // const address = document.getElementById('address').value;
-
-  history.pushState({}, '', '');
-
-  loadData('`http://127.0.0.1:3000/stores?');
-  // loadData(`http://127.0.0.1:3000/stores?page=${page}`);
-});
- */

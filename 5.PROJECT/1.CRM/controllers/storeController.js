@@ -9,7 +9,7 @@ function getStores(req, res) {
   console.log('usreController.js → getStores() 안');
   console.log('page: ', page);
   // console.log('name: ', name);
-  // console.log('gender: ', address);
+  // console.log('address: ', address);
 
   try {
     const stores = storeService.getStores({ page });

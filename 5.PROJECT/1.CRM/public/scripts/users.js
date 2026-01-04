@@ -10,9 +10,6 @@ async function loadData(url = '') {
   const name = searchParams.get('name') || '';
   const gender = searchParams.get('gender') || '';
   const page = searchParams.get('page') || 1;
-  // console.log('page: ', page);
-  // console.log('name: ', name);
-  // console.log('gender: ', gender);
 
   // title에 페이지 번호를 적어서, 브라우저 히스토리를 통한 편리한 이동이 가능하도록 함
   document.title = `CRM Users - page ${page}`;
@@ -25,6 +22,8 @@ async function loadData(url = '') {
   renderUsers(users);
   renderPagination({
     // items: users,
+    // 페이지네이션을 모듈화할 경우 아래처럼 일일이 관련 속성 값을 넘겨주는 것보다
+    // 위처럼 객체를 넘겨주고 모듈 안에서 처리하는 게 나을지 생각해봐야 한다.
     name: name,
     gender: gender,
     page: page,
@@ -39,6 +38,7 @@ async function getUsers({ name, gender, page }) {
   // 하지만 다른 환경에서 쿼리 파라미터에 CJK가 들어가거나, &, ?, = 같은 특수문자 포함시 오류가 발생할 수 있다고 하니 처리하는 게 정석
   // const res = await fetch(`/api/users?name=${name}&gender=${gender}&page=${page}`);
   const res = await fetch(`/api/users?name=${encodeURIComponent(name)}&gender=${encodeURIComponent(gender)}&page=${page}`);
+
   if (!res.ok) {
     const error = await res.json();
     throw new Error(error) || 'HTTP Request failed';
@@ -49,8 +49,8 @@ async function getUsers({ name, gender, page }) {
 };
 
 async function getUserCount({ name, gender }) {
-  // const res = await fetch(`/api/users/count?name=${name}&gender=${gender}`);
   const res = await fetch(`/api/users/count?name=${encodeURIComponent(name)}&gender=${encodeURIComponent(gender)}`);
+
   if (!res.ok) {
     const error = await res.json();
     throw new Error(error) || 'HTTP Request failed';
@@ -59,7 +59,6 @@ async function getUserCount({ name, gender }) {
 
   return userCount ?? 0;
 };
-
 
 // User table 안에 사용자 데이터 추가
 function renderUsers(users) {
@@ -104,18 +103,17 @@ function renderUsers(users) {
 // 페이지네이션
 function renderPagination({ name, gender, page = 1, pageSize, totalCount }) {
   // function renderPagination({ items, page = 1, pageSize, totalCount }) {
-
   const totalPages = Math.ceil(totalCount / pageSize);
 
   const pagination = document.getElementById('pagination');
   const ul = pagination.querySelector('ul');
   ul.textContent = '';
-
   const fragment = new DocumentFragment();
 
   const baseURL = `<a href="/users?name=${name}&gender=${gender}`;
   // 이전 페이지와 다음 페이지를 계산하기 위해 이용할 값 ((페이지 그룹에서 제일 작은 페이지 - 1) / 10 )
   const pageTenth = Math.floor((page - 1) / 10);
+
   if (page > 10) {
     // 첫 페이지
     const liForFirstPage = document.createElement('li');
@@ -130,14 +128,13 @@ function renderPagination({ name, gender, page = 1, pageSize, totalCount }) {
     fragment.appendChild(liForPrevPage);
   }
 
-  const li = document.createElement('li');
+  // const li = document.createElement('li');
 
   // 가운데 보일 페이지 그룹 (min(totalPage, 10개 페이지))
   for (let i = (NAV_SIZE * pageTenth) + 1; i <= Math.min(totalPages, NAV_SIZE * (pageTenth + 1)); i++) {
     const li = document.createElement('li');
-    li.classList.add('page-item');
-    if (i == page) li.classList.add('active');
-
+    li.classList.add('page-item'); // Bootstrap styling 적용
+    if (i == page) li.classList.add('active'); // BS - 현재 페이지 아이템 강조
     li.innerHTML = `${baseURL}&page=${i}" class="page-link">${i}</a>`;
     // li.innerHTML = `${baseURL}&page=${i}"><span>${i}</span></a>`;
 
@@ -176,7 +173,6 @@ document.getElementById('pagination').querySelector('ul').addEventListener('clic
   e.preventDefault();
   e.stopPropagation();
 
-  // console.log(new URL(a.href).search);
   // 사용자가 뒤로/앞으로 가기 버튼을 눌러서 이동할 때 상태 복원을 위해서 히스토리 저장
   history.pushState({}, '', new URL(a.href).search);
   // history.pushState({}, '', a.href); // 이것도 별 문제 없지만, 위 방식이 조금 더 많은 정보를 넘겨줌
@@ -190,8 +186,6 @@ document.getElementById('pagination').querySelector('ul').addEventListener('clic
   //   page: searchParams.get('page') ?? 1
   // }, '', new URL(a.href).search);
 
-  // loadData(new URL(a.href));
-  // loadData(url) 함수 안에서 new URL()로 객체를 생성하므로, 함수 호출시 생성해서 넘겨줄 필요 없음
   loadData(a.href);
 })
 
@@ -206,8 +200,6 @@ document.getElementById('searchForm').addEventListener('submit', e => {
   const name = document.getElementById('name').value;
   const gender = document.getElementById('gender').value;
 
-  // console.log(`?name=${name}&gender=${gender}`);
-  // console.log(`${document.URL}?name=${name}&gender=${gender}`);
   history.pushState({}, '', `?name=${name}&gender=${gender}`);
 
   loadData(`http://127.0.0.1:3000/users?name=${name}&gender=${gender}`);

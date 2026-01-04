@@ -1,10 +1,10 @@
 const userModel = require('../models/userModel');
 
 function getUsers({ name, gender, page }) {
-  console.log('usreService.js → getUsers() 안');
-  console.log('page: ', page);
-  console.log('name: ', name);
-  console.log('gender: ', gender);
+  // console.log('usreService.js → getUsers() 안');
+  // console.log('page: ', page);
+  // console.log('name: ', name);
+  // console.log('gender: ', gender);
 
   const users = userModel.getUsers({ name, gender, page }); // 사용자 데이터 페이지 기본값: 첫 페이지
   if (!users) {

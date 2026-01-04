@@ -1,8 +1,8 @@
 const storeModel = require('../models/storeModel');
 
 function getStores({ page }) {
-  console.log('storeService.js → getStores() 안');
-  console.log('page: ', page);
+  // console.log('storeService.js → getStores() 안');
+  // console.log('page: ', page);
 
   // 검색 기능 추가할 경우 필요
   // console.log('name: ', name);

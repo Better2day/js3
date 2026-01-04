@@ -3,8 +3,8 @@ const db = require('better-sqlite3')('mycrm.db');
 const PAGE_SIZE = 20;
 
 function getStores({ page = 1 }) {
-  console.log('storeModel.js → getStores() 안');
-  console.log('page: ', page);
+  // console.log('storeModel.js → getStores() 안');
+  // console.log('page: ', page);
   // console.log('name: ', name);
   // console.log('address: ', address);
 
@@ -18,7 +18,7 @@ function getStores({ page = 1 }) {
   // 검색 기능 추가할 경우 필요
   // WHERE name LIKE ?
   //   AND address LIKE ?
-  //  `).all(`%${name}%`, `${address}%`, PAGE_SIZE, (page - 1) * PAGE_SIZE);
+  //  `).all(`%${name}%`, `%${address}%`, PAGE_SIZE, (page - 1) * PAGE_SIZE);
 
   console.log(rows);
 
