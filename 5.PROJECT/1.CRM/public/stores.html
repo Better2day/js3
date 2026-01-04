@@ -30,26 +30,6 @@
       margin: 0 auto;
     }
 
-    nav#header-nav {
-      height: 5vh;
-      color: #ccc;
-      background-color: #333;
-      /* padding: 20px; */
-      display: flex;
-      align-items: center;
-      /* flex-wrap: wrap; */
-    }
-
-    nav#header-nav ul {
-      display: flex;
-      list-style: none;
-      margin-bottom: 0;
-    }
-
-    nav#header-nav li {
-      margin-right: 10px;
-    }
-
     main {
       height: 90vh;
       margin: 10px auto;
@@ -70,13 +50,23 @@
 
 <body>
   <header>
-    <nav id="header-nav">
-      <ul>
-        <li>User</li>
-        <li>Order</li>
-        <li>OrderItem</li>
-        <li>Item</li>
-        <li>Store</li>
+    <nav class="navbar navbar-expand-sm bg-dark">
+      <ul class="navbar-nav ms-3 me-auto">
+        <li class="nav-item">
+          <a href="/users" class="nav-link text-light">User</a>
+        </li>
+        <li class="nav-item">
+          <a href="/orders" class="nav-link text-light">Order</a>
+        </li>
+        <li class="nav-item">
+          <a href="/orderitems" class="nav-link text-light">OrderItem</a>
+        </li>
+        <li class="nav-item">
+          <a href="/items" class="nav-link text-light">Item</a>
+        </li>
+        <li class="nav-item">
+          <a href="/stores" class="nav-link text-light">Store</a>
+        </li>
       </ul>
     </nav>
   </header>
