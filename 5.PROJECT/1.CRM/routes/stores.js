@@ -5,4 +5,3 @@ router.get('/', storeController.getStores);
 router.get('/count', storeController.getStoreCount);
 
 module.exports = router;
-

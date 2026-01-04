@@ -5,4 +5,3 @@ router.get('/', orderController.getOrders);
 router.get('/count', orderController.getOrderCount);
 
 module.exports = router;
-

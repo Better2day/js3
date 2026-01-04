@@ -5,4 +5,3 @@ router.get('/', itemController.getItems);
 router.get('/count', itemController.getItemCount);
 
 module.exports = router;
-
