@@ -25,8 +25,7 @@ function getOrderitemCount(req, res) {
 
 // 주문별 품목 상세
 function getOrderitemDetail(req, res) {
-  const id = decodeURIComponent(req.params.id);
-  console.log('orderitemController.js → getOrderitemDetail() 안. id: ', id);
+  const { id } = req.params;
 
   try {
     const orderitem = orderitemService.getOrderitemDetail({ id });

@@ -2,7 +2,7 @@ const itemModel = require('../models/itemModel');
 
 // 품목 목록
 function getItems({ page }) {
-  const items = itemModel.getItems({ page }); // 상점 데이터 페이지 기본값: 첫 페이지
+  const items = itemModel.getItems({ page });
   if (!items) {
     throw new Error('Item Not Found');
   }
@@ -19,8 +19,7 @@ function getItemCount() {
 
 // 품목 상세
 function getItemDetail({ id }) {
-  console.log('itemService.js → getItemDetail() 안');
-  const item = itemModel.getItemDetail({ id }); // 상점 데이터 페이지 기본값: 첫 페이지
+  const item = itemModel.getItemDetail({ id });
   console.log(item);
   if (!item) {
     throw new Error('Item Not Found');

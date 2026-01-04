@@ -19,7 +19,6 @@ function getOrderCount() {
 
 // 주문 상세
 function getOrderDetail({ id }) {
-  console.log('orderService.js → getOrderDetail() 안');
   const order = orderModel.getOrderDetail({ id });
   if (!order) {
     throw new Error('Order Not Found');

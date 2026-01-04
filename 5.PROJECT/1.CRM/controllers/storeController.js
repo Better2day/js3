@@ -25,8 +25,7 @@ function getStoreCount(req, res) {
 
 // 상점 상세
 function getStoreDetail(req, res) {
-  const id = decodeURIComponent(req.params.id);
-  console.log('usreController.js → getStoreDetail() 안. id: ', id);
+  const { id } = req.params;
 
   try {
     const store = storeService.getStoreDetail({ id });

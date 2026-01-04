@@ -25,8 +25,7 @@ function getItemCount(req, res) {
 
 // 품목 상세
 function getItemDetail(req, res) {
-  const id = decodeURIComponent(req.params.id);
-  console.log('itemController.js → getItemDetail() 안. id: ', id);
+  const { id } = req.params;
 
   try {
     const item = itemService.getItemDetail({ id });
