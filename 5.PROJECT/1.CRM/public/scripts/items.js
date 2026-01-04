@@ -72,7 +72,7 @@ function renderItems(items) {
     items.forEach(item => {
       const tr = document.createElement('tr');
 
-      Object.entries(item).forEach(([key, val]) => {
+      Object.values(item).forEach(val => {
         const td = document.createElement('td');
         td.textContent = val;
         tr.appendChild(td);

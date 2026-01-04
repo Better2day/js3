@@ -72,7 +72,7 @@ function renderOrderitems(orderitems) {
     orderitems.forEach(orderitem => {
       const tr = document.createElement('tr');
 
-      Object.entries(orderitem).forEach(([key, val]) => {
+      Object.values(orderitem).forEach(val => {
         const td = document.createElement('td');
         td.textContent = val;
         tr.appendChild(td);
