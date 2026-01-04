@@ -25,8 +25,7 @@ function getOrderCount(req, res) {
 
 // 주문 상세
 function getOrderDetail(req, res) {
-  const id = decodeURIComponent(req.params.id);
-  console.log('orderController.js → getOrderDetail() 안. id: ', id);
+  const { id } = req.params;
 
   try {
     const order = orderService.getOrderDetail({ id });
@@ -37,4 +36,17 @@ function getOrderDetail(req, res) {
   }
 }
 
-module.exports = { getOrders, getOrderCount, getOrderDetail };
+// 특정 사용자 주문 목록
+function getOrdersForUser(req, res) {
+  const { id: userId } = req.params;
+
+  try {
+    const orders = orderService.getOrdersForUser({ userId });
+    return orders;
+  } catch (err) {
+    console.log(err);
+    throw new Error({ 'Server error': err });
+  }
+}
+
+module.exports = { getOrders, getOrderCount, getOrderDetail, getOrdersForUser };

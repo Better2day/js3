@@ -1,4 +1,6 @@
 const userService = require('../services/userService');
+const orderController = require('./orderController');
+// require('../controllers/orderController');
 
 // 사용자 목록
 function getUsers(req, res) {
@@ -33,7 +35,7 @@ function getUserCount(req, res) {
 
 // 사용자 상세
 function getUserDetail(req, res) {
-  const id = decodeURIComponent(req.params.id);
+  const { id } = req.params;
   console.log('userController.js → getUserDetail() 안. id: ', id);
 
   try {
@@ -45,4 +47,18 @@ function getUserDetail(req, res) {
   }
 }
 
-module.exports = { getUsers, getUserCount, getUserDetail };
+// 사용자 주문 목록
+function getOrderForUser(req, res) {
+  // const { id: userId } = req.params;
+
+  try {
+    // 다른 entity이므로 같은 레벨인 컨트롤러 계층으로 요청 (userController → orderController로 요청)
+    const orders = orderController.getOrdersForUser(req, res);
+    res.json(orders);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ 'Server error': err });
+  }
+}
+
+module.exports = { getUsers, getUserCount, getUserDetail, getOrderForUser };

@@ -7,5 +7,6 @@ router.get('/count', userController.getUserCount);
 
 // 사용자 상세 (user-detail)
 router.get('/:id', userController.getUserDetail);
+router.get('/:id/orders', userController.getOrderForUser);
 
 module.exports = router;

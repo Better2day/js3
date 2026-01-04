@@ -43,4 +43,16 @@ function getOrderDetail({ id }) {
   return row;
 }
 
-module.exports = { getOrders, getOrderCount, getOrderDetail };
+// 특정 사용자 주문 목록
+function getOrdersForUser({ userId }) {
+  const rows = db.prepare(`
+    SELECT Id AS orderId, OrderAt, StoreId
+    FROM orders
+    WHERE userId = ?
+    `).all(userId);
+
+  console.log(rows);
+  return rows;
+}
+
+module.exports = { getOrders, getOrderCount, getOrderDetail, getOrdersForUser };

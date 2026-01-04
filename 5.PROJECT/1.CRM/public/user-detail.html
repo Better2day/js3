@@ -68,6 +68,10 @@
       max-height: 85vh;
       overflow-y: auto;
     }
+
+    a {
+      text-decoration: none;
+    }
   </style>
 </head>
 
@@ -95,9 +99,21 @@
   </header>
 
   <main>
-    <section>
+    <section class="mb-3">
       <div class="user-data">
+        <span>고객 정보</span>
         <table id="user-table" class="table table-striped">
+          <thead>
+            <tr></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+    <section>
+      <div class="order-data">
+        <span>주문 정보</span>
+        <table id="order-table" class="table table-striped">
           <thead>
             <tr></tr>
           </thead>

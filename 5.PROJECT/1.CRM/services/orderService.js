@@ -2,7 +2,7 @@ const orderModel = require('../models/orderModel');
 
 // 주문 목록
 function getOrders({ page }) {
-  const orders = orderModel.getOrders({ page }); // 상점 데이터 페이지 기본값: 첫 페이지
+  const orders = orderModel.getOrders({ page });
   if (!orders) {
     throw new Error('Order Not Found');
   }
@@ -20,11 +20,20 @@ function getOrderCount() {
 // 주문 상세
 function getOrderDetail({ id }) {
   console.log('orderService.js → getOrderDetail() 안');
-  const order = orderModel.getOrderDetail({ id }); // 상점 데이터 페이지 기본값: 첫 페이지
+  const order = orderModel.getOrderDetail({ id });
   if (!order) {
     throw new Error('Order Not Found');
   }
   return order;
 }
 
-module.exports = { getOrders, getOrderCount, getOrderDetail };
+// 특정 사용자 주문 목록
+function getOrdersForUser({ userId }) {
+  const orders = orderModel.getOrdersForUser({ userId });
+  if (!orders) {
+    throw new Error('Order Not Found');
+  }
+  return orders;
+}
+
+module.exports = { getOrders, getOrderCount, getOrderDetail, getOrdersForUser };
