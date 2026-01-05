@@ -1,13 +1,12 @@
 const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
-// Routers
-const index = require('./routes/index');
-const users = require('./routes/users');
-const stores = require('./routes/stores');
-const items = require('./routes/items');
-const orders = require('./routes/orders');
-const orderitems = require('./routes/orderitems');
+const index = require('./routes/index'); // Router
+// const users = require('./routes/users');
+// const stores = require('./routes/stores');
+// const items = require('./routes/items');
+// const orders = require('./routes/orders');
+// const orderitems = require('./routes/orderitems');
 
 const app = express();
 const PORT = 3000;
@@ -18,12 +17,13 @@ app.use(express.static('public'));
 app.use(morgan('dev'));
 
 // Middleware - Routing
-app.use('/', index); // serves static HTML files for each entities
-app.use('/api/users', users);
-app.use('/api/stores', stores);
-app.use('/api/items', items);
-app.use('/api/orders', orders);
-app.use('/api/orderitems', orderitems);
+app.use('/', index);
+// API router도 index router 안에 통합
+// app.use('/api/users', users);
+// app.use('/api/stores', stores);
+// app.use('/api/items', items);
+// app.use('/api/orders', orders);
+// app.use('/api/orderitems', orderitems);
 
 
 app.listen(PORT, () => {

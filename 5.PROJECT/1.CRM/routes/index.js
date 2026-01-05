@@ -1,7 +1,12 @@
 const path = require('path');
 const router = require('express').Router();
+const users = require('./users');
+const stores = require('./stores');
+const items = require('./items');
+const orders = require('./orders');
+const orderitems = require('./orderitems');
 
-// Routers
+// Routers - static HTML files
 router.get('/', (req, res) => {
   res.redirect('/users');
 });
@@ -46,5 +51,12 @@ router.get('/orderitems', (req, res) => {
 router.get('/orderitem-detail', (req, res) => {
   res.sendFile(path.join(__dirname, '../public', 'orderitem-detail.html'));
 });
+
+// Routers - API
+router.use('/api/users', users);
+router.use('/api/stores', stores);
+router.use('/api/items', items);
+router.use('/api/orders', orders);
+router.use('/api/orderitems', orderitems);
 
 module.exports = router;
