@@ -17,6 +17,10 @@
 *.png
 *.gif
 
+# 압축 파일
+*.zip
+*.rar
+
 # node module 제외
 node_modules
 
