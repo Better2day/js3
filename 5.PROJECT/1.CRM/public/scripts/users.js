@@ -100,6 +100,10 @@ function renderUsers(users) {
   }
 };
 
+function makePageAnchor({ name, gender, pageNo, pageItem }) {
+  return `<a href="/users?name=${name}&gender=${gender}&page=${pageNo}" class="page-link">${pageItem}</a>`;
+}
+
 // 페이지네이션
 function renderPagination({ name, gender, page = 1, pageSize, totalCount }) {
   // function renderPagination({ items, page = 1, pageSize, totalCount }) {
@@ -110,7 +114,13 @@ function renderPagination({ name, gender, page = 1, pageSize, totalCount }) {
   ul.textContent = '';
   const fragment = new DocumentFragment();
 
-  const baseURL = `<a href="/users?name=${name}&gender=${gender}`;
+  // const baseURL = `<a href="/users?name=${name}&gender=${gender}`;
+  // 강사님 조언: 변수명과 값이 상응하지 않는다. 변수명은 URL인데 값에는 <a> HTML 태그 포함
+  // 개선 방안 1: <a href=" 부분을 떼어내서 아래 innerHTML 값 제일 왼쪽(${baseURL} 앞)으로 옮긴다.
+  // 개선 방안 2: <a href="/users? 까지 떼어내서 옮기고, 변수명을 baseURL이 아니라 queryParameter 등으로 변경한다.
+  // 내 개선 방안: 이런 방식을 사용한 게 중복 코드를 줄이기 위한 것이므로, 차라리 <a> ~ </a> 부분을 다 넣고
+  // href와 a.innerText 부분만 변경하도록 함수화 (위에 makePageAnchor() 함수 참고)
+
   // 이전 페이지와 다음 페이지를 계산하기 위해 이용할 값 ((페이지 그룹에서 제일 작은 페이지 - 1) / 10 )
   const pageTenth = Math.floor((page - 1) / 10);
 
@@ -118,13 +128,17 @@ function renderPagination({ name, gender, page = 1, pageSize, totalCount }) {
     // 첫 페이지
     const liForFirstPage = document.createElement('li');
     liForFirstPage.classList.add('page-item');
-    liForFirstPage.innerHTML = `${baseURL}&page=1" class="page-link"><<</a>`;
+    // <a href="${baseURL}
+    // liForFirstPage.innerHTML = `<a href="/users${baseURL}&page=1" class="page-link"><<</a>`;
+    liForFirstPage.innerHTML = makePageAnchor({ name, gender, pageNo: 1, pageItem: '&lt;&lt;' })
+    // &lt; 이용 권장
     fragment.appendChild(liForFirstPage);
     // 이전 페이지 (페이지 그룹에서 제일 작은 페이지 - 1)
     const liForPrevPage = document.createElement('li');
     liForPrevPage.classList.add('page-item');
     const prevPage = NAV_SIZE * pageTenth;
-    liForPrevPage.innerHTML = `${baseURL}&page=${prevPage}" class="page-link"><</a>`;
+    // liForPrevPage.innerHTML = `<a href="/users${baseURL}&page=${prevPage}" class="page-link"><</a>`;
+    liForPrevPage.innerHTML = makePageAnchor({ name, gender, pageNo: prevPage, pageItem: '&lt;' })
     fragment.appendChild(liForPrevPage);
   }
 
@@ -135,8 +149,9 @@ function renderPagination({ name, gender, page = 1, pageSize, totalCount }) {
     const li = document.createElement('li');
     li.classList.add('page-item'); // Bootstrap styling 적용
     if (i == page) li.classList.add('active'); // BS - 현재 페이지 아이템 강조
-    li.innerHTML = `${baseURL}&page=${i}" class="page-link">${i}</a>`;
-    // li.innerHTML = `${baseURL}&page=${i}"><span>${i}</span></a>`;
+    // li.innerHTML = `<a href="/users${baseURL}&page=${i}" class="page-link">${i}</a>`;
+    li.innerHTML = makePageAnchor({ name, gender, pageNo: i, pageItem: i })
+    // li.innerHTML = `<a href="/users${baseURL}&page=${i}"><span>${i}</span></a>`;
 
     fragment.appendChild(li);
   }
@@ -146,12 +161,14 @@ function renderPagination({ name, gender, page = 1, pageSize, totalCount }) {
     const liForNextPage = document.createElement('li');
     liForNextPage.classList.add('page-item');
     const nextPage = NAV_SIZE * (pageTenth + 1) + 1;
-    liForNextPage.innerHTML = `${baseURL}&page=${nextPage}" class="page-link">></a>`;
+    // liForNextPage.innerHTML = `<a href="/users${baseURL}&page=${nextPage}" class="page-link">></a>`;
+    liForNextPage.innerHTML = makePageAnchor({ name, gender, pageNo: nextPage, pageItem: '&gt;' })
     fragment.appendChild(liForNextPage);
     // 마지막 페이지
     const liForLastPage = document.createElement('li');
     liForLastPage.classList.add('page-item');
-    liForLastPage.innerHTML = `${baseURL}&page=${totalPages}" class="page-link">>></a>`;
+    // liForLastPage.innerHTML = `<a href="/users${baseURL}&page=${totalPages}" class="page-link">>></a>`;
+    liForLastPage.innerHTML = makePageAnchor({ name, gender, pageNo: totalPages, pageItem: '&gt;&gt;' })
     fragment.appendChild(liForLastPage);
   }
 
@@ -200,7 +217,10 @@ document.getElementById('searchForm').addEventListener('submit', e => {
   const name = document.getElementById('name').value;
   const gender = document.getElementById('gender').value;
 
-  history.pushState({}, '', `?name=${name}&gender=${gender}`);
+  const queryParameter = `?name=${name}&gender=${gender}`
+  history.pushState({}, '', queryParameter);
 
-  loadData(`http://127.0.0.1:3000/users?name=${name}&gender=${gender}`);
+  // loadData(`http://127.0.0.1:3000/users?name=${name}&gender=${gender}`);
+  // 꼭 필요한 경우가 아니면 하드코딩은 사용하지 않는 게 좋다. →
+  loadData(`${location.origin}${location.pathname}${queryParameter}`);
 });
