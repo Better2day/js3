@@ -64,7 +64,7 @@ app.get('/logout', (req, res) => {
 
   req.session.destroy(err => {
     if (err) {
-      console.lerror('세션 삭제 실패', err);
+      console.error('세션 삭제 실패', err);
       return res.status(500).json({ message: '로그아웃 실패' });
     }
     res.json({});

@@ -22,7 +22,7 @@ app.post('/login', (req, res) => {
   const user = users.find(u => u.username == username && u.password == password);
 
   if (user) {
-    res.json({ username: user.username, password: user.password });
+    res.json({ id: user.id, username: user.username });
   } else {
     res.status(401).json({ message: 'login 실패' });
   }
