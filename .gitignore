@@ -29,6 +29,10 @@ node_modules
 *.sqlite
 *.sqlite3
 
+# React > Build, Dist 폴더 제외
+build/
+dist/
+
 # 개인 설정
 .vscode/extensions.json
 .vscode/settings.json
