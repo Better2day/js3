@@ -8,7 +8,7 @@ export default function TextInput({
   return (
     <label style={{ display: 'grid', gap: 6 }}>
       {/* <label> */}
-      < span > {label}</span >
+      <span>{label}</span >
       <input
         type={type}
         value={value}
