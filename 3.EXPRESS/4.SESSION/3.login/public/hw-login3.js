@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('이거 왜 안 돼');
   checkLogin();
 });
 

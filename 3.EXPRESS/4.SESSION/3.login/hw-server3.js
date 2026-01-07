@@ -13,11 +13,13 @@ const users = [
 app.use(express.static('public'));
 app.use(express.json());
 app.use(session({
-  secret: 'hw-secret-key',
+  secret: 'my-secret-key',
   resave: false,
   saveUninitialized: true,
   cookie: {
-    maxAge: 30000
+    maxAge: 30000,
+    httpOnly: true, // Javascript에서 쿠키에 접근 불가
+    // secure: false, // Ensures the browser only sends the cookie over HTTPS.
   }
 }));
 
