@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import TodoApp from './TodoApp.jsx'
 
 createRoot(document.getElementById('root')).render(
-  // <StrictMode>
-  <TodoApp />
-  // </StrictMode>,
+  <StrictMode>
+    <TodoApp />
+  </StrictMode>
 )

@@ -6,8 +6,10 @@ import TodoList from './components/TodoList.jsx';
 
 export default function TodoApp() {
   const [todos, setTodos] = useState([
-    { id: 1, text: 'React 공부하기', done: false, hide: false },
-    { id: 2, text: 'Vite 공부하기', done: false, hide: false },
+    // { id: 1, text: 'React 공부하기', done: false, hide: false },
+    // { id: 2, text: 'Vite 공부하기', done: false, hide: false }
+    { id: 1, text: 'React 공부하기', done: false },
+    { id: 2, text: 'Vite 공부하기', done: false }
   ]);
 
   // 아래는 Controlled 상태 (↔ 자식이 데이터를 전달해주고 내가 관리하지 않는 것 Uncontrolled 상태)
@@ -45,21 +47,21 @@ export default function TodoApp() {
     )
   }
 
-  function hideTodo() {
-    console.log('hideTodo 실행 전: ', todos);
-    setTodos(() => {
+  // function hideTodo() {
+  //   console.log('hideTodo 실행 전: ', todos);
+  //   setTodos(() => {
 
-      const newTodo = todos.map(t => {
-        console.log('hideTodo 내부 setTodos에 넘겨준 콜백 함수 안');
-        if (t.done) {
-          t.hide = !t.hide;
-        }
-        return t;
-      })
-      console.log('hideTodo 실행 후: ', newTodo);
-      return newTodo;
-    })
-  }
+  //     const newTodo = todos.map(t => {
+  //       console.log('hideTodo 내부 setTodos에 넘겨준 콜백 함수 안');
+  //       if (t.done) {
+  //         t.hide = !t.hide;
+  //       }
+  //       return t;
+  //     })
+  //     console.log('hideTodo 실행 후: ', newTodo);
+  //     return newTodo;
+  //   })
+  // }
 
   function deleteTodo(id) {
     // ※ 아래처럼 직접 변경하면 안 됨. 이렇게 하면 상태 관리가 안 된다.
@@ -79,7 +81,8 @@ export default function TodoApp() {
         <h1>Mini To-do</h1>
         <Counter todos={todos} />
         <TodoForm text={text} setText={setText} onAdd={addTodo} />
-        <TodoList todos={todos} onToggle={toggleTodo} onHide={hideTodo} onDelete={deleteTodo} />
+        {/* <TodoList todos={todos} onToggle={toggleTodo} onHide={hideTodo} onDelete={deleteTodo} /> */}
+        <TodoList todos={todos} onToggle={toggleTodo} onDelete={deleteTodo} />
       </div>
 
       {/*

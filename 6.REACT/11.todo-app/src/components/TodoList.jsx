@@ -1,14 +1,23 @@
-export default function TodoList({ todos, onToggle, onHide, onDelete }) {
+import { useState } from 'react';
+
+export default function TodoList({ todos, onToggle, onDelete }) {
+  const [hide, setHide] = useState(false);
+
   return (
     <>
       {/* <h3>할 일 목록</h3> */}
       <div style={{ marginTop: 10 }}>
-        <input type="checkbox" onChange={onHide} />
+        <input
+          type="checkbox"
+          // id="hide"
+          checked="false"
+          onChange={e => setHide(e.target.hasAttribute('checked'))}
+        />
         완료 항목 숨기기
       </div>
       <ul style={{ marginTop: 12, paddingLeft: 16 }}>
         {todos.map(t => (
-          <li key={t.id} style={{ paddingBottom: 8, display: t.hide ? 'none' : 'block' }}>
+          <li key={t.id} style={{ paddingBottom: 8, display: (t.done && hide ? 'none' : 'block') }}>
             <input
               type="checkbox"
               checked={t.done}
