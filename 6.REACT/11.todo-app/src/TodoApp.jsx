@@ -6,8 +6,8 @@ import TodoList from './components/TodoList.jsx';
 
 export default function TodoApp() {
   const [todos, setTodos] = useState([
+    // '완료 항목 숨기기' 기능은 화면에서만 일어나는 일이라서, To-do 데이터 속성에 hide 속성을 넣을 필요가 없어서 리팩토링
     // { id: 1, text: 'React 공부하기', done: false, hide: false },
-    // { id: 2, text: 'Vite 공부하기', done: false, hide: false }
     { id: 1, text: 'React 공부하기', done: false },
     { id: 2, text: 'Vite 공부하기', done: false }
   ]);
