@@ -24,8 +24,7 @@ export default function TodoApp() {
     const newTodo = {
       id: Date.now(), // 가장 간단하게 id를 만드는 방법
       text: trimmed,
-      done: false,
-      hide: false
+      done: false
     }
 
     setTodos((prev) => [newTodo, ...prev]); // 새 To-do를 기존 할 일 목록 '앞'에 추가
@@ -47,22 +46,6 @@ export default function TodoApp() {
     )
   }
 
-  // function hideTodo() {
-  //   console.log('hideTodo 실행 전: ', todos);
-  //   setTodos(() => {
-
-  //     const newTodo = todos.map(t => {
-  //       console.log('hideTodo 내부 setTodos에 넘겨준 콜백 함수 안');
-  //       if (t.done) {
-  //         t.hide = !t.hide;
-  //       }
-  //       return t;
-  //     })
-  //     console.log('hideTodo 실행 후: ', newTodo);
-  //     return newTodo;
-  //   })
-  // }
-
   function deleteTodo(id) {
     // ※ 아래처럼 직접 변경하면 안 됨. 이렇게 하면 상태 관리가 안 된다.
     // const index = todos.findIndex(t => t.id === id);
@@ -81,26 +64,8 @@ export default function TodoApp() {
         <h1>Mini To-do</h1>
         <Counter todos={todos} />
         <TodoForm text={text} setText={setText} onAdd={addTodo} />
-        {/* <TodoList todos={todos} onToggle={toggleTodo} onHide={hideTodo} onDelete={deleteTodo} /> */}
         <TodoList todos={todos} onToggle={toggleTodo} onDelete={deleteTodo} />
       </div>
-
-      {/*
-      <div>
-         <form>
-          <input type="text" placeholder="할 일을 입력하세요" />
-          <button>추가</button>
-        </form>
-        <h2>할 일 목록</h2>
-        <ul>
-          {todos.map(t => (
-            <li>
-              <span>{t.text}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-      */}
     </>
   )
 }
