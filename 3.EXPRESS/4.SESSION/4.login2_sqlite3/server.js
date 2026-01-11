@@ -65,6 +65,7 @@ app.post('/login', (req, res) => {
     }
 
     if (row) {
+      req.session.user = { id: row.id, username: row.username };
       res.json({ message: '로그인 성공' });
     } else {
       res.status(401).json({ message: ' 로그인 실패 (ID/PW를 확인해주세요' });
