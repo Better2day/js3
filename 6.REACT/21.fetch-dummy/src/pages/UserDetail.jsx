@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { fetchUserById } from '../api/dummyUsersApi';
-import { useParams, navigate, Link } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 
 export default function UserDetail() {
   const { userId } = useParams();
   const [user, setUser] = useState(null); // 단일 사용자이므로 초기값이 배열이 아니라 null이나 '' 등 사용
   const [loading, setLoading] = useState(true);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchUserById(userId)
