@@ -28,7 +28,7 @@ function App() {
           />다크 모드
         </label>
 
-        <p className="muted">현재 상태: {darkMode ? 'ON' : 'Off'}</p>
+        <p className="muted">현재 상태: {darkMode ? 'On' : 'Off'}</p>
 
         <button className="btn" onClick={() => alert('동작 확인')}>버튼 예시</button>
       </div>
