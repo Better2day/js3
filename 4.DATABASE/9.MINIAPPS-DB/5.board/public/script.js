@@ -87,19 +87,15 @@ async function readMemo() {
   }
 }
 
-// function createMemo(Title, Content) {
 async function createMemo() {
   const title = inputTitle.value;
   const message = inputText.value;
 
-  console.log(`${title} ${message}`);
-
-  const article = { title, message };
   try {
     const res = await fetch('/api/create', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(article)
+      body: JSON.stringify({ title, message })
     });
     const post = await res.json();
 
@@ -125,7 +121,6 @@ async function deleteMemo(id) {
 }
 
 async function updateMemo(id, title, message) {
-  console.log(id);
   try {
     const res = await fetch(`/api/modify/${id}`, {
       method: 'PUT',
