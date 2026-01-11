@@ -37,3 +37,17 @@ export async function deleteUserById(userId) {
 export async function getPosts() {
   return await requestJson(`${BASE_URL}/posts`);
 }
+
+export async function getPostById(postId) {
+  return requestJson(`${BASE_URL}/posts/${postId}`);
+}
+
+export async function deletePostById(postId) {
+  const res = await fetch(`${BASE_URL}/posts/${postId}`, {
+    method: 'DELETE',
+  });
+
+  if (!res.ok) {
+    throw new Error(`HTTP ${res.status}`);
+  }
+}

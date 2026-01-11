@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { getPosts } from '../api/usersApi';
 
 const PAGE_SIZE = 20;
@@ -8,7 +9,6 @@ export default function Posts() {
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState('');
   const [page, setPage] = useState(1); // 1~5
-
 
   useEffect(() => {
     setLoading(true);
@@ -62,7 +62,7 @@ export default function Posts() {
 
       <ul>
         {visible.map(p => (
-          <li key={p.id}>{p.title}</li>
+          <li key={p.id}><Link to={`/posts/${p.id}`}>{p.title}</Link></li>
         ))}
       </ul>
 
@@ -90,7 +90,8 @@ export default function Posts() {
           )
         })}
         <button
-          disable={page === totalPages}
+          disabled={page === totalPages}
+          onClick={() => setPage((prev) => prev + 1)}
         >
           Next
         </button>
