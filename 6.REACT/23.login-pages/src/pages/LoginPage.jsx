@@ -23,7 +23,7 @@ export default function LoginPage() {
   const [message, setMessage] = useState({ type: '', text: '' }); // 성공/실패 메시지를 담았다가 출력할곳
 
   const idRef = useRef(null);
-  // const pwRef = useRef(null);
+  const pwRef = useRef(null);
 
   const updateField = (name, value) => {
     // setForm((prev) => ({ ...prev, [name]: value }));
