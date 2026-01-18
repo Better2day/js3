@@ -92,8 +92,6 @@ app.get('/logout', (req, res) => {
 
 // 2. 세션에 저장해둔 사용자 정보 전달하기 (json 형태 정보로 FE에 응답 전송)
 app.get('/api/user', (req, res) => {
-  console.log('/api/user route 진입');
-  console.log('req.session:', req.session);
   console.log('req.session.user:', req.session.user);
 
   if (req.session?.user) {
@@ -133,7 +131,6 @@ app.get('/api/oauth2/callback', async (req, res) => {
     `state=${state}`;
 
   // callback URL 쿼리 파라미터를 통해서 받은 요청 정보를 조합해서 네이버에 Access Token 요청
-  console.log('fetch 직전 요청 정보:', tokenUrl.toString());
   const tokenRes = await axios.get(NAVER_TOKEN_URL, {
     params: {
       grant_type: 'authorization_code',
@@ -155,7 +152,6 @@ app.get('/api/oauth2/callback', async (req, res) => {
   });
 
   const userInfoData = userInfoRes.data;
-  console.log(userInfoData);
 
   const userInfo = userInfoData.response;
   // 세션에 로그인 사용자 정보 저장
@@ -176,12 +172,8 @@ app.get('/api/oauth2/callback', async (req, res) => {
     mobile: userInfo.mobile || '미공개',
   };
 
-  console.log('req.session.user:', req.session.user);
-
   res.redirect('/dashboard'); // 로그인 후 대시보드로 보내기
-  // res.json({ userInfo: req.session.user });
   // res.json(userInfoData); // 내가 원하는 정보를 가공해서 FE에 보내기
-  // res.json({ 'result': 'success' });
 });
 
 
