@@ -1,10 +1,10 @@
 
 Cloud computing logical 3 layers
-SaaS: Software as a Service.  e.g) S/W, email, A/I, Auth, SMS 등등
-PaaS: Platform as a Service.  e.g) O/S, Middleware, DB
+SaaS: Software as a Service.  e.g) S/W, email, A/I, 얼굴 인식, Auth, SMS 등등
+PaaS: Platform as a Service.  e.g) O/S, Middleware, DB. Cloud9(개발 환경), Web IDE (VS Code)
 	기본 인프라를 신경쓸 필요 없이 개발에만 집중할 수 있다.
 	(제공업체가 보안, O/S, Backup, S/W 등 관리)
-IaaS: Infrastructure as a Service  e.g) VPC, Storage, Network
+IaaS: Infrastructure as a Service  e.g) CPU/Mem/Disk/Network → VPC, Storage, Network 임대
 
 VPC (Virtual Private Cloud): AWS cloud 내 구축하는 가상의 네트워크 영역
 사용자 정의 가능한 논리적 네트워크 환경. 

@@ -1,0 +1,259 @@
+
+sudo lastb
+실패한 로그인 기록
+sudo lastb | wc -l
+wc: word count / -l: line / 그러므로 wc -l: 줄 수 세는 명령
+
+서버 접속 로그 확인하기
+cat /var/log/nginx/access.log
+
+우리 교육장 IP 주소 외에는 거의 다 해커라고 보면 된다.
+
+계속 지켜보고 싶으면
+tail -F /var/log/nginx/access.log
+
+
+--------------------------------------------------------------------------------------------------------------
+
+Lightsail (Seoul; ap-northeast-2) → O/S only → Ubuntu (24.04 LTS)
+$7 size 선택 (1GB Memory, 2 vCPU)
+Create instance 한 뒤에 인스턴스 만드는 과정: provisioning
+
+ubuntu@서버IPAddress
+ssh -i C:\Users\계정명\.ssh\LightsailDefaultKey-ap-northeast-2.pem ubuntu@서버IPAddress
+(ssh: secure shell / -i: identity)
+
+scp -i C:\Users\계정명\.ssh\LightsailDefaultKey-ap-northeast-2.pem 11.nov-background.jpg ubuntu@서버IPAddress
+:/usr/share/nginx/html
+
+
+cf. Linux 계보
+Debian 계열: 개인이 가장 많이 사용. Ubuntu가 이 계열
+Redhat 계열: 회사는 다 이것을 사용했었다.
+(슬랙웨어 계열)
+
+패키지 설치 유틸리티 및 리포지토리
+apt: 데비안 계열
+dpkg
+rpm: 레드햇 계열
+
+apt (Advanced Package Tool)
+apt를 사용하면 backend에서는 apt-get이 실행된다.
+사용자가 직접 apt-get을 사용하라고 하는 것은 잘못된 내용 (이런 식으로 작성한 블로그는 지양)
+
+apt update: 리포지토리 목록 가져오기. S/W 설치를 위한 D/B update 개념
+cf. 내 S/W를 설치할 저장소가 있고, 패키지를 받아올 원격 저장소가 있다 (최신 ver.)
+내 저장소는 local cache(최근에 업데이트하지 않았다면 십중팔구 예전 ver.) 
+apt update:는 모든 S/W의 최신 버전과 그 버전의 다운로드 주소를 받아온다.
+
+local에 설치 파일을 다운로드하면 .deb 확장자의 파일
+dpkg -i 설치
+
+
+cf. 프로그램 업데이트시 기존 버전을 삭제 후 업데이트하는데,
+기존 설정은 남겨두고 프로그램만 삭제하는 기능이 필요. 반면 완전 삭제도 필요
+
+실제 프로그램 설치/삭제 예시:
+apt install nginx
+apt remove nginx // 재설치할지도 모르니 (업데이트 중일 수도 있으니) 설정 파일 유지
+apt purge nginx // 폐기 (완전 삭제)
+
+
+A 패키지를 설치했는데 A, C, F, G가 설치됨
+B " B, C, H, O, P가 설치됨
+C " C, F, O, Q, X "
+apt purge B 했다고 B, C, H, O, P를 완전 삭제하면 A, C 패키지가 실행되지 않는 문제 발생
+→ 연관 패키지를 조회해서 사용하지 않는 것만 전부 삭제 apt autoremove
+
+
+curl localhost
+
+방화벽: SG (Security Group)
+
+
+* Linux Directory 구조 중 암기해야 하는 곳
+/var/log  모든 로그
+/etc  모든 설정 파일
+
+nginx를 설치하면?
+/etc/nginx 안에 설정 파일 생성
+/var/log/nginx에 로그 파일 생성
+
+/etc/nginx/ 경로의 nginx.conf 파일이 설정 (시작) 파일
+하지만 핵심 설정 파일은 sites-available 안에 주요 설정 파일이 있다.
+
+nginx.conf 내용 일부
+include /etc/nginx/modules-enabled/*.conf;
+include /etc/nginx/conf.d/*.conf;
+include /etc/nginx/sites-enabled/*;
+
+/etc/nginx/ 경로의 nginx.conf 파일
+sites-available (후보)를 봐야 하고
+sites-enable (활성화된 것)에 실행을 위한 shortcut이 있다. (윈도우 기준으로 바로가기)
+
+권한이 없을 때 보통 sudo를 사용하는데, 원래는 이렇게 하면 안 된다. 좋지 않은 습관!
+
+cd /etc/nginx/sites-available
+sudo vi default
+
+5dd // vi에서 5줄 삭제
+3dd
+u: undo
+
+
+*** nginx default 설정 *** (default 파일에서 주석을 지우고 남은 내용)
+listen 80 // 80번 포트를 듣고 있고
+root /var/www/html  // 루트는 이 디렉토리
+index  // 인덱스. 출발점
+location / { //  / 경로에 오면
+  try_file $uri  // 파일이 있으면 제공
+            $uri/ // 파일이 없으면 이걸 제공 (디렉토리)
+            =404; // 그것도 없으면 404
+}
+
+cf. Server S/W를 관리하는 방법
+Daemon = Server S/W
+Service
+
+systemctl // 시스템 (대몬 S/W) 상태를 볼 수 있다.
+systemctl status nginx
+systemctl status vsftp
+systemctl status ssh
+
+한 서버에 사용자 100명
+그 사용자가 모두 자기 마음대로 할 수 있으면? 안 된다. 그래서 '권한'이 필수
+
+
+일부러 설정 파일에 오타 만들어서 오류 유발 후 다음 명령 실행
+sudo systemctl restart nginx
+"Job for nginx.service failed because the control process exited with error code.
+See "systemctl status nginx.service" and "journalctl -xeu nginx.service" for details"
+
+systemctl  시스템 제어
+journalctl  기사(기록)? 저널(로그)를 보는/검색하는 명령어
+
+ssh: client
+sshd (daemon): server
+
+sshd 로그는 /var/
+
+nginx root directory: nginx default 파일 안에 있던 root /var/www/html 디렉토리
+
+* Server 시간 설정
+ls -al /etc/localtime
+/etc/localtime -> /usr/share/zoneinfo/Etc/UTC
+
+/usr/share/zoneinfo 디렉토리 아래에
+ROK (Republic of Korea) 파일(link)
+"/Asia (directory) > Seoul 파일
+"/Etc > GMT+9 파일
+
+/etc/localtime 링크가 /usr/share/zoneinfo/Asia/Seoul 을 가리키게 만들면 된다.
+
+방법 1. sudo timedatectl set-timezone Asia/Seoul
+
+방법 2. sudo ln -s /usr/share/zoneinfo/Asia/Seoul /etc/localtime
+link 생성 (-s: symbolic link / -f나 -sf 식으로 f를 추가하면 force (해당 링크가 존재해도 덮어쓰기)
+
+date 명령으로 한국 시간이 표시되는지 확인
+
+/etc/nginx/conf.d/*.conf
+
+cat /var/log/nginx/access.log or
+tail -F /var/log/nginx/access.log
+명령어로 로그를 보는 데 시간대가 여전히 UTC로 나올 수 있다.
+그러면 /etc/nginx/nginx.conf 파일 제일 상단에 env TZ=Asia/Seoul; 를 추가하고 nginx를 재시작 후 확인한다.
+(수업중에는 위 설정을 하지 않았을 때 UTC로 나왔던 것 같은데, 수업 후에는 위 설정을 하지 않았는데도 +0900 (GMT +9)로 잘 나오고 있어서 위 설정을 삭제했다. 인스턴스를 중지 후 다시 시작해서 그럴지도?)
+
+
+D:\src\SESAC_JS3\sesac_js3\6.REACT\11.todo-app
+폴더에 가서 npm run build 실행해서 todo-app 정적 파일 생성
+scp -i C:\Users\계정명\.ssh\LightsailDefaultKey-ap-northeast-2.pem dist/index.html ubuntu@서버IPAddress:~/
+
+아래처럼 nginx 디렉토리에 파일 복사
+/var/www/html/index.html
+(mkdir asset)
+/var/www/html/assets/index-B59R7ire.js
+
+
+
+##########################
+#  sesac_js3
+##########################
+Host 서버IPAddress
+  HostName 서버IPAddress
+  User ubuntu
+  IdentityFile ~\LightsailDefaultKey-ap-northeast-2.pem
+(~ : my home directory)
+home directory 안되면 절대 경로 입력
+
+
+SESAC 디렉토리를 만들고, 그 폴더 열기
+그러면 거기가 내 작업 공간
+SESAC 디렉토리에 아무 HTML 파일이나 만들고 그것을 /var/www/html 디렉토리로 복사 (index.html로)
+잘 서빙되는 거 보기
+
+※ VS Code 돌리려면 서버 메모리 사양이 최소 2기가 이상이어야 한다.
+vscode-server: node.js javascript electron으로 만들었음
+VS Code 원격 탐색기 확장을 통해서 원격 서버에 접속하면 프로그램이 윈도우에서 돌아가고 있는 것 같지만,
+실제로는 해당 서버에서 실행되고 해당 프로그램은 웹브라우저처럼 상황을 렌더링해주기만 한다는 듯
+
+CI/CD
+
+서버 다운되서 instance reboot 했는데도 재접속 안 되서, instance stop 후 start 했는데도 재접속 불가
+원인: IP 주소가 바뀐 것이었음 → 서버IPAddress
+
+ubuntu@서버IPAddress
+ssh -i C:\Users\JOON\.ssh\LightsailDefaultKey-ap-northeast-2.pem ubuntu@서버IPAddress
+(ssh: secure shell / -i: identity)
+
+scp -i C:\Users\계정명\.ssh\LightsailDefaultKey-ap-northeast-2.pem 11.nov-background.jpg ubuntu@서버IPAddress
+:/usr/share/nginx/html
+
+
+* nginx 서버 설정 검증
+설정 파일에 오류가 있으면 장애 발생
+설정 파일을 검증하는 도구 필요
+서버에 장애가 날지 안날지 설정 파일을 테스트하는 것을 누가 이미 만들어놨고 공유
+* sudo nginx -t (-t: test)
+※ nginx 서버 설정을 변경했으면 항상 sudo nginx -t 를 실행해서 설정이 정상인지 실험해본다.
+
+
+sudo cp default sesac
+default는 port 8000에서 서빙
+sesac은 port 80에서 서빙
+
+sudo ln -s 원본 링크파일
+sudo ln -s /etc/nginx/sites-available/sesac sesac
+
+
+두 고객용으로 서버를 나눴는데 같은 파일을 제공중인 것은 이상하다
+
+sudo vi /etc/nginx/sites-available/sesac 실행
+server {
+        listen 80 default_server;
+        root /var/www/sesac; # 여기 변경
+        index index.html;
+        server_name _;
+        location / {
+                try_files $uri $uri/ =404;
+        }
+
+
+Mission. 5000 port에 apple이라는 이름으로 새로운 nginx 서버를 생성 후 웹사이트를 서빙한다
+
+
+cd ~ // (사용자) 홈 디렉토리
+cd - // 이전 디렉토리로 이동. 예전에 이런 기능이 있었던 것 같아서 검색해서 추가
+
+--------------------------------------------------------------------------------------------------------------
+
+Project Feedback
+지도에 가맹점마다 컵이 쌓인 양을 표시하고
+통계 차트에는 주간/월간 매출액 (우리 계획: 재활용 컵 활용 회수)
+효율적으로 수거하는 동선
+
++α
+"지도에 20개 포인트가 있어. 5개의 포인트를 잡았어. shortest path algorithm은 어떤 것을 써야 해?"
+알고리즘을 알려주면 구현해달라고 하되, 로직을 이해해야 면접에서 대답할 수 있다.
+복잡도, 효율성 등까지 얘기하면 가산점을 받을 수 있을 것이다.
