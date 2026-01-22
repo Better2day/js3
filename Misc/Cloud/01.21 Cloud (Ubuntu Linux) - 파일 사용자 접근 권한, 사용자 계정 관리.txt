@@ -289,4 +289,5 @@ sudo chmod 664 -R /var/www/html/*
 sudo chmod 775 /var/www/html/assets
 
 /var/www/html  이 디렉토리는 755로 남아있는데 괜찮나?
-※ 파일에 664 권한을 줄 때는 폴더는 775 권한을 주는 게 맞다. user/group/other 각각 +1 +1 +1 하는 셈
+※ 파일에 664 권한을 줄 때, 해당 파일이 있는 디렉토리는 775 권한을 주는 게 기본이다.
+user/group/other 각각 +1 +1 +1 하는 셈 (즉, 모든 사용자에게 디렉토리 access 권한 추가)
