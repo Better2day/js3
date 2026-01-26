@@ -1,0 +1,345 @@
+월화: Cloud 수업 마무리. 팀 프로젝트 공간, 비용 / API 연동
+수목: API 연동 (각종 외부 API 활용)
+
+
+Cloud 정리
+VPC 내 클라우드 공간
+AZ (가용 영역. 물리 데이터센터)
+ap-northeast-2 서울 리젼
+
+ap-northeast-2a
+ap-northeast-2b
+ap-northeast-2c
+ap-northeast-2d
+
+같은 리젼에 있는 물리 장비끼리만 연결할 수 있다.
+
+한 리젼에 장애가 발생하면 내 서비스도 장애가 발생하므로, 이중화(2중)하는 게 좋다:
+e.g. 서버1은 ap-northeast-2a에, 서버2는 2d에 배치하는 식
+
+scale-up/down  // 전원 끄기 → 업그레이드 → 전원 켜기
+scale-out/in  // 전원을 끄지 않고 업그레이드. horizontal scaling
+ELB Load Balancing
+
+ACL은 Routing Table에 적용(VPC 안에 들어가면 보임)
+SG(Security Group)은 안쪽에 숨겨져 있음
+
+Web server: Public Subnet
+WAS: Private Subnet
+DB: Private Subnet
+
+Public IP: 
+Private IP (사설 IP): 192.168.0.0/16, 172.16.0.0/12, 10.0.0.0/8
+
+AWS 보안 - 공동 책임 모델
+AWS 책임: Cloud 보안 ↔ 고객 책임: 클라우드에서의 보안
+SaaS → PaaS → IaaS → on-premise 방향으로 갈수록 고객 책임이 늘어남
+(cf. SaaS는 전부 AWS or 서비스 제공자 책임)
+
+IAM (Identity and Access Management) 계정 보안
+Network VPC: NACL / SG를 통해서 보안 기능
+EC2 서버 보안
+
+Load Balancer. L4 switch
+ELB
+
+프로젝트용으로 가장 쉬운 것은 LightSail 2GB 2Core. scale-up
+PAYG (Pay As You Go) 사용하는 만큼 지불
+그래서 얼마? 말씀드릴 수 없어요. 그냥 쓰는만큼 내는 겁니다.
+
+월 2~3만 원
+
+Free tier: 1년간 무료, 3개월 무료, 평생 무료 등이 있는데, 실사용할만 한 것은 일부
+
+제대로 구축하려면?
+Web - WAS 필요
+EC2 - EC2 // 총 2대 필요
+t3.micro 공짜
+
+같은 인스턴스도 국가별로 비용이 다르다. (월세(땅값), 전기 요금 등이 다르기 때문)
+실제 운영 서비스는 대다수 고객이 있는 국가와 같은 국가에 설치하는 게 좋고,
+교육용으로는 저렴한 미국 버지니아 리젼 같은데 있는 서버를 사용하는 게 좋다.
+(지역에 따라서 20% 내외쯤까지 차이가 나는 듯)
+
+Storage: 용량이 클수록, 매체 속도가 빠를수록 비싸다 (e.g. HDD < SSD)
+
+클라우드를 클라우드답게 쓰는 것은?
+원래 on-premise 스펙(비싸고 고성능)이었던 것과 비슷한 스펙으로 사용하지 않는다.
+보통 훨씬 저렴한 것으로 사용한다 (큰 기업으로 갈수록 이렇게 사용)
+재무팀에서 통제하고 관리. PAYG? 불가능
+
+
+Serverless 맛보기 (원래 중급 과정 내용이라서 실습은 하지 않음)
+서버가 없다? 말도 안 되는 소리. 내가 관리하지 않는다는 얘기
+한 서버를 여러 명이서 나눠 사용 → 비용 절감
+DB (MySQL)을 사용하고 싶다 → EC2 생성 → Ubuntu Linux 설치 → MySQL 설치 → DB 공유해서 사용
+해킹 당하면? 남들과 같이 사용하는데 그들이 해킹 당하면 내 데이터도 유출될 수 있나?
+
+DynamoDB: AWS가 만든 DB
+MySQL 잘 설계
+
+너희 서비스에 내가 원하는 것 없음
+내가 만들어야 한다. Java 함수, Python 함수, Node 함수
+자바 필요한 사람 모이세요.
+내가 자바 서버 구책해놨으니 함수만 주세요.
+Lambda 서비스
+평소에 잘 사용하지 않는다.
+공유.
+내 서비스는 24시간 돌아가면서 100%
+뷔페. 무제한 리필. 24시간 끊임없이 먹으면?
+Lambda 서비스는 1회에 최대 15분 이상 돌지 않게 설정되어 있다.
+AI/ML 등 오래 걸리는 서비스는? 강제 종료되므로 람다를 사용하면 안 된다.
+그런 서비스는 EC2에 올려야 한다.
+불특정 다수가 들어와서 단기 프로세싱이 필요하고 수요를 예측할 수 없을 때 VS.
+오래 돌려야 하거나, 매번 꾸준한 수의 사용자가 꾸준히 유입. EC2 적절한 산정
+
+웹서비스 실습
+nginx 한 서버가 몇 명의 사용자를 커버?
+내 서버 스펙
+AWS 운영 관리. 네트워크 통제. 사용량 통제
+내가 주어야 하는 건 데이터 (HTML/CSS/JS)
+니가 서빙해 줘
+데이터를 S3라는 저장소. 서버리스 웹서버 옵션을 켜면?
+
+EC2에 올리면 고 정 비용 월 약 1.5만 원 (최소 사양) + 트래픽 비용
+1억명의 사용자가 몰리면? 서버 다운. 장애 발생
+
+Serverless
+비용은? 데이터 사용량만큼
+HTML/CSS/JS 1MB에 얼마
+100KB 나왔으면 10원식
+10명 오면? 거의 공짜. 0.1원 식
+1억 명의 사용자가 와도 다운되지 않지만, 비용은 10만 원 식으로 급상승
+
+S3는 정적 저장소 제공 → HTML/CSS/JS 만 서빙 가능
+WAS처럼 동적 서비스를 사용하려면? (S3가 아니라) AWS 람다/DynamoDB 등의 서비스를 통해서 가능
+
+서버리스
+- 장점
+비용 절감(남과 공유하므로)
+관리 비용 최소화
+무한 확장 가능한 아키텍쳐
+빠른 서비스 배포
+보안성
+- 단점
+벤더 종속성(Lock-in): e.g. 람다, 다이나모DB 등을 이용해서 개발했으면? 다른 곳으로 마이그레이션 힘들다.
+개발 난이도/디버깅
+기능 변경(커스터마이징)
+비용 제한
+보안성
+
+sudo lastb | wc -l
+sudo lastb | awk '{print $3}' // 3번째 컬럼
+sudo lastb | awk '{print $3}' | sort | uniq
+14명의 공격자가 총 4일간 1298건의 공격
+
+sudo lastb | awk '{print $3}' | sort | uniq | wc -l
+14명의 공격자가 총 4일간 14개의 계정에 대해서 1298건의 공격을 했습니다.
+
+이런거 분석하고 방어해주는 솔루션이 보안 제품
+
+서버 접속 로그 확인하기
+cat /var/log/nginx/access.log
+
+계속 지켜보고 싶으면
+tail -F /var/log/nginx/access.log
+
+
+EC2로 Ubuntu 설치 → DB 설치
+- 각자의 이니셜 넣어서 이니셜-db-1
+- Ubuntu 24.04 LTS
+- t3a.small
+- 키는 재사용
+- 보안 그룹은 재사용 X (기존 SG는 웹서버용이므로 80 포트 허용. DB 서버도? X) →
+  새 탭을 열고 보안 그룹 메뉴로 가서 새 보안 그룹 생성
+  이름: js-sesac-db-sg
+  설명: database access security group
+  인바운드 규칙: SSH, 소스에서 '내 IP' 선택 (146.70.192.202/32)
+- 용량 8GB 그대로
+
+EB2 목록에서 IP 확인
+Web: 서버IP주소
+DB: 서버IP주소
+
+ssh -i key.pem ubuntu@서버IP주소 // Web
+ssh -i key.pem ubuntu@서버IP주소 // DB
+※ 보안그룹 → 인바운드 규칙 → '소스'에서 내 IP를 선택하면 새싹 성동캠퍼스 공인 IP가 들어간다.
+이 IP로 설정 후 Proxy 등을 사용하면 접속 불가능하니 주의
+cf. Proxy를 켠채로 내 IP를 선택하면 Proxy IP가 들어가는데, 그건 아마 유동형일 것. 추후 접속 불가능할 수도 있다.
+
+키 없이 로그인하려면 ~home\.ssh\id_rsa or id_ed25519
+내 서버 설정에 내 PC 기본키 중 공개키 입력
+
+cf. 키 페어 용례
+1. 모든 키를 공유
+2. 서버의 중요도에 따라서 2~3가지로 나눈다 (Public subnet 용, Private 용)
+   이게 많이 사용하는 방식 (운영 서버와 개발 서버를 나누는 등)
+3. 모든 키를 분리해서 사용 → 키 관리가 어려워서 실제 사용 빈도는 낮다.
+큰 회사는 보안팀이 순회하면서 물리 보안 점검. 랩탑 시건 장치 (켄싱턴 락) 등 확인
+시건 장치 안 되어 있으면 랩탑 들고가버리기도 한다. 팀장이 보안 위배로 시말서 작성
+
+sudo apt install mysql-server
+systemctl status mysql
+daemon service
+systemctl stop mysql
+sudo systemctl start mysql
+sudo systemctl stop mysql
+
+mysql ← mysqld
+ssh ← sshd (daemon server)
+client: ssh
+
+nginx
+
+관리자? admin or root
+DB 게정을 O/S와 무관
+
+root가 기본 DB 계정. 이 시스템의 관리자 계정
+root 계정은 원격 접속 불가능한 게 기본값
+그래서 ssh root@DB 서버 IP 식으로 접속 불가능
+sudo mysql 명령어로 로컬에서만 사용 가능
+보통 관리자 계정인 root는 사용하지 않고 사용자 계정을 만들어서 사용해야 한다.
+sudo mysql = sudo mysql -u root
+
+여러 명의 사용자
+웹 서버도 하나의 서비스를 제공하는 게 아니고 여러 개를 띄울 수 있다.
+DB도 여러 개를 만들 수 있다.
+
+show databases;
+
+To do:
+1. DB를 만든다: DB1, DB2, ...
+2. 사용자를 만든다: user1, user2, ...
+3. 누가 어디에 접속할 수 있는지 권한 부여
+
+1.
+CREATE DATABASE sesac
+DEFAULT CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
+
+2.
+CREATE USER 'user1'@'%' IDENTIFIED BY 'password';
+CREATE USER 'user2'@'%' IDENTIFIED BY 'password';
+CREATE USER '계정명@접속허용주소 IDENTIFIED BY 계정비밀번호;
+※ % 는 * (모든 것)을 의미
+
+CREATE USER 'user1'@'127.0.0.1' IDENTIFIED BY 'password'; // local에서만 접속 가능
+CREATE USER 'user1'@'11.22.33.44' IDENTIFIED BY 'password';
+계정명이 같아서 헷갈릴 수 있지만, 접속허용주소가 달라서 다른 계정이다.
+계정명+접속허용주소가 계정 식별자
+
+3-1. DB 권한 부여
+GRANT ALL PRIVILEGES ON sesac.* TO 'user1'@'%';
+GRANT ALL PRIVILEGES ON mydb.* TO 'myuser'@'%';
+GRANT ALL PRIVILEGES ON DB명.테이블명 TO 계정명@접속허용주소;
+
+3-2. 부여한 권한 적용
+FLUSH PRIVILEGES;
+
+생성된 계정 확인
+mysql을 종료한 후 (exit), 새로 생성한 '사용자' 계정으로 DB 서버 접속 가능 여부 확인
+mysql -h localhost -u user1 -p
+mysql -h 127.0.0.1 -u user1 -p
+
+use sasac // DB 선택. 어차피 특정 DB만 주로 사용하면  mysql -u user1 -p sesac
+
+CREATE TABLE users (
+  id VARCHAR(20),
+  pw VARCHAR(20)
+);
+
+INSERT INTO users VALUES('user1', 'pass1');
+INSERT INTO users VALUES('user2', 'pass2');
+INSERT INTO users VALUES('user3', 'pass3');
+
+CREATE TABLE school(
+  name TEXT,
+  
+);
+
+
+주요 port (※ 개발자라면 아래 정도는 외워야 한다)
+HTTP: 80
+HTTPS: 443
+SSH: 22
+MySQL: 3306
+
+sudo apt install nodejs
+apt search nodejs
+apt info nodejs
+
+sudo apt install npm
+
+disk 용량이 부족하면? 얼마나 남으면 업그레이드해야 할까?
+이론적으로는 70% 이상 찼으면 업그레이드 시점
+
+DB 서버 → DB 서버로 접속해서 요청은 잘 작동. 이상 없다.
+Web → WAS → DB
+Web → WAS ↔ DB (내부 통신 이상 없다)
+Web → WAS의 DB 서버에 접속하기 위해서 다시 DB 서버를 설치해야 할까?
+MySQL Client만 설치하면 된다.
+mysql-client-core-8.0 (↔서버는 mysql-server)
+sudo apt install mysql-client-core-8.0  # version 8.0.44-0ubuntu0.24.04.2, or
+sudo apt install mysql-client
+
+Web: 서버IP주소
+DB: 서버IP주소
+
+Web 서버에서 mysql -h 서버IP주소 -u user1 -p
+접속 안 됨. 왜?
+
+sudo netstat -tulpen | grep 3306 // 없어서 실행 불가
+sudo ss -tulpen | grep 3306 // 위 정보와 비슷한 것을 간단하게 보여주는 명령. 하지만 netstat 설치하는 게 좋음
+sudo apt install net-tools
+sudo netstat -tulpen | grep 3306 // 설치했으니 실행 가능. 열려 있는 포트 중에 3306 검색
+sudo netstat -tulpen // 열려 있는 모든 포트 보기
+
+mysql port 관련 정보의 local address가 127.0.0.1로 설정되어 있어서 그렇다.
+설정 파일을 수정해서 외부 IP 접속을 허용해줘야 한다.
+
+/etc/mysql/mysql.cnf 내용 확인
+!includedir /etc/mysql/conf.d/
+!includedir /etc/mysql/mysql.conf.d/
+/etc/mysql/conf.d 디렉토리 안의 파일에는 별 내용 없음
+/etc/mysql/mysql.conf.d 디렉토리 아래 mysql,cnf, mysqld.cnf 두 파일이 있는데 데몬 설정을 수정해야 하므로
+sudo nano mysqld.cnf
+
+bind-address          = 127.0.0.1
+mysqlx-bind-address   = 127.0.0.1
+위처럼 되어 있는 것을 아래처럼 변경
+bind-address            = 0.0.0.0
+mysqlx-bind-address     = 0.0.0.0
+
+sudo systemctl restart mysql 해서 재시작 후 web server에서 접속 시도
+안 되면?
+1) systemctl status mysql 
+2) sudo netstat -tulpen | grep 3306 // 열려 있는 포트 정상적인지 확인
+3) SG (Security Group) 확인
+
+하지만 이렇게 설정하면 DB 서버 외부에 있는 모든 사람이 접속 가능 = 해커도 가능
+그래서 DB 서버는 Web Server의 Private IPv4 (사설 IP) 주소만 원격 접속 가능하도록 설정해야 한다.
+사설 IP 대역
+192.168.0.0/16 = 192.168.0.0 ~ 192.168.255.255
+172.16.0.0/12 = 172.16.0.0 ~ 172.31.255.255
+10.0.0.0/8 = 10.0.0.0 ~ 10.255.255.255
+
+172.31.44.144
+특정 IP보다는 대역을 사용하는 게 낫다: AWS 서브넷(Subnet) 정보에서 IPv4 CIDR 확인: 172.31.80.0/20
+∵ IP 주소가 변경될 수도 있고, scale-out 할 일이 있을 때 설정을 변경하지 않아도 돼서 편하다.
+
+C:\Users\계정명\.ssh>mysql -h DB서버주소 -u mysql계정명 -p
+Enter password: *********
+ERROR 2026 (HY000): TLS/SSL error: Server certificate validation failed. A certificate chain processed, but terminated in a root certificate which is not trusted by the trust provider. Error 0x800B0109(CERT_E_UNTRUSTEDROOT)
+
+
+free tier 6개월간 유지
+t3.micro? 밖에 안 됨. 보통 운영에 문제는 없지만, VS Code가 무거워서 그걸 돌리면 사용하기 힘들 것
+CI/CD를 잘 만들어두면 배포하는 데는 지장 없다. (내부적으로 ssh, scp를 이용해서 작업하므로)
+
+
+
+cf. 정보보안의 3요소: 
+CIA
+Confidentiality, Integrity, Availability
+기밀성, 무결성, 가용성 (외우기 쉬운 용어: 기무가)
+암호화, 해쉬(데이터 위변조 탐지), 백업/이중화
