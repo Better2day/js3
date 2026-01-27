@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+
+  <!-- 브라우저 기능을 통해서 내 위치를 가져와서 매핑할 수 있는 플러그인 (locateme) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
+  <script src="https://unpkg.com/leaflet.locatecontrol/dist/L.Control.Locate.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    #map {
+      height: 480px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="map"></div>
+
+  <script>
+    const map = L.map('map').setView([37.5665, 126.9780], 13);
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
+
+    L.control.locate({
+      position: 'bottomleft', // 내 위치 버튼 추가
+      flyTo: true,
+      setView: 'once', // 위치를 찾으면 지도 한 번 이동
+      icon: 'fa fa-bulleye',
+      strings: {
+        title: '내 위치 찾기' // 버튼 툴팁
+      }
+    }).addTo(map);
+  </script>
+</body>
+
+</html>
