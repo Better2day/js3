@@ -1,0 +1,220 @@
+
+WEB ↔ WAS ↔ DB
+       SG       SG
+
+		 MySQL 은 외부 접속 불허/허용 (선택)
+
+각종 S/W별로 다양한 보안 설정 가능
+
+WAS 외부에서 직접 접속 X
+
+Private IP 대역 (외워는 게 좋다)
+192.168.0.0/16
+172.16.0.0/12
+10.0.0.0/8
+
+LAN 구간 내의 통신: 사설 IP
+WAN: 공인 IP 사용
+
+WEB: 삭제된 구서버 IP 주소
+DB: 삭제된 구서버 IP 주소
+인스턴스 다 삭제함
+
+--------------------------------------------------------------------------------------------------------------
+
+team1/2/3
+
+Ubuntu 24.04 LTS
+t3a.small 로 인스턴스 생성 후 중지 시켜놓을 것 (※ 삭제 아님)
+나중에 필요하면 t3a.medium으로 scale up
+
+각 팀장이 이 서버의 관리자
+key를 공유해서 사용할지, 사용자 계정을 만들지 결정
+ubuntu@공용개인키 (형용 모순. 당연히 실무에서는 이렇게 하지 않는다.. 학습용으로는 가능)
+
+팀장이 해야 하는 것
+팀원의 공개키를 받아서 계정을 생성해야 한다.
+sudo 권한까지 부여할 예정
+* 인스턴스 생성
+- 키 페어: team
+- 네트워크 설정은 다 기본값
+VPC는 Default VPC 사용 (현업에서는 따로 설정해서 사용할 것이다)
+Subnet도 기본값
+- 보안 그룹
+1. 새 탭 열어서 보안 그룹 생성
+team3-web-sg (설명: team3 dev server)
+Inbound 규칙: Anywhere IPv4 (0.0.0.0/0)로 SSH/HTTP 추가
+2. 원래 탭으로 돌아와서
+기존 보안 그룹 선택 → 방금 만든 팀 개발용 보안 그룹 선택
+- 스토리지 구성: 15GB
+
+클릭 5~6번 하면 서버 생성
+WAN 서버PublicIP주소
+LAN 서버PrivateIP주소
+
+※ 팀장 등 서버 관리자도 ubuntu 계정을 사용하지 않는 게 좋다.
+
+
+GPT에게 요청
+AWS EC2에서 우분투 리눅스 24.04 LTS 인스턴스를 생성했고, ubuntu 계정으로 접속했어.
+관리자 계정을 사용하는 건 안전하지 않으므로, 사용자 계정을 만들려고 해.
+이 작업을 간단하게 처리할 수 있는 스크립트를 만들어 줘
+
+(GPT가 고정(hard-coding) ID(deploy) 생성 스크립트를 만들어준 것을 모르고 실행해서
+다음 명령어로 삭제했음: sudo deluser --remove-home deploy)
+
+사용자 계정명을 인자로 받는 script:
+1. Script
+#!/bin/bash
+
+# 인자 체크
+if [ -z "$1" ]; then
+  echo "사용법: $0 <사용자계정명>"
+  exit 1
+fi
+
+NEW_USER="$1"
+COPY_SSH_KEYS=true
+
+set -e
+
+echo "▶ 사용자 생성: $NEW_USER"
+
+sudo adduser --disabled-password --gecos "" "$NEW_USER"
+sudo usermod -aG sudo "$NEW_USER"
+
+if [ "$COPY_SSH_KEYS" = true ]; then
+  echo "▶ SSH 키 복사 중..."
+  sudo mkdir -p /home/$NEW_USER/.ssh
+  sudo cp /home/ubuntu/.ssh/authorized_keys /home/$NEW_USER/.ssh/
+  sudo chown -R $NEW_USER:$NEW_USER /home/$NEW_USER/.ssh
+  sudo chmod 700 /home/$NEW_USER/.ssh
+  sudo chmod 600 /home/$NEW_USER/.ssh/authorized_keys
+fi
+
+echo "✅ 완료! 접속: ssh $NEW_USER@<EC2_PUBLIC_IP>"
+
+
+2. Script 사용법(생성 방법)
+nano create_user.sh
+# (위 스크립트 붙여넣고 저장 후 종료)
+
+3. Script 실행
+chmod +x create_user.sh (chmod +x == chmod u+x // 기본값이 파일 소유자(파일을 생성한 계정))
+./create_user.sh
+
+4. 기타 보안 설정
+
+3️⃣ 보안 베스트 프랙티스 (강력 추천 🔐)
+새 사용자 접속이 정상적으로 되는 걸 확인한 뒤:
+🔸 ubuntu 계정 SSH 차단
+sudo nano /etc/ssh/sshd_config
+
+아래 추가 또는 수정: AllowUsers deploy
+
+그리고 재시작: sudo systemctl restart ssh
+
+
+
+* 아래는 강사님 스크립트 (유료 플랜이라 그런지 엄청 상세하게 만들어줬다)
+"#!/usr/bin/env bash
+# EC2에서 신규 사용자 계정을 만들고 공개키를 등록하는 스크립트
+# 사용법:
+#   sudo ./create_ec2_user.sh USERNAME ""ssh-ed25519 AAAA.... user@example""
+#
+# 주의: 전체 공개키 문자열을 큰따옴표("")로 감싸서 한 번에 전달해야 합니다.
+
+set -euo pipefail
+
+### 설정 영역 ###
+# 새 사용자를 sudo 그룹에 넣고 싶으면 true, 아니면 false
+ADD_TO_SUDO=true
+###############
+
+if [[ ""$EUID"" -ne 0 ]]; then
+  echo ""이 스크립트는 root 또는 sudo로 실행해야 합니다."" >&2
+  exit 1
+fi
+
+if [[ $# -lt 2 ]]; then
+  echo ""사용법: $0 USERNAME \""SSH_PUBLIC_KEY\"""" >&2
+  echo ""예시 : $0 devuser \""ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI... devuser@pc\"""" >&2
+  exit 1
+fi
+
+USERNAME=""$1""
+PUBKEY=""$2""
+
+echo ""▶ 새 사용자 생성/설정 시작: ${USERNAME}""
+
+# 1. 사용자 존재 여부 확인
+if id ""$USERNAME"" >/dev/null 2>&1; then
+  echo ""ℹ️  사용자 '${USERNAME}'는 이미 존재합니다. 홈 디렉토리와 SSH 키만 설정합니다.""
+else
+  echo ""1) 사용자 '${USERNAME}' 생성 중...""
+  # -m: 홈 디렉토리 생성, -s: 로그인 셸 지정
+  useradd -m -s /bin/bash ""$USERNAME""
+
+  if [[ ""$ADD_TO_SUDO"" == ""true"" ]]; then
+    echo ""   '${USERNAME}'를 sudo 그룹에 추가합니다.""
+    usermod -aG sudo ""$USERNAME""
+  fi
+fi
+
+# 2. 홈 디렉토리와 .ssh 디렉토리 준비
+USER_HOME=$(eval echo ""~${USERNAME}"")
+
+if [[ ! -d ""$USER_HOME"" ]]; then
+  echo ""홈 디렉토리가 없어서 새로 생성합니다: $USER_HOME""
+  mkdir -p ""$USER_HOME""
+  chown ""$USERNAME:$USERNAME"" ""$USER_HOME""
+fi
+
+SSH_DIR=""${USER_HOME}/.ssh""
+AUTH_KEYS=""${SSH_DIR}/authorized_keys""
+
+echo ""2) ${SSH_DIR} 디렉토리 및 authorized_keys 설정...""
+
+mkdir -p ""$SSH_DIR""
+chmod 700 ""$SSH_DIR""
+chown ""$USERNAME:$USERNAME"" ""$SSH_DIR""
+
+# 3. authorized_keys에 공개키 등록
+#    이미 파일이 있으면 맨 아래에 추가합니다.
+if [[ -f ""$AUTH_KEYS"" ]]; then
+  echo ""   기존 authorized_keys가 있습니다. 공개키를 추가합니다.""
+else
+  echo ""   새 authorized_keys 파일을 생성합니다.""
+  touch ""$AUTH_KEYS""
+fi
+
+# 같은 키가 이미 있는지 대략적으로 체크 (중복 추가 방지)
+if grep -Fq ""$PUBKEY"" ""$AUTH_KEYS""; then
+  echo ""   이미 동일한 공개키가 등록되어 있습니다. 추가하지 않습니다.""
+else
+  echo ""$PUBKEY"" >> ""$AUTH_KEYS""
+  echo ""   공개키를 authorized_keys에 추가했습니다.""
+fi
+
+chmod 600 ""$AUTH_KEYS""
+chown ""$USERNAME:$USERNAME"" ""$AUTH_KEYS""
+
+echo ""3) 설정 요약""
+echo ""   - 사용자명   : $USERNAME""
+echo ""   - 홈 디렉토리: $USER_HOME""
+echo ""   - SSH 디렉토리: $SSH_DIR""
+echo ""   - authorized_keys: $AUTH_KEYS""
+if [[ ""$ADD_TO_SUDO"" == ""true"" ]]; then
+  echo ""   - sudo 그룹  : 추가됨""
+else
+  echo ""   - sudo 그룹  : 추가 안 함""
+fi
+
+echo ""✅ 완료! 이제 다음과 같이 접속을 테스트해 보세요:""
+echo ""   ssh -i /path/to/private_key ${USERNAME}@<EC2_PUBLIC_IP_OR_DNS>""
+"
+
+
+
+생성한 인스턴스를 바로 사용하지 않을 것이면 중지
+중지 시켜놓을 것 (※ 삭제 아님)
