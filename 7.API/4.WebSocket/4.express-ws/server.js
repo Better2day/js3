@@ -30,6 +30,7 @@ app.ws('/chat', (ws, req) => { // 콜백 함수의 인수가 req, res가 아니�
     if (username && !wsClients.has(username)) {
       // 새로운 사용자
       console.log('새로운 사용자 등장:', username);
+      // console.log('새로운 사용자의 ws:', ws);
       wsClients.set(username, ws);
       broadcastMessage(`[${username}] 님이 채팅방에 들어오셨습니다.`)
     }

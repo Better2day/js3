@@ -27,7 +27,7 @@
     }
 
     .sentMessage {
-      /* text-align: right; */
+      text-align: right;
       background-color: lightgreen;
       color: black;
       align-self: flex-end;
@@ -69,8 +69,8 @@
     });
 
     socket.addEventListener('message', event => {
-      // const message = JSON.parse(event.data);
-      const message = event.data;
+      const message = JSON.parse(event.data);
+      // const message = event.data;
       console.log(message);
       if (message.type === 'broadcast') {
         displayBroadcastMessage(message);
@@ -93,13 +93,13 @@
     }
 
     function displayMessage(message) {
-      console.log(message);
+      // console.log(message);
       const messageContainer = document.getElementById('messageContainer');
       const newMessage = document.createElement('div');
 
-      console.log(`${message.sender}: ${message.content}`);
+      // console.log(`${message.sender}: ${message.content}`);
       newMessage.textContent = `${message.sender}: ${message.content}`;
-      console.log(newMessage.textContent);
+      // console.log(newMessage.textContent);
       newMessage.classList.add('messageBubble');
       if (message.sender === 'me') {
         newMessage.classList.add('sentMessage');
