@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1>SSE (Server Sent Event) Intro - 반갑습니다 !</h1>
+  <div id="output"></div> <!-- 서버로부터 받아온 메시지를 출력할 곳 -->
+
+  <script>
+    const outputDiv = document.getElementById('output');
+    // RFC? 웹 표준(SSE spec 말씀이신 듯?). 서버로부터 데이터가 올 때의 포맷이 data: 내용물\n\n
+
+    // 클라이언트는 서버에 이벤트 요청을 등록
+    const evSource = new EventSource('http://localhost:3000/events'); // import 한 적이 없는데 EventSource 사용? ∵ 웹브라우져 내장 객체? API?
+
+    evSource.onmessage = event => {
+      console.log(event);
+      // outputDiv.textContent = `서버로부터 다시 온 메시지: ${event.data}`;
+
+      const newMsg = document.createElement('p')
+      newMsg.textContent = `서버로부터 다시 온 메시지: ${event.data}`;
+      outputDiv.appendChild(newMsg);
+    }
+
+    evSource.onerror = error => {
+      console.error('SSE 연결 오류:', error);
+      evSource.close(); // 재접속하지 않도록 설정. 접속 실패하면 중지
+    }
+  </script>
+</body>
+
+</html>
