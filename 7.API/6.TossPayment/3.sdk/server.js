@@ -46,8 +46,7 @@ app.post('/confirm', async (req, res) => {
 
 app.post('/cancel', async (req, res) => {
   // 아래 URL에 POST로 요청함면 결제 취소됨
-  // 'https://';
-
+  // 'https://api.tosspayments.com/v1/payments/' + encodeURIComponent(paymentKey) + '/cancel
 });
 
 app.get('/', (req, res) => {
@@ -61,6 +60,15 @@ app.get("/checkout", (req, res) => {
 app.get("/success", (req, res) => {
   const { paymentKey, orderId, amount } = req.query;
 
+  // 깃허브 소스 코드도 완성 안 되어 있음
+  /* 
+  try {
+    const response = await axios.post(
+
+    )
+  }
+ */
+
   res.sendFile(path.resolve("./public/success.html"));
 });
 
@@ -68,4 +76,6 @@ app.get("/fail", (req, res) => {
   res.sendFile(path.resolve("./public/fail.html"));
 });
 
-app.listen(PORT, () => console.log(`http://localhost:${PORT} 으로 샘플 앱이 실행되었습니다.`));
+app.listen(PORT, () => {
+  console.log(`http://localhost:${PORT} 으로 샘플 앱이 실행되었습니다.`);
+});

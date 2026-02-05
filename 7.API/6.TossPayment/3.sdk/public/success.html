@@ -45,10 +45,10 @@
     document.getElementById('amount').textContent = `${urlParams.get('amount')}원`;
     document.getElementById('paymentKey').textContent = urlParams.get('paymentKey');
 
-    // 사용자가 받아온 정보를 우리 백엔드 서버가 확인하도록 요청
+    // 사용자가 받아온 정보를 우리 백엔드 서버가 확인하도록 요청한다.
     async function confirmPayment() {
       try {
-        const response = axios('/confirm', {
+        const response = await fetch('/confirm', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -56,26 +56,24 @@
           body: JSON.stringify({
             paymentKey: urlParams.get('paymentKey'),
             orderId: urlParams.get('orderId'),
-            amount: urlParams.get('amount')
-          })
+            amount: urlParams.get('amount'),
+          }),
         });
 
         const data = await response.json();
-        console.log(data);
         if (!response.ok) {
           throw new Error(data.message);
         }
 
-        // 배포 버전에서는 이런 상세한 내용을 다 보여주지 않는다. 아래 정보 중에서 필요한 것만 골라서 출력
-        document.getElementById('response').textContent = JSON.stringify(data, null, 4)
+        // 실제 배포 버전에서는 굳이 이런 상세한 내용은 출력하지 않고, 필요한 정보만 선택해서 출력
+        document.getElementById('response').textContent = JSON.stringify(data, null, 4);
       } catch (error) {
-        console.error('결제 확인 실패:', error);
+        console.error('결제 확인 실패: ', error);
       }
     }
 
     confirmPayment();
   </script>
-
 </body>
 
 </html>
