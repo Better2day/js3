@@ -21,6 +21,9 @@
 *.zip
 *.rar
 
+# TS 폴더 후손 폴더에 있는 자동 생성된 JS 파일
+8.TS/**/*.js
+
 # node module 제외
 node_modules
 
